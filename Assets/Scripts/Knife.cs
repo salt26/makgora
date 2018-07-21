@@ -27,6 +27,7 @@ public class Knife : MonoBehaviour {
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.LookRotation(direction));
         }
 
+        // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f,
             Mathf.Max(0, Mathf.Pow(Mathf.Abs(
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
@@ -52,15 +53,13 @@ public class Knife : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") && owner == 1)
+        if (other.tag.Equals("Player") && owner == 1 && other.GetComponent<Player>().Health > 0)
         {
-            Debug.LogWarning("Player hit!");
             other.GetComponent<Player>().Damaged();
             Destroy(gameObject);
         }
-        else if (other.tag.Equals("Enemy") && owner == 0)
+        else if (other.tag.Equals("Enemy") && owner == 0 && other.GetComponent<Enemy>().Health > 0)
         {
-            Debug.LogWarning("Enemy hit!");
             other.GetComponent<Enemy>().Damaged();
             Destroy(gameObject);
         }

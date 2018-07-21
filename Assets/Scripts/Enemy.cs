@@ -5,32 +5,75 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
 
     public float speed;
+    public float chargeSpeed;
     public GameObject knife;
+    public GameObject DivineShield;
 
     private int health = 3;
+    private GameObject myShield;
+    private Vector3 exactTarget;
     private Vector3 dest;
     private bool isArrived = true;
+    private bool isCharging = false;
+    private float chargedZ;
+    private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
+    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
     private Transform t;
+
+    public int Health
+    {
+        get
+        {
+            return health;
+        }
+    }
+
+    public bool IsInvincible
+    {
+        get
+        {
+            return invincibleTime > 0f;
+        }
+    }
     
     void Awake () {
         r = GetComponent<Rigidbody>(); 
         t = GetComponent<Transform>();
-	}
+        chargedZ = 0f;
+        myShield = null;
+    }
 	
 	void FixedUpdate () {
+        if (invincibleTime > 0f)
+        {
+            invincibleTime -= Time.fixedDeltaTime;
+        }
+        if (invincibleTime < 0f)
+        {
+            invincibleTime = 0f;
+        }
+        if (invincibleTime <= 0f && myShield != null)
+        {
+            Destroy(myShield);
+            myShield = null;
+        }
+
         if (health <= 0) return;
 
+        // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, health / 3f,
             Mathf.Max(0, Mathf.Pow(Mathf.Abs(
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
 
         if (!isArrived && Vector3.Distance(t.position, dest) < 0.01f)
         {
+            // 목적지에 도착했습니다.
             isArrived = true;
         }
         else if (!isArrived)
         {
+            // 목적지를 향해 이동합니다.
             Vector3 movement = dest - t.position;
             r.velocity = movement.normalized * speed;
 
@@ -44,6 +87,7 @@ public class Enemy : MonoBehaviour {
 
         if (isArrived)
         {
+            // 새로 가려는 목적지를 정합니다.
             float z = t.position.z + GaussianRandom();
             z = Mathf.Clamp(z, Boundary.zMin, Boundary.zMax);
             dest = new Vector3
@@ -54,14 +98,42 @@ public class Enemy : MonoBehaviour {
             );
             isArrived = false;
         }
-	}
+        if (!isCharging)
+        {
+            chargedZ = 0f;
+            isCharging = true;
+            exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+            approxZ = GaussianRandom() * 0.5f;
+        }
+        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        {
+            chargedZ += Time.fixedDeltaTime * chargeSpeed
+                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                        new Vector2(exactTarget.x, exactTarget.y));
+        }
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        {
+            GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.3f, GaussianRandom() * 0.3f, approxZ));
+            isCharging = false;
+        }
+    }
 
     public void Damaged()
     {
-        if (health > 0)
+        if (health > 0 && invincibleTime <= 0f)
+        {
+            Debug.LogWarning("Enemy hit!");
             health--;
+            if (health > 0f)
+            {
+                invincibleTime = 3f;
+                myShield = Instantiate(DivineShield, GetComponent<Transform>());
+            }
+        }
         if (health <= 0 && GetComponent<MeshRenderer>().enabled)
         {
+            invincibleTime = 0f;
             GetComponent<MeshRenderer>().enabled = false;
         }
     }
