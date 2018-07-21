@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour {
     public Text restartText;
     public List<GameObject> hearts;
     public AudioClip killedSound;
+    public GameObject blow;
 
     private int health = 3;
     private GameObject myShield;
@@ -154,7 +155,11 @@ public class Enemy : MonoBehaviour {
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
+
+            Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+
             StartCoroutine("Restart");
+
         }
     }
 

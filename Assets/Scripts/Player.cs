@@ -181,6 +181,8 @@ public class Player : MonoBehaviour {
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
+            Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+            
             StartCoroutine("Restart");
         }
     }
