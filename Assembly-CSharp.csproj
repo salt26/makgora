@@ -53,10 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Almgp_particle_vol_1\script\sprite_sheet.cs" />
      <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\AnimationManagerUI.cs" />
      <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\SapphiArtChan_AnimManager.cs" />
      <Compile Include="Assets\Scripts\Boundary.cs" />
      <Compile Include="Assets\Scripts\CharacterModel.cs" />
+     <Compile Include="Assets\Scripts\ChargeUI.cs" />
      <Compile Include="Assets\Scripts\ClockUI.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\FadeOut.cs" />
@@ -76,7 +78,10 @@
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\Simple Explosion\Shader\Exposion.shader" />
+     <None Include="Assets\Almgp_particle_vol_1\shaders\emmision_particle.shader" />
      <None Include="Assets\UnityChan\license.txt" />
+     <None Include="Assets\Almgp_particle_vol_1\shaders\multypower_particle.shader" />
+     <None Include="Assets\Almgp_particle_vol_1\README.txt" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
@@ -86,6 +91,8 @@
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eyelash_blend.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
+     <None Include="Assets\Almgp_particle_vol_1\shaders\mesh_dissolve_particel.shader" />
+     <None Include="Assets\Almgp_particle_vol_1\shaders\face_power_particle.shader" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>C:/Users/user2/Desktop/진수/게임 개발자 오진수/2018 게임잼/Makgora/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
