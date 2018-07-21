@@ -167,7 +167,7 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.0f);
         if (blowend != null)
         {
             Destroy(blowend);
