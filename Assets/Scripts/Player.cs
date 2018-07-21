@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
+    public GameObject restartPanel;
     public List<GameObject> hearts;
     public AudioClip killedSound;
     public GameObject blow;
@@ -181,7 +182,14 @@ public class Player : MonoBehaviour {
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
             Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
-
+            
+            StartCoroutine("Restart");
         }
+    }
+
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(1.5f);
+        restartPanel.SetActive(true);
     }
 }
