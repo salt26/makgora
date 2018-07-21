@@ -15,16 +15,36 @@ public class Player : MonoBehaviour {
     public float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
+    public GameObject DivineShield;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
+    private GameObject myShield;
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
+    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
+
+    public int Health
+    {
+        get
+        {
+            return health;
+        }
+    }
+
+    public bool IsInvincible
+    {
+        get
+        {
+            return invincibleTime > 0f;
+        }
+    }
 
     private void Awake()
     {
         r = GetComponent<Rigidbody>();
         chargedZ = 0f;
+        myShield = null;
     }
 
     // Use this for initialization
@@ -34,7 +54,15 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (health <= 0) return;
+        if (health <= 0)
+        {
+            if (targetObject != null)
+            {
+                Destroy(targetObject);
+                targetObject = null;
+            }
+            return;
+        }
 
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
@@ -67,7 +95,7 @@ public class Player : MonoBehaviour {
                     chargedZ -= Time.deltaTime * chargeSpeed
                         * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                         new Vector2(hit.point.x, hit.point.y));
-                    targetObject.GetComponentInChildren<Text>().text = "-";
+                    targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                     targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                 }
             }
@@ -87,7 +115,7 @@ public class Player : MonoBehaviour {
                     chargedZ += Time.deltaTime * chargeSpeed
                         * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                         new Vector2(hit.point.x, hit.point.y));
-                    targetObject.GetComponentInChildren<Text>().text = "+";
+                    targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                     targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                 }
             }
@@ -108,12 +136,38 @@ public class Player : MonoBehaviour {
         }
     }
 
+    void FixedUpdate()
+    {
+        if (invincibleTime > 0f)
+        {
+            invincibleTime -= Time.fixedDeltaTime;
+        }
+        if (invincibleTime < 0f)
+        {
+            invincibleTime = 0f;
+        }
+        if (invincibleTime <= 0f && myShield != null)
+        {
+            Destroy(myShield);
+            myShield = null;
+        }
+    }
+
     public void Damaged()
     {
-        if (health > 0)
+        if (health > 0 && invincibleTime <= 0f)
+        {
+            Debug.LogWarning("Player hit!");
             health--;
+            if (health > 0f)
+            {
+                invincibleTime = 3f;
+                myShield = Instantiate(DivineShield, GetComponent<Transform>());
+            }
+        }
         if (health <= 0 && GetComponent<MeshRenderer>().enabled)
         {
+            invincibleTime = 0f;
             GetComponent<MeshRenderer>().enabled = false;
         }
     }
