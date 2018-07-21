@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour {
 	void FixedUpdate () {
         if (health <= 0) return;
 
-        GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 1f,
+        GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, health / 3f,
             Mathf.Max(0, Mathf.Pow(Mathf.Abs(
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
 

@@ -9,8 +9,8 @@ public class ClockUI : MonoBehaviour {
     public GameObject enemy;
 
 	void FixedUpdate () {
-        float pz = player.GetComponent<Transform>().position.z;
-        float ez = enemy.GetComponent<Transform>().position.z;
+        float pz = player.GetComponent<Transform>().position.z + Time.fixedTime;
+        float ez = enemy.GetComponent<Transform>().position.z + Time.fixedTime;
         GetComponent<Text>().text = "자신의 시간: ";
         if (pz < 0)
         {
