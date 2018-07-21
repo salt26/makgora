@@ -110,7 +110,9 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                        if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
+                            targetObject.GetComponentInChildren<TutorialChargeUI>().chargedZ = chargedZ;
+                        else targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
                     }
                 }
             }
@@ -133,7 +135,9 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                        if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
+                            targetObject.GetComponentInChildren<TutorialChargeUI>().chargedZ = chargedZ;
+                        else targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
                     }
                 }
             }
