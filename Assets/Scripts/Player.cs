@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-//[System.Serializable]
-public static class Boundary
-{
-    public static float xMin = -1.19f, xMax = 1.19f, yMin = -0.88f, yMax = 0.88f, zMin = -10f, zMax = 10f;
-}
-
 public class Player : MonoBehaviour {
 
     public float speed;
