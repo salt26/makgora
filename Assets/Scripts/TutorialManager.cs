@@ -52,7 +52,7 @@ public class TutorialManager : MonoBehaviour {
                 "@움직이지 않는 상대를 향해 칼을 던져서 맞추세요.@";
 
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
-            enemy.SetPositionAndRotation(new Vector3(1f, -0.4f, 1.2f), enemy.rotation); // 포지션 조정(화면 안에 보이게)
+            enemy.SetPositionAndRotation(new Vector3(0.93f, -0.4f, 4f), enemy.rotation); // 포지션 조정(화면 안에 보이게)
             // 맞히면 다른 곳으로 이동하게
         }
 
