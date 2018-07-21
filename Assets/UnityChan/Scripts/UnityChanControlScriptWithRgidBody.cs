@@ -74,11 +74,7 @@ public class UnityChanControlScriptWithRgidBody : MonoBehaviour
 		anim.SetFloat("Direction", h); 						// Animator側で設定している"Direction"パラメタにhを渡す
 		anim.speed = animSpeed;								// Animatorのモーション再生速度に animSpeedを設定する
 		currentBaseState = anim.GetCurrentAnimatorStateInfo(0);	// 参照用のステート変数にBase Layer (0)の現在のステートを設定する
-<<<<<<< HEAD
-		rb.useGravity = false;//ジャンプ中に重力を切るので、それ以外は重力の影響を受けるようにする
-=======
 		rb.useGravity = true;//ジャンプ中に重力を切るので、それ以外は重力の影響を受けるようにする
->>>>>>> a1d7a9ee64e7e369f08ac336319706491599d1a9
 		
 		
 		
