@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -67,7 +67,15 @@ public class Player : MonoBehaviour {
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-        float moveTemporal = Input.GetAxisRaw("Temporal");
+        float moveTemporal;
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0)
+        {
+            moveTemporal = 0f;
+        }
+        else
+        {
+            moveTemporal = Input.GetAxisRaw("Temporal");
+        }
 
         // 플레이어를 움직입니다.
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, moveTemporal);
@@ -81,63 +89,67 @@ public class Player : MonoBehaviour {
             Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
-        if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
+        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
-            Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1<<9) && hit.collider.gameObject.tag.Equals("Present"))
+            if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
             {
-                //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
-
-                if (targetObject != null) {
-                    chargedZ -= Time.deltaTime * chargeSpeed
-                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                        new Vector2(hit.point.x, hit.point.y));
-                    /*
-                    targetObject.GetComponentInChildren<Text>().text = "과거로 ";
-                    targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
-                    */
-                    targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
-                }
-            }
-        }
-        else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
-        {
-            Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-            {
-                //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
-
-                if (targetObject != null)
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
-                    chargedZ += Time.deltaTime * chargeSpeed
-                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                        new Vector2(hit.point.x, hit.point.y));
-                    /*
-                    targetObject.GetComponentInChildren<Text>().text = "미래로 ";
-                    targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
-                    */
-                    targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
+                    if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                    else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+
+                    if (targetObject != null)
+                    {
+                        chargedZ -= Time.deltaTime * chargeSpeed
+                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
+                        /*
+                        targetObject.GetComponentInChildren<Text>().text = "과거로 ";
+                        targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
+                        */
+                        targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                    }
                 }
             }
-        }
-
-        if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
-        {
-            Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+            else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
             {
-                GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                k.GetComponent<Knife>().Initialize(0, new Vector3(hit.point.x, hit.point.y, GetComponent<Transform>().position.z + chargedZ));
-                Destroy(targetObject);
-                targetObject = null;
-                chargedZ = 0f;
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
+                    if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                    else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+
+                    if (targetObject != null)
+                    {
+                        chargedZ += Time.deltaTime * chargeSpeed
+                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
+                        /*
+                        targetObject.GetComponentInChildren<Text>().text = "미래로 ";
+                        targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
+                        */
+                        targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                    }
+                }
+            }
+
+            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+            {
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+                    k.GetComponent<Knife>().Initialize(0, new Vector3(hit.point.x, hit.point.y, GetComponent<Transform>().position.z + chargedZ));
+                    Destroy(targetObject);
+                    targetObject = null;
+                    chargedZ = 0f;
+                }
             }
         }
     }
