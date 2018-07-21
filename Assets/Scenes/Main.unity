@@ -328,6 +328,7 @@ MonoBehaviour:
   - {fileID: 492346798}
   - {fileID: 1524553380}
   killedSound: {fileID: 8300000, guid: 80760dd81c84d0d4293b53efd8d69181, type: 3}
+  blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
 --- !u!82 &82032289
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2234,7 +2235,7 @@ MonoBehaviour:
   - {fileID: 1217482997}
   - {fileID: 2085977499}
   killedSound: {fileID: 8300000, guid: 80760dd81c84d0d4293b53efd8d69181, type: 3}
-  blow: {fileID: 0}
+  blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0
