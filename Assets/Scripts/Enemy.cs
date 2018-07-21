@@ -62,9 +62,15 @@ public class Enemy : MonoBehaviour {
         if (health <= 0) return;
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-        GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, health / 3f,
-            Mathf.Max(0, Mathf.Pow(Mathf.Abs(
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
+        foreach (SkinnedMeshRenderer mr in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            foreach (Material m in mr.materials)
+            {
+                m.color = new Color(m.color.r, m.color.g, m.color.b,
+                    Mathf.Max(0, Mathf.Pow(Mathf.Abs(
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
+            }
+        }
 
         if (!isArrived && Vector3.Distance(t.position, dest) < 0.01f)
         {
@@ -131,10 +137,10 @@ public class Enemy : MonoBehaviour {
                 myShield = Instantiate(DivineShield, GetComponent<Transform>());
             }
         }
-        if (health <= 0 && GetComponent<MeshRenderer>().enabled)
+        if (health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
-            GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
         }
     }
 
