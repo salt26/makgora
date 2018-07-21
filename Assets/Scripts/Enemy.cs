@@ -7,7 +7,8 @@ public class Enemy : MonoBehaviour {
     public float speed;
     public float chargeSpeed;
     public GameObject knife;
-    public GameObject DivineShield;
+    public GameObject divineShield;
+    public List<GameObject> hearts;
 
     private int health = 3;
     private GameObject myShield;
@@ -127,17 +128,21 @@ public class Enemy : MonoBehaviour {
 
     public void Damaged()
     {
-        if (health > 0 && invincibleTime <= 0f)
+        if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Enemy hit!");
             health--;
-            if (health > 0f)
+            if (hearts.Count > Health)
+            {
+                hearts[Health].SetActive(false);
+            }
+            if (Health > 0f)
             {
                 invincibleTime = 3f;
-                myShield = Instantiate(DivineShield, GetComponent<Transform>());
+                myShield = Instantiate(divineShield, GetComponent<Transform>());
             }
         }
-        if (health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
+        if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);

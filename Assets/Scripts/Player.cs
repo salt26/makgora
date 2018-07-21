@@ -9,7 +9,8 @@ public class Player : MonoBehaviour {
     public float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
-    public GameObject DivineShield;
+    public GameObject divineShield;
+    public List<GameObject> hearts;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -149,17 +150,21 @@ public class Player : MonoBehaviour {
 
     public void Damaged()
     {
-        if (health > 0 && invincibleTime <= 0f)
+        if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Player hit!");
             health--;
-            if (health > 0f)
+            if (hearts.Count > Health)
+            {
+                hearts[Health].SetActive(false);
+            }
+            if (Health > 0f)
             {
                 invincibleTime = 3f;
-                myShield = Instantiate(DivineShield, GetComponent<Transform>());
+                myShield = Instantiate(divineShield, GetComponent<Transform>());
             }
         }
-        if (health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
+        if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
