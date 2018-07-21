@@ -1537,7 +1537,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 120}
+  m_SizeDelta: {x: 240, y: 240}
   m_Pivot: {x: 0.505, y: 0.404}
 --- !u!114 &1040041334
 MonoBehaviour:
@@ -1927,8 +1927,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 120}
-  m_Pivot: {x: 0.505, y: 0.404}
+  m_SizeDelta: {x: 240, y: 240}
+  m_Pivot: {x: 0.506, y: 0.403}
 --- !u!114 &1304544623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,7 +1948,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6d1a28619845b254eb0b781b3cbaec85, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 942469a609737d54c8ba100ff32cc670, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2295,6 +2295,10 @@ Prefab:
     - target: {fileID: 4733579333207526, guid: 59f62f2fe4ce64741a3d287cdb033009, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.0005
+      objectReference: {fileID: 0}
+    - target: {fileID: 1077924032455226, guid: 59f62f2fe4ce64741a3d287cdb033009, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59f62f2fe4ce64741a3d287cdb033009, type: 2}
