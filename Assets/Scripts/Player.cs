@@ -90,8 +90,11 @@ public class Player : MonoBehaviour {
                     chargedZ -= Time.deltaTime * chargeSpeed
                         * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                         new Vector2(hit.point.x, hit.point.y));
+                    /*
                     targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                     targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
+                    */
+                    targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
                 }
             }
         }
@@ -110,8 +113,11 @@ public class Player : MonoBehaviour {
                     chargedZ += Time.deltaTime * chargeSpeed
                         * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                         new Vector2(hit.point.x, hit.point.y));
+                    /*
                     targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                     targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
+                    */
+                    targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
                 }
             }
         }
