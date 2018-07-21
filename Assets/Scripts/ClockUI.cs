@@ -34,7 +34,13 @@ public class ClockUI : MonoBehaviour {
             GetComponent<Text>().text += (int)(Mathf.Abs(ez)) + "." + (int)(Mathf.Abs(ez) * 1000) % 1000;
         }
         */
-        redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * player.position.z));
-        blueHand.SetPositionAndRotation(blueHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
+        if (player.GetComponent<Player>().Health > 0)
+        {
+            redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * player.position.z));
+        }
+        if (enemy.GetComponent<Enemy>().Health > 0)
+        {
+            blueHand.SetPositionAndRotation(blueHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
+        }
     }
 }
