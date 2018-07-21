@@ -315,6 +315,7 @@
     <Compile Include="Assets\Scripts\Knife.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\Restart.cs" />
+    <Compile Include="Assets\Scripts\TutorialManager.cs" />
     <Compile Include="Assets\Scripts\ZFixer.cs" />
     <Compile Include="Assets\Simple Explosion\Demo\Script (for Demo)\ExplosionControl.cs" />
     <Compile Include="Assets\Simple Explosion\Scripts\GraphicExplosion.cs" />
