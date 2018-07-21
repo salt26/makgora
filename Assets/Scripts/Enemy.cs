@@ -85,9 +85,9 @@ public class Enemy : MonoBehaviour {
 
             r.position = new Vector3
             (
-                Mathf.Clamp(r.position.x, UnityEngine.Experimental.XR.Boundary.xMin, UnityEngine.Experimental.XR.Boundary.xMax),
-                Mathf.Clamp(r.position.y, UnityEngine.Experimental.XR.Boundary.yMin, UnityEngine.Experimental.XR.Boundary.yMax),
-                Mathf.Clamp(r.position.z, UnityEngine.Experimental.XR.Boundary.zMin, UnityEngine.Experimental.XR.Boundary.zMax)
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
             );
         }
 
@@ -95,11 +95,11 @@ public class Enemy : MonoBehaviour {
         {
             // 새로 가려는 목적지를 정합니다.
             float z = t.position.z + GaussianRandom();
-            z = Mathf.Clamp(z, UnityEngine.Experimental.XR.Boundary.zMin, UnityEngine.Experimental.XR.Boundary.zMax);
+            z = Mathf.Clamp(z, Boundary.zMin, Boundary.zMax);
             dest = new Vector3
             (
-                Random.Range(UnityEngine.Experimental.XR.Boundary.xMin, UnityEngine.Experimental.XR.Boundary.xMax), 
-                Random.Range(UnityEngine.Experimental.XR.Boundary.yMin, UnityEngine.Experimental.XR.Boundary.yMax),
+                Random.Range(Boundary.xMin, Boundary.xMax), 
+                Random.Range(Boundary.yMin, Boundary.yMax),
                 z
             );
             isArrived = false;
