@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class TutorialDestination : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 0)
+        {
+            other.GetComponent<TutorialManager>().NextPhase();
+            Destroy(gameObject);
+        }
+    }
 }
