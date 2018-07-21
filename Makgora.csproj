@@ -309,6 +309,7 @@
     <Compile Include="Assets\Scripts\CharacterModel.cs" />
     <Compile Include="Assets\Scripts\ClockUI.cs" />
     <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\FadeOut.cs" />
     <Compile Include="Assets\Scripts\Knife.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\ZFixer.cs" />

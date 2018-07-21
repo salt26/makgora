@@ -26,12 +26,12 @@ public class Knife : MonoBehaviour {
             Vector3 direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles + new Vector3(-90f, 0f, 90f)));
         }
-
+        /*
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f,
             Mathf.Max(0, Mathf.Pow(Mathf.Abs(
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
-
+        */
         if (Mathf.Abs(t.position.z) > 11f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
         {
             Destroy(gameObject);

@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
         }
 
         if (health <= 0) return;
-
+        /*
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         foreach (SkinnedMeshRenderer mr in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour {
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
             }
         }
-
+        */
         if (!isArrived && Vector3.Distance(t.position, dest) < 0.01f)
         {
             // 목적지에 도착했습니다.
