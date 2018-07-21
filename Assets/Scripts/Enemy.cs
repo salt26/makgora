@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour {
     public GameObject knife;
     public GameObject divineShield;
     public List<GameObject> hearts;
+    public AudioClip killedSound;
 
     private int health = 3;
     private GameObject myShield;
@@ -140,6 +141,7 @@ public class Enemy : MonoBehaviour {
             {
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
+                GetComponent<AudioSource>().Play();
             }
         }
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -147,6 +149,8 @@ public class Enemy : MonoBehaviour {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
             r.velocity = Vector3.zero;
+            GetComponent<AudioSource>().clip = killedSound;
+            GetComponent<AudioSource>().Play();
         }
     }
 

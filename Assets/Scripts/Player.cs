@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
     public List<GameObject> hearts;
+    public AudioClip killedSound;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -168,6 +169,7 @@ public class Player : MonoBehaviour {
             {
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
+                GetComponent<AudioSource>().Play();
             }
         }
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -175,6 +177,8 @@ public class Player : MonoBehaviour {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
             r.velocity = Vector3.zero;
+            GetComponent<AudioSource>().clip = killedSound;
+            GetComponent<AudioSource>().Play();
         }
     }
 }
