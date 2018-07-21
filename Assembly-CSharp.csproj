@@ -55,6 +55,7 @@
   <ItemGroup>
      <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\AnimationManagerUI.cs" />
      <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\SapphiArtChan_AnimManager.cs" />
+     <Compile Include="Assets\Scripts\Boundary.cs" />
      <Compile Include="Assets\Scripts\CharacterModel.cs" />
      <Compile Include="Assets\Scripts\ClockUI.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
