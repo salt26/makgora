@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class Enemy : MonoBehaviour {
     public float chargeSpeed;
     public GameObject knife;
     public GameObject divineShield;
+    public GameObject restartPanel;
+    public Text restartText;
     public List<GameObject> hearts;
     public AudioClip killedSound;
 
@@ -151,7 +154,16 @@ public class Enemy : MonoBehaviour {
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
+            StartCoroutine("Restart");
         }
+    }
+
+    IEnumerator Restart()
+    {
+        yield return new WaitForSeconds(1.5f);
+        restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
+        restartText.text = "YOU WIN!";
+        restartPanel.SetActive(true);
     }
 
     /// <summary>
