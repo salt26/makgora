@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class Boundary
+//[System.Serializable]
+public static class Boundary
 {
-    public float xMin, xMax, yMin, yMax, zMin, zMax;
+    public static float xMin = -1.19f, xMax = 1.19f, yMin = -0.88f, yMax = 0.88f, zMin = -10f, zMax = 10f;
 }
 
 public class Player : MonoBehaviour {
 
     public float speed;
     public float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
-    public Boundary boundary;
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
 
@@ -35,6 +34,8 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (health <= 0) return;
+
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
@@ -47,9 +48,9 @@ public class Player : MonoBehaviour {
         // 플레이어가 화면 밖으로 나갈 수 없게 합니다.
         r.position = new Vector3
         (
-            Mathf.Clamp(r.position.x, boundary.xMin, boundary.xMax),
-            Mathf.Clamp(r.position.y, boundary.yMin, boundary.yMax),
-            Mathf.Clamp(r.position.z, boundary.zMin, boundary.zMax)
+            Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+            Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+            Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
         if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
@@ -111,5 +112,9 @@ public class Player : MonoBehaviour {
     {
         if (health > 0)
             health--;
+        if (health <= 0 && GetComponent<MeshRenderer>().enabled)
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 }

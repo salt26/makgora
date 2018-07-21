@@ -26,6 +26,7 @@ public class Knife : MonoBehaviour {
             Vector3 direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.LookRotation(direction));
         }
+
         GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f,
             Mathf.Max(0, Mathf.Pow(Mathf.Abs(
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
@@ -53,12 +54,13 @@ public class Knife : MonoBehaviour {
     {
         if (other.tag.Equals("Player") && owner == 1)
         {
-            Debug.Log("Player hit!");
+            Debug.LogWarning("Player hit!");
             other.GetComponent<Player>().Damaged();
         }
         else if (other.tag.Equals("Enemy") && owner == 0)
         {
-            Debug.Log("Enemy hit!");
+            Debug.LogWarning("Enemy hit!");
+            other.GetComponent<Enemy>().Damaged();
         }
     }
 }
