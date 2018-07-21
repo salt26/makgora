@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
     public GameObject restartPanel;
     public List<GameObject> hearts;
     public AudioClip killedSound;
+    public GameObject blow;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.

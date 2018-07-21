@@ -303,6 +303,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Almgp_particle_vol_1\script\sprite_sheet.cs" />
     <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\AnimationManagerUI.cs" />
     <Compile Include="Assets\SapphiArt\SapphiArtchan\Scripts\SapphiArtChan_AnimManager.cs" />
     <Compile Include="Assets\Scripts\Boundary.cs" />
@@ -327,6 +328,11 @@
     <Compile Include="Assets\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Almgp_particle_vol_1\README.txt" />
+    <None Include="Assets\Almgp_particle_vol_1\shaders\emmision_particle.shader" />
+    <None Include="Assets\Almgp_particle_vol_1\shaders\face_power_particle.shader" />
+    <None Include="Assets\Almgp_particle_vol_1\shaders\mesh_dissolve_particel.shader" />
+    <None Include="Assets\Almgp_particle_vol_1\shaders\multypower_particle.shader" />
     <None Include="Assets\Simple Explosion\Shader\Exposion.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
