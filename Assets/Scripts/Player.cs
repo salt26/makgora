@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
+    private GameObject blowend;
 
     public int Health
     {
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour {
         r = GetComponent<Rigidbody>();
         chargedZ = 0f;
         myShield = null;
+        blowend = null;
     }
 
     // Use this for initialization
@@ -181,7 +183,7 @@ public class Player : MonoBehaviour {
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
-            Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+            blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
             
             StartCoroutine("Restart");
         }
@@ -189,7 +191,14 @@ public class Player : MonoBehaviour {
 
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        if (blowend != null)
+        {
+            Destroy(blowend);
+        }
+        blowend = null;
+        yield return new WaitForSeconds(1.0f);
         restartPanel.SetActive(true);
+        
     }
 }

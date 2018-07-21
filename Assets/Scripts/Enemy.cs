@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour {
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
     private Transform t;
+    private GameObject blowend;
 
     public int Health
     {
@@ -48,6 +49,7 @@ public class Enemy : MonoBehaviour {
         t = GetComponent<Transform>();
         chargedZ = 0f;
         myShield = null;
+        blowend = null;
     }
 	
 	void FixedUpdate () {
@@ -156,7 +158,7 @@ public class Enemy : MonoBehaviour {
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
 
-            Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+            blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
             StartCoroutine("Restart");
 
@@ -165,7 +167,13 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+        if (blowend != null)
+        {
+            Destroy(blowend);
+        }
+        blowend = null;
+        yield return new WaitForSeconds(1.0f);
         restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         restartText.text = "YOU WIN!";
         restartPanel.SetActive(true);
