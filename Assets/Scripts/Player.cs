@@ -165,10 +165,10 @@ public class Player : MonoBehaviour {
                 myShield = Instantiate(DivineShield, GetComponent<Transform>());
             }
         }
-        if (health <= 0 && GetComponent<MeshRenderer>().enabled)
+        if (health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
-            GetComponent<MeshRenderer>().enabled = false;
+            GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
         }
     }
 }

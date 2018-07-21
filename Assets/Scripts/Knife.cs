@@ -24,7 +24,7 @@ public class Knife : MonoBehaviour {
 		if (owner != -1)
         {
             Vector3 direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
-            t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.LookRotation(direction));
+            t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles + new Vector3(-90f, 0f, 90f)));
         }
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
