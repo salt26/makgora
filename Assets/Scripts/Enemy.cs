@@ -141,6 +141,7 @@ public class Enemy : MonoBehaviour {
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            r.velocity = Vector3.zero;
         }
     }
 

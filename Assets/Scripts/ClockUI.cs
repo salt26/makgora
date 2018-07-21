@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 public class ClockUI : MonoBehaviour {
 
-    public GameObject player;
-    public GameObject enemy;
+    public Transform player;
+    public Transform enemy;
+
+    public Transform redHand;
+    public Transform blueHand;
 
 	void FixedUpdate () {
+        /*
         float pz = player.GetComponent<Transform>().position.z + Time.fixedTime;
         float ez = enemy.GetComponent<Transform>().position.z + Time.fixedTime;
         GetComponent<Text>().text = "자신의 시간: ";
@@ -29,5 +33,8 @@ public class ClockUI : MonoBehaviour {
         {
             GetComponent<Text>().text += (int)(Mathf.Abs(ez)) + "." + (int)(Mathf.Abs(ez) * 1000) % 1000;
         }
+        */
+        redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * player.position.z));
+        blueHand.SetPositionAndRotation(blueHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
     }
 }
