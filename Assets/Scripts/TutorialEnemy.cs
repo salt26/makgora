@@ -8,6 +8,7 @@ public class TutorialEnemy : MonoBehaviour
     
     public GameObject divineShield;
     public GameObject graduatePanel;
+    public GameObject skipButton;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
@@ -138,6 +139,7 @@ public class TutorialEnemy : MonoBehaviour
 
     IEnumerator Graduate()
     {
+        skipButton.SetActive(false);
         yield return new WaitForSeconds(1.0f);
         if (blowend != null)
         {
