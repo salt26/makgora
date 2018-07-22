@@ -12,7 +12,10 @@ public class Player : MonoBehaviour {
     public GameObject divineShield;
     public GameObject restartPanel;
     public List<GameObject> hearts;
+    public AudioClip damagedSound;
+    public AudioClip guardSound;
     public AudioClip killedSound;
+    public AudioClip loseSound;
     public GameObject blow;
     public Transform cameraT;
 
@@ -191,13 +194,20 @@ public class Player : MonoBehaviour {
             {
                 hearts[Health].SetActive(false);
             }
-            if (Health > 0f)
+            if (Health > 0)
             {
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
+                GetComponent<AudioSource>().clip = damagedSound;
                 GetComponent<AudioSource>().Play();
             }
         }
+        else if (Health > 0 && invincibleTime > 0f)
+        {
+            GetComponent<AudioSource>().clip = guardSound;
+            GetComponent<AudioSource>().Play();
+        }
+
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
@@ -221,6 +231,8 @@ public class Player : MonoBehaviour {
         blowend = null;
         yield return new WaitForSeconds(1.0f);
         restartPanel.SetActive(true);
-        
+
+        GetComponent<AudioSource>().clip = loseSound;
+        GetComponent<AudioSource>().Play();
     }
 }
