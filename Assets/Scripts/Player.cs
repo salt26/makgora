@@ -14,6 +14,7 @@ public class Player : MonoBehaviour {
     public List<GameObject> hearts;
     public AudioClip killedSound;
     public GameObject blow;
+    public Transform cameraT;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -111,8 +112,8 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
                         if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
-                            targetObject.GetComponentInChildren<TutorialChargeUI>().chargedZ = chargedZ;
-                        else targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                            targetObject.GetComponentInChildren<TutorialChargeUI>().ChargedZ = chargedZ;
+                        else targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
                     }
                 }
             }
@@ -136,8 +137,8 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
                         if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
-                            targetObject.GetComponentInChildren<TutorialChargeUI>().chargedZ = chargedZ;
-                        else targetObject.GetComponentInChildren<ChargeUI>().chargedZ = chargedZ;
+                            targetObject.GetComponentInChildren<TutorialChargeUI>().ChargedZ = chargedZ;
+                        else targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
                     }
                 }
             }
@@ -149,7 +150,12 @@ public class Player : MonoBehaviour {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
                     GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                    k.GetComponent<Knife>().Initialize(0, new Vector3(hit.point.x, hit.point.y, GetComponent<Transform>().position.z + chargedZ));
+                    k.GetComponent<Knife>().Initialize(0, new Vector3(
+                        //(hit.point.x - ray.origin.x) * (chargedZ - cameraT.position.z) + hit.point.x,
+                        ray.origin.x + ray.direction.x * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                        ray.origin.y + ray.direction.y * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                        //(hit.point.y - ray.origin.y) * (chargedZ - cameraT.position.z) + hit.point.y,
+                        GetComponent<Transform>().position.z + chargedZ));
                     Destroy(targetObject);
                     targetObject = null;
                     chargedZ = 0f;

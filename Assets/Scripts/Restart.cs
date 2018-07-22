@@ -21,4 +21,9 @@ public class Restart : MonoBehaviour {
 		Application.Quit();
 #endif
     }
+
+    public void MainGameButton()
+    {
+        SceneManager.LoadScene("Main");
+    }
 }

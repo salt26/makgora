@@ -7,7 +7,15 @@ public class ChargeUI : MonoBehaviour {
 
     private Transform player;
     private Transform enemy;
-    public float chargedZ = 0f;
+    private float chargedZ = 0f;
+
+    public float ChargedZ
+    {
+        set
+        {
+            chargedZ = value;
+        }
+    }
 
     public Transform greenHand;
     public Transform blueHand;
