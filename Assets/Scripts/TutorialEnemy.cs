@@ -90,7 +90,7 @@ public class TutorialEnemy : MonoBehaviour
                 start = GetComponent<Transform>().position;
                 if (Health == 2)
                 {
-                    dest = new Vector3(0.1f, 0.3f, 2.89f);
+                    dest = new Vector3(-1f, 0.05f, 2.89f);
                     GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
                         "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
                         "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 초록색 침은 칼이 향할 시간을 가리킵니다.\n" +
@@ -99,7 +99,7 @@ public class TutorialEnemy : MonoBehaviour
                 }
                 else if (Health == 1)
                 {
-                    dest = new Vector3(-1f, 0.05f, -3.5f);
+                    dest = new Vector3(0.1f, 0.3f, -3.5f);
                     GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
                         "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
                         "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 초록색 침은 칼이 향할 시간을 가리킵니다.\n" +
