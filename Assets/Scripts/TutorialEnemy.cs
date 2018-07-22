@@ -9,7 +9,10 @@ public class TutorialEnemy : MonoBehaviour
     public GameObject divineShield;
     public GameObject graduatePanel;
     public List<GameObject> hearts;
+    public AudioClip damagedSound;
+    public AudioClip guardSound;
     public AudioClip killedSound;
+    public AudioClip winSound;
     public GameObject blow;
 
     private int health = 3;
@@ -108,9 +111,16 @@ public class TutorialEnemy : MonoBehaviour
                 }
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
+                GetComponent<AudioSource>().clip = damagedSound;
                 GetComponent<AudioSource>().Play();
             }
         }
+        else if (Health > 0 && invincibleTime > 0f)
+        {
+            GetComponent<AudioSource>().clip = guardSound;
+            GetComponent<AudioSource>().Play();
+        }
+
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
         {
             invincibleTime = 0f;
@@ -137,6 +147,9 @@ public class TutorialEnemy : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         graduatePanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         graduatePanel.SetActive(true);
+
+        GetComponent<AudioSource>().clip = winSound;
+        GetComponent<AudioSource>().Play();
     }
 
     /// <summary>
