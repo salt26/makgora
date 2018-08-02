@@ -102,6 +102,7 @@ public class TutorialEnemy : Enemy
             Destroy(blowend);
         }
         blowend = null;
+        player.SetGameOver();
         yield return new WaitForSeconds(1.0f);
         graduatePanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         graduatePanel.SetActive(true);

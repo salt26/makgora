@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
     private GameObject blowend;
+    private bool isGameOver;
 
     public int Health
     {
@@ -49,6 +50,7 @@ public class Player : MonoBehaviour {
         chargedZ = 0f;
         myShield = null;
         blowend = null;
+        isGameOver = false;
     }
 
     // Use this for initialization
@@ -93,6 +95,8 @@ public class Player : MonoBehaviour {
             Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
+        if (GetGameOver()) return;
+
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
             if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
@@ -102,8 +106,17 @@ public class Player : MonoBehaviour {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
                     //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                    if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                    else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+                    if (targetObject == null)
+                    {
+                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                    }
+                    else
+                    {
+                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+                    }
+
 
                     if (targetObject != null)
                     {
@@ -125,8 +138,16 @@ public class Player : MonoBehaviour {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
                     //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                    if (targetObject == null) targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                    else targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+                    if (targetObject == null)
+                    {
+                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                    }
+                    else
+                    {
+                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+                    }
 
                     if (targetObject != null)
                     {
@@ -225,10 +246,21 @@ public class Player : MonoBehaviour {
             Destroy(blowend);
         }
         blowend = null;
+        SetGameOver();
         yield return new WaitForSeconds(1.0f);
         restartPanel.SetActive(true);
 
         GetComponent<AudioSource>().clip = loseSound;
         GetComponent<AudioSource>().Play();
+    }
+
+    public void SetGameOver()
+    {
+        isGameOver = true;
+    }
+
+    public bool GetGameOver()
+    {
+        return isGameOver;
     }
 }

@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour {
     protected Rigidbody r;
     protected Transform t;
     protected GameObject blowend;
+    protected Player player;
 
     public int Health
     {
@@ -53,6 +54,7 @@ public class Enemy : MonoBehaviour {
         chargedZ = 0f;
         myShield = null;
         blowend = null;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 	
 	void FixedUpdate () {
@@ -115,6 +117,9 @@ public class Enemy : MonoBehaviour {
             );
             isArrived = false;
         }
+        
+        if (player.GetGameOver()) return;
+
         if (!isCharging)
         {
             chargedZ = 0f;
@@ -183,6 +188,7 @@ public class Enemy : MonoBehaviour {
             Destroy(blowend);
         }
         blowend = null;
+        player.SetGameOver();
         yield return new WaitForSeconds(1.0f);
         restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         restartText.text = "YOU WIN!";

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ChargeUI : MonoBehaviour {
 
+    private Camera mainCamera;
     private Transform player;
     private Transform enemy;
     private float chargedZ = 0f;
@@ -22,6 +23,7 @@ public class ChargeUI : MonoBehaviour {
 
     private void Awake()
     {
+        mainCamera = Camera.main;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
     }
@@ -49,13 +51,28 @@ public class ChargeUI : MonoBehaviour {
             GetComponent<Text>().text += (int)(Mathf.Abs(ez)) + "." + (int)(Mathf.Abs(ez) * 1000) % 1000;
         }
         */
+        SetRectTransform();
+    }
+
+    public void SetRectTransform()
+    {
+        GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         if (player.GetComponent<Player>().Health > 0 && chargedZ != 0f)
         {
-            greenHand.SetPositionAndRotation(greenHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * (player.position.z + chargedZ)));
+            greenHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
+                Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * (player.position.z + chargedZ)));
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
-            blueHand.SetPositionAndRotation(blueHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
+            blueHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
+                Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
         }
+    }
+
+    public void SetVisible()
+    {
+        GetComponent<Image>().enabled = true;
+        greenHand.GetComponent<Image>().enabled = true;
+        blueHand.GetComponent<Image>().enabled = true;
     }
 }
