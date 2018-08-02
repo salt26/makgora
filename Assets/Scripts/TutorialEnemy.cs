@@ -3,56 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialEnemy : MonoBehaviour
+public class TutorialEnemy : Enemy
 {
-    
-    public GameObject divineShield;
     public GameObject graduatePanel;
     public GameObject skipButton;
-    public List<GameObject> hearts;
-    public AudioClip damagedSound;
-    public AudioClip guardSound;
-    public AudioClip killedSound;
-    public AudioClip winSound;
-    public GameObject blow;
-
-    private int health = 3;
-    private GameObject myShield;
+    
     private Vector3 start;
-    private Vector3 dest;
-    private bool isArrived = true;
-    private bool isCharging = false;
-    private float chargedZ;
-    private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
-    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
-    private Rigidbody r;
-    private Transform t;
-    private GameObject blowend;
-
-    public int Health
-    {
-        get
-        {
-            return health;
-        }
-    }
-
-    public bool IsInvincible
-    {
-        get
-        {
-            return invincibleTime > 0f;
-        }
-    }
-
-    void Awake()
-    {
-        r = GetComponent<Rigidbody>();
-        t = GetComponent<Transform>();
-        chargedZ = 0f;
-        myShield = null;
-        blowend = null;
-    }
 
     void FixedUpdate()
     {
@@ -79,7 +35,7 @@ public class TutorialEnemy : MonoBehaviour
         if (health <= 0) return;
     }
 
-    public void Damaged()
+    public override void Damaged()
     {
         if (Health > 0 && invincibleTime <= 0f)
         {
@@ -152,18 +108,5 @@ public class TutorialEnemy : MonoBehaviour
 
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
-    }
-
-    /// <summary>
-    /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
-    /// </summary>
-    /// <returns></returns>
-    private float GaussianRandom()
-    {
-        float u1 = 1.0f - Random.Range(0f, 1f); // uniform(0,1] random doubles
-        float u2 = 1.0f - Random.Range(0f, 1f);
-        float randStdNormal = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) *
-                     Mathf.Sin(2.0f * Mathf.PI * u2); // random normal(0,1)
-        return randStdNormal;
     }
 }

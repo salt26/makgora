@@ -316,10 +316,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b17b642bcb5b68a45bf8ab1879fc0114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  chargeSpeed: 0
+  knife: {fileID: 0}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
-  graduatePanel: {fileID: 1315655326}
-  skipButton: {fileID: 1307553982}
+  restartPanel: {fileID: 0}
+  restartText: {fileID: 0}
   hearts:
   - {fileID: 1524553380}
   - {fileID: 492346798}
@@ -329,6 +332,8 @@ MonoBehaviour:
   killedSound: {fileID: 8300000, guid: 4d55fa59c3fff5f479b0610835e77346, type: 3}
   winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
+  graduatePanel: {fileID: 1315655326}
+  skipButton: {fileID: 1307553982}
 --- !u!82 &82032289
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1614,7 +1619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.28235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2431,7 +2436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.28235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2792,7 +2797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.4
   chargeSpeed: 1.5
-  target: {fileID: 1121251473067494, guid: 7fcc7bd2babe6b14c9d0f415a24bd2be, type: 2}
+  target: {fileID: 1121251473067494, guid: 59f62f2fe4ce64741a3d287cdb033009, type: 2}
   knife: {fileID: 1081523467201848, guid: 96e51e59b6b78d54abda83ae6e6286d7, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
@@ -3733,7 +3738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.28235295}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3763,7 +3768,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1783925733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37f48dc2c624e314db4658ea8e971772, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d0d3e514f77d5f4d9945a6702c6c7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1360910733}
