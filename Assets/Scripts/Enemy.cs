@@ -18,18 +18,18 @@ public class Enemy : MonoBehaviour {
     public AudioClip winSound;
     public GameObject blow;
 
-    private int health = 3;
-    private GameObject myShield;
-    private Vector3 exactTarget;
-    private Vector3 dest;
-    private bool isArrived = true;
-    private bool isCharging = false;
-    private float chargedZ;
-    private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
-    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
-    private Rigidbody r;
-    private Transform t;
-    private GameObject blowend;
+    protected int health = 3;
+    protected GameObject myShield;
+    protected Vector3 exactTarget;
+    protected Vector3 dest;
+    protected bool isArrived = true;
+    protected bool isCharging = false;
+    protected float chargedZ;
+    protected float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
+    protected float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
+    protected Rigidbody r;
+    protected Transform t;
+    protected GameObject blowend;
 
     public int Health
     {
@@ -136,7 +136,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public void Damaged()
+    public virtual void Damaged()
     {
         if (Health > 0 && invincibleTime <= 0f)
         {
@@ -195,7 +195,7 @@ public class Enemy : MonoBehaviour {
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
     /// </summary>
     /// <returns></returns>
-    private float GaussianRandom()
+    protected float GaussianRandom()
     {
         float u1 = 1.0f - Random.Range(0f, 1f); // uniform(0,1] random doubles
         float u2 = 1.0f - Random.Range(0f, 1f);
