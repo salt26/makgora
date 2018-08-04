@@ -24,6 +24,6 @@ public class Restart : MonoBehaviour {
 
     public void MainGameButton()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("VagabondH");
     }
 }

@@ -59,7 +59,7 @@ public class Knife : MonoBehaviour {
             other.GetComponent<Player>().Damaged();
             Destroy(gameObject);
         }
-        else if (other.tag.Equals("Enemy") && owner == 0 && SceneManager.GetActiveScene().name.Equals("Main") && other.GetComponent<Enemy>().Health > 0)
+        else if (other.tag.Equals("Enemy") && owner == 0 && SceneManager.GetActiveScene().name.Equals("VagabondH") && other.GetComponent<Enemy>().Health > 0)
         {
             other.GetComponent<Enemy>().Damaged();
             Destroy(gameObject);
