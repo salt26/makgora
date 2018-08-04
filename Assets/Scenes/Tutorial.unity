@@ -1708,7 +1708,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start Main Game!
+  m_Text: Return to Menu
 --- !u!222 &823991703
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2261,7 +2261,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1315655330}
-        m_MethodName: MainGameButton
+        m_MethodName: MenuButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
