@@ -22,8 +22,14 @@ public class Restart : MonoBehaviour {
 #endif
     }
 
+    // TODO 이름 바꾸기
     public void MainGameButton()
     {
         SceneManager.LoadScene("VagabondH");
+    }
+
+    public void MenuButton()
+    {
+        SceneManager.LoadScene("Menu");
     }
 }
