@@ -120,14 +120,14 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ -= Time.deltaTime * chargeSpeed
-                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
+                        chargedZ -= Time.deltaTime * chargeSpeed;
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ * 
+                            Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
                     }
                 }
             }
@@ -151,14 +151,15 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ += Time.deltaTime * chargeSpeed
-                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
+                        chargedZ += Time.deltaTime * chargeSpeed;
+                            
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ *
+                            Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
                     }
                 }
             }
@@ -169,6 +170,8 @@ public class Player : MonoBehaviour {
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
+                    chargedZ *= Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
                     GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
                     k.GetComponent<Knife>().Initialize(0, new Vector3(
                         //(hit.point.x - ray.origin.x) * (chargedZ - cameraT.position.z) + hit.point.x,
