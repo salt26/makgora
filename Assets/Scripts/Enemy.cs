@@ -75,7 +75,22 @@ public class Enemy : MonoBehaviour {
         if (health <= 0) return;
         /*
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-        foreach (SkinnedMeshRenderer mr in GetComponentsInChildren<SkinnedMeshRenderer>())
+        Vanish();
+        */
+
+        Move();
+        
+        if (player.GetGameOver()) return;
+
+        Shoot();
+    }
+
+    /// <summary>
+    /// 시간대가 다를 때 투명해지도록 하는 함수입니다.
+    /// </summary>
+    protected virtual void Vanish()
+    {
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
         {
             foreach (Material m in mr.materials)
             {
@@ -84,7 +99,13 @@ public class Enemy : MonoBehaviour {
                         GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
             }
         }
-        */
+    }
+
+    /// <summary>
+    /// 이동 함수입니다. 기본은 방랑자 인공지능입니다.
+    /// </summary>
+    protected virtual void Move()
+    {
         if (!isArrived && Vector3.Distance(t.position, dest) < 0.01f)
         {
             // 목적지에 도착했습니다.
@@ -111,15 +132,19 @@ public class Enemy : MonoBehaviour {
             z = Mathf.Clamp(z, Boundary.zMin, Boundary.zMax);
             dest = new Vector3
             (
-                Random.Range(Boundary.xMin, Boundary.xMax), 
+                Random.Range(Boundary.xMin, Boundary.xMax),
                 Random.Range(Boundary.yMin, Boundary.yMax),
                 z
             );
             isArrived = false;
         }
-        
-        if (player.GetGameOver()) return;
+    }
 
+    /// <summary>
+    /// 칼을 던지는 함수입니다. 기본은 어려움 인공지능입니다.
+    /// </summary>
+    protected virtual void Shoot()
+    {
         if (!isCharging)
         {
             chargedZ = 0f;
@@ -141,6 +166,9 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 공격받았을 때 실행될 함수입니다. 기본은 방랑자 인공지능입니다.
+    /// </summary>
     public virtual void Damaged()
     {
         if (Health > 0 && invincibleTime <= 0f)

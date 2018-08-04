@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 82032283}
   - component: {fileID: 82032289}
   - component: {fileID: 82032288}
+  - component: {fileID: 82032290}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -427,6 +428,33 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &82032290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82032282}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08e5471dc7a4e4d438bd5eafea64f963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.4
+  chargeSpeed: 1.5
+  knife: {fileID: 1081523467201848, guid: 96e51e59b6b78d54abda83ae6e6286d7, type: 2}
+  divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
+    type: 2}
+  restartPanel: {fileID: 1315655326}
+  restartText: {fileID: 917781378}
+  hearts:
+  - {fileID: 1524553380}
+  - {fileID: 492346798}
+  - {fileID: 1683412149}
+  damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
+  guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
+  killedSound: {fileID: 8300000, guid: 4d55fa59c3fff5f479b0610835e77346, type: 3}
+  winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
+  blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
 --- !u!1 &163636118
 GameObject:
   m_ObjectHideFlags: 0
