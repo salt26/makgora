@@ -9,13 +9,10 @@ public class Enemy : MonoBehaviour {
     public float chargeSpeed;
     public GameObject knife;
     public GameObject divineShield;
-    public GameObject restartPanel;
-    public Text restartText;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
     public AudioClip killedSound;
-    public AudioClip winSound;
     public GameObject blow;
 
     protected int health = 3;
@@ -80,7 +77,7 @@ public class Enemy : MonoBehaviour {
 
         Move();
         
-        if (player.GetGameOver()) return;
+        if (Manager.instance.GetGameOver()) return;
 
         Shoot();
     }
@@ -203,12 +200,12 @@ public class Enemy : MonoBehaviour {
 
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
-            StartCoroutine("Restart");
-
+            StartCoroutine("Blow");
+            Manager.instance.WinGame();
         }
     }
 
-    IEnumerator Restart()
+    IEnumerator Blow()
     {
         yield return new WaitForSeconds(1.0f);
         if (blowend != null)
@@ -216,14 +213,9 @@ public class Enemy : MonoBehaviour {
             Destroy(blowend);
         }
         blowend = null;
-        player.SetGameOver();
-        yield return new WaitForSeconds(1.0f);
-        restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
-        restartText.text = "YOU WIN!";
-        restartPanel.SetActive(true);
-        GetComponent<AudioSource>().clip = winSound;
-        GetComponent<AudioSource>().Play();
     }
+
+    
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.

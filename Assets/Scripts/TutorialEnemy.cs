@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TutorialEnemy : Enemy
-{
-    public GameObject graduatePanel;
-    public GameObject skipButton;
+{ 
     
     private Vector3 start;
 
@@ -90,26 +88,11 @@ public class TutorialEnemy : Enemy
 
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
-            StartCoroutine("Graduate");
+            StartCoroutine("Blow");
+            Manager.instance.GraduateTutorial();
 
         }
     }
 
-    IEnumerator Graduate()
-    {
-        skipButton.SetActive(false);
-        yield return new WaitForSeconds(1.0f);
-        if (blowend != null)
-        {
-            Destroy(blowend);
-        }
-        blowend = null;
-        player.SetGameOver();
-        yield return new WaitForSeconds(1.0f);
-        graduatePanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
-        graduatePanel.SetActive(true);
-
-        GetComponent<AudioSource>().clip = winSound;
-        GetComponent<AudioSource>().Play();
-    }
+    
 }
