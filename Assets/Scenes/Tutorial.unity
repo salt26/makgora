@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -321,8 +321,6 @@ MonoBehaviour:
   knife: {fileID: 0}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
-  restartPanel: {fileID: 0}
-  restartText: {fileID: 0}
   hearts:
   - {fileID: 1524553380}
   - {fileID: 492346798}
@@ -330,10 +328,7 @@ MonoBehaviour:
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 4d55fa59c3fff5f479b0610835e77346, type: 3}
-  winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
-  graduatePanel: {fileID: 1315655326}
-  skipButton: {fileID: 1307553982}
 --- !u!82 &82032289
 AudioSource:
   m_ObjectHideFlags: 0
@@ -457,8 +452,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 623826077}
+  m_Children: []
   m_Father: {fileID: 646863711}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -478,6 +472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2859f2cc0ea28e14cbacd23ce90e3107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  restartPanel: {fileID: 0}
+  restartText: {fileID: 0}
+  skipTutorialButton: {fileID: 0}
 --- !u!114 &137897136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,6 +1316,7 @@ GameObject:
   - component: {fileID: 646863710}
   - component: {fileID: 646863709}
   - component: {fileID: 646863708}
+  - component: {fileID: 646863712}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1401,6 +1399,7 @@ RectTransform:
   - {fileID: 1315655327}
   - {fileID: 214709551}
   - {fileID: 1307553983}
+  - {fileID: 137897134}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1409,6 +1408,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &646863712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 646863707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2859f2cc0ea28e14cbacd23ce90e3107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restartPanel: {fileID: 1315655326}
+  restartText: {fileID: 0}
+  skipTutorialButton: {fileID: 1307553982}
 --- !u!1 &673278162
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,7 +2197,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1315655330}
+      - m_Target: {fileID: 646863712}
         m_MethodName: MenuButton
         m_Mode: 1
         m_Arguments:
@@ -2478,7 +2491,6 @@ GameObject:
   - component: {fileID: 1307553987}
   - component: {fileID: 1307553986}
   - component: {fileID: 1307553985}
-  - component: {fileID: 1307553984}
   m_Layer: 5
   m_Name: MenuButton
   m_TagString: Untagged
@@ -2505,17 +2517,6 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 7.5}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 1, y: 0}
---- !u!114 &1307553984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1307553982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2859f2cc0ea28e14cbacd23ce90e3107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1307553985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2555,7 +2556,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1307553984}
+      - m_Target: {fileID: 646863712}
         m_MethodName: MenuButton
         m_Mode: 1
         m_Arguments:
@@ -2612,7 +2613,6 @@ GameObject:
   - component: {fileID: 1315655327}
   - component: {fileID: 1315655329}
   - component: {fileID: 1315655328}
-  - component: {fileID: 1315655330}
   m_Layer: 5
   m_Name: GraduatePanel
   m_TagString: Untagged
@@ -2674,17 +2674,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1315655326}
   m_CullTransparentMesh: 0
---- !u!114 &1315655330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1315655326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2859f2cc0ea28e14cbacd23ce90e3107, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1360910727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2725,7 +2714,6 @@ MonoBehaviour:
   knife: {fileID: 1081523467201848, guid: 96e51e59b6b78d54abda83ae6e6286d7, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
-  restartPanel: {fileID: 1315655326}
   hearts:
   - {fileID: 1027244156}
   - {fileID: 1217482997}
@@ -2733,9 +2721,7 @@ MonoBehaviour:
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 80760dd81c84d0d4293b53efd8d69181, type: 3}
-  loseSound: {fileID: 8300000, guid: c5a1c8f28f1dabf4490917a8a5e1239a, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
-  cameraT: {fileID: 282840814}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0

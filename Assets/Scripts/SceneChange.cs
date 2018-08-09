@@ -24,66 +24,88 @@ public class SceneChange : MonoBehaviour {
     public void LoadTutorial()
     {
         loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Tutorial;
+        Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadTutorialScene());
     }
 
     public void LoadConcentration()
     {
         //loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Shooting;
+        Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadConcentrationScene());
     }
 
     public void LoadSufferanceEasy()
     {
         //loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Avoiding;
+        Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadSufferanceEasyScene());
     }
 
     public void LoadSufferanceHard()
     {
         //loadinfPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Avoiding;
+        Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadSufferanceHardScene());
     }
 
-    public void LoadProtectorEasy()
+    public void LoadGuardianEasy()
     {
         //loadingPanel.SetActive(true);
-        StartCoroutine(LoadProtectorEasyScene());
+        Manager.instance.Mode = Manager.GameMode.Guardian;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadGuardianEasyScene());
     }
 
-    public void LoadProtectorHard()
+    public void LoadGuardianHard()
     {
         //loadingPanel.SetActive(true);
-        StartCoroutine(LoadProtectorHardScene());
+        Manager.instance.Mode = Manager.GameMode.Guardian;
+        Manager.instance.Level = Manager.GameLevel.Hard;
+        StartCoroutine(LoadGuardianHardScene());
     }
 
     public void LoadVagabondEasy()
     {
         //loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Vagabond;
+        Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadVagabondEasyScene());
     }
 
     public void LoadVagabondHard()
     {
         loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Vagabond;
+        Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadVagabondHardScene());
     }
 
-    public void LoadTrackerEasy()
+    public void LoadStalkerEasy()
     {
         //loadingPanel.SetActive(true);
-        StartCoroutine(LoadTrackerEasyScene());
+        Manager.instance.Mode = Manager.GameMode.Stalker;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadStalkerEasyScene());
     }
 
-    public void LoadTrackerHard()
+    public void LoadStalkerHard()
     {
         //loadingPanel.SetActive(true);
-        StartCoroutine(LoadTrackerHardScene());
+        Manager.instance.Mode = Manager.GameMode.Stalker;
+        Manager.instance.Level = Manager.GameLevel.Hard;
+        StartCoroutine(LoadStalkerHardScene());
     }
 
     public void LoadNetMakgora()
     {
         //loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Network;
+        Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadNetMakgoraScene());
     }
 
@@ -131,7 +153,7 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadProtectorEasyScene()
+    IEnumerator LoadGuardianEasyScene()
     {
         while (!inDevelopmentPanel.activeInHierarchy)
         {
@@ -142,7 +164,7 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadProtectorHardScene()
+    IEnumerator LoadGuardianHardScene()
     {
         while (!inDevelopmentPanel.activeInHierarchy)
         {
@@ -175,7 +197,7 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadTrackerEasyScene()
+    IEnumerator LoadStalkerEasyScene()
     {
         while (!inDevelopmentPanel.activeInHierarchy)
         {
@@ -186,7 +208,7 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadTrackerHardScene()
+    IEnumerator LoadStalkerHardScene()
     {
         while (!inDevelopmentPanel.activeInHierarchy)
         {
