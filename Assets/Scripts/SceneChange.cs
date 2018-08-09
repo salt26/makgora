@@ -58,7 +58,7 @@ public class SceneChange : MonoBehaviour {
         //loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Guardian;
         Manager.instance.Level = Manager.GameLevel.Easy;
-        StartCoroutine(LoadGuardianEasyScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadGuardianHard()
@@ -66,7 +66,7 @@ public class SceneChange : MonoBehaviour {
         //loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Guardian;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadGuardianHardScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadVagabondEasy()
@@ -74,7 +74,7 @@ public class SceneChange : MonoBehaviour {
         //loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Vagabond;
         Manager.instance.Level = Manager.GameLevel.Easy;
-        StartCoroutine(LoadVagabondEasyScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadVagabondHard()
@@ -82,7 +82,7 @@ public class SceneChange : MonoBehaviour {
         loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Vagabond;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadVagabondHardScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadStalkerEasy()
@@ -90,15 +90,15 @@ public class SceneChange : MonoBehaviour {
         //loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Stalker;
         Manager.instance.Level = Manager.GameLevel.Easy;
-        StartCoroutine(LoadStalkerEasyScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadStalkerHard()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Stalker;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadStalkerHardScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
     public void LoadNetMakgora()
@@ -153,40 +153,7 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadGuardianEasyScene()
-    {
-        while (!inDevelopmentPanel.activeInHierarchy)
-        {
-            inDevelopmentPanel.SetActive(true);
-            yield return new WaitForSeconds(1f);
-        }
-        inDevelopmentPanel.SetActive(false);
-        yield return null;
-    }
-
-    IEnumerator LoadGuardianHardScene()
-    {
-        while (!inDevelopmentPanel.activeInHierarchy)
-        {
-            inDevelopmentPanel.SetActive(true);
-            yield return new WaitForSeconds(1f);
-        }
-        inDevelopmentPanel.SetActive(false);
-        yield return null;
-    }
-
-    IEnumerator LoadVagabondEasyScene()
-    {
-        while (!inDevelopmentPanel.activeInHierarchy)
-        {
-            inDevelopmentPanel.SetActive(true);
-            yield return new WaitForSeconds(1f);
-        }
-        inDevelopmentPanel.SetActive(false);
-        yield return null;
-    }
-
-    IEnumerator LoadVagabondHardScene()
+    IEnumerator LoadMainGameScene()
     {
         yield return new WaitForSeconds(1f);
         asyncLoad = SceneManager.LoadSceneAsync("VagabondH");
@@ -194,28 +161,6 @@ public class SceneChange : MonoBehaviour {
         {
             yield return new WaitForSeconds(1f);
         }
-        yield return null;
-    }
-
-    IEnumerator LoadStalkerEasyScene()
-    {
-        while (!inDevelopmentPanel.activeInHierarchy)
-        {
-            inDevelopmentPanel.SetActive(true);
-            yield return new WaitForSeconds(1f);
-        }
-        inDevelopmentPanel.SetActive(false);
-        yield return null;
-    }
-
-    IEnumerator LoadStalkerHardScene()
-    {
-        while (!inDevelopmentPanel.activeInHierarchy)
-        {
-            inDevelopmentPanel.SetActive(true);
-            yield return new WaitForSeconds(1f);
-        }
-        inDevelopmentPanel.SetActive(false);
         yield return null;
     }
 

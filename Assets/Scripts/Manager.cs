@@ -99,7 +99,7 @@ public class Manager : MonoBehaviour {
 
     public void RestartButton()
     {
-        if (SceneManager.GetActiveScene().name == "Menu")
+        if (SceneManager.GetActiveScene().name.Equals("Menu"))
         {
             instance.Mode = GameMode.None;
             instance.Level = GameLevel.None;
@@ -178,25 +178,39 @@ public class Manager : MonoBehaviour {
         return isGameOver;
     }
 
-    public string GetCurrentGame()
+    /// <summary>
+    /// 현재 게임 모드와 난이도를 길이가 2인 string 배열로 반환합니다.
+    /// 반환값의 0번째 원소는 모드 이름, 1번째 원소는 난이도 이름입니다.
+    /// 메뉴에 있으면 0번째 원소가 "Menu"이고, 문제가 생기면 0번째 원소가 "?"입니다.
+    /// 이 메서드를 사용하면 Manager에서 직접 Mode, Level을 참조하는 것보다 안전합니다.
+    /// </summary>
+    /// <returns></returns>
+    public List<string> GetCurrentGame()
     {
-        if (SceneManager.GetActiveScene().name == "Menu")
+        List<string> l = new List<string>();
+        if (SceneManager.GetActiveScene().name.Equals("Menu"))
         {
-            return "Menu";
+            l.Add("Menu");
+            l.Add("None");
+            return l;
         }
-        else if (SceneManager.GetActiveScene().name == "Tutorial")
+        else if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
         {
-            return "TutorialHard";
+            l.Add("Tutorial");
+            l.Add("Hard");
+            return l;
         }
-        else if (SceneManager.GetActiveScene().name == "VagabondH")
+        else if (SceneManager.GetActiveScene().name.Equals("VagabondH"))
         {
-            string r = instance.Mode.ToString();
-            r += instance.Level.ToString();
-            return r;
+            l.Add(instance.Mode.ToString());
+            l.Add(instance.Level.ToString());
+            return l;
         }
         else
         {
-            return "?";
+            l.Add("?");
+            l.Add("None");
+            return l;
         }
     }
 }

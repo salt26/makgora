@@ -14,7 +14,6 @@ public class Restart : MonoBehaviour {
 
     private void Start()
     {
-        Debug.LogWarning("It works on Restart!");
         Manager.instance.RestartPanel = restartPanel;
         if (restartText != null)
             Manager.instance.RestartText = restartText;
