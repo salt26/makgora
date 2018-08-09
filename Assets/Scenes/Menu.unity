@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 221599889}
   - component: {fileID: 221599888}
   m_Layer: 5
-  m_Name: ProtectorEasyButton
+  m_Name: GuardianEasyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -541,7 +541,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 221599889}
   m_OnClick:
     m_PersistentCalls:
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.63234246, g: 0.89965445, b: 0.9245283, a: 0.392}
+  m_Color: {r: 0.63234246, g: 0.89965445, b: 0.9245283, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -997,7 +997,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 388507163}
   m_OnClick:
     m_PersistentCalls:
@@ -1061,7 +1061,7 @@ GameObject:
   - component: {fileID: 410974326}
   - component: {fileID: 410974325}
   m_Layer: 5
-  m_Name: TrackerHardButton
+  m_Name: StalkerHardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1120,7 +1120,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 410974326}
   m_OnClick:
     m_PersistentCalls:
@@ -2588,7 +2588,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 917850397}
   m_OnClick:
     m_PersistentCalls:
@@ -2727,7 +2727,7 @@ GameObject:
   - component: {fileID: 987388317}
   - component: {fileID: 987388316}
   m_Layer: 5
-  m_Name: TrackerEasyButton
+  m_Name: StalkerEasyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2786,7 +2786,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 987388317}
   m_OnClick:
     m_PersistentCalls:
@@ -2909,7 +2909,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1019645406}
   m_OnClick:
     m_PersistentCalls:
@@ -3646,7 +3646,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1264609724}
   m_OnClick:
     m_PersistentCalls:
@@ -3758,7 +3758,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1330330570}
   m_OnClick:
     m_PersistentCalls:
@@ -4165,7 +4165,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1474015527}
   m_OnClick:
     m_PersistentCalls:
@@ -5218,7 +5218,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uC26C\uC6C0 \uB09C\uC774\uB3C4\uB294 \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uB97C
-    \uD55C\uBC88 \uC774\uC0C1 \uD50C\uB808\uC774\uC2DC \uD574\uAE08\uB429\uB2C8\uB2E4."
+    \uD55C \uBC88 \uC774\uC0C1 \uD50C\uB808\uC774 \uC2DC \uD574\uAE08\uB429\uB2C8\uB2E4."
 --- !u!222 &1837334227
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5656,7 +5656,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uC26C\uC6C0 \uB09C\uC774\uB3C4\uB294 \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uB97C
-    \uD55C\uBC88 \uC774\uC0C1 \uD50C\uB808\uC774\uC2DC \uD574\uAE08\uB429\uB2C8\uB2E4."
+    \uD55C \uBC88 \uC774\uC0C1 \uD50C\uB808\uC774 \uC2DC \uD574\uAE08\uB429\uB2C8\uB2E4."
 --- !u!222 &2020435320
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5676,7 +5676,7 @@ GameObject:
   - component: {fileID: 2069549364}
   - component: {fileID: 2069549363}
   m_Layer: 5
-  m_Name: ProtectorHardButton
+  m_Name: GuardianHardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5735,7 +5735,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 2069549364}
   m_OnClick:
     m_PersistentCalls:
