@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.4
   chargeSpeed: 1.5
-  knife: {fileID: 1081523467201848, guid: 96e51e59b6b78d54abda83ae6e6286d7, type: 2}
+  knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
   restartPanel: {fileID: 1315655326}
@@ -595,7 +595,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.9716981, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -608,9 +608,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 88
-  orthographic: 0
-  orthographic size: 5
+  field of view: 30
+  orthographic: 1
+  orthographic size: 1
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2257,7 +2257,7 @@ MonoBehaviour:
   speed: 0.4
   chargeSpeed: 1.5
   target: {fileID: 1816958221635516, guid: e5c3fd9856cb9ab48a27134857b2386b, type: 2}
-  knife: {fileID: 1081523467201848, guid: 96e51e59b6b78d54abda83ae6e6286d7, type: 2}
+  knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
   restartPanel: {fileID: 1315655326}
