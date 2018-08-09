@@ -40,19 +40,34 @@ public class Knife : MonoBehaviour {
 
         if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
         {
-            alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
-        }
+            // 플레이어가 상대방 위치의 반대 방향으로 총알을 쏘면 플레이어와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
+            if (owner == 0 && (enemy.position.z - player.position.z) * direction.z < 0)
+            {
+                alpha = Mathf.Pow(Mathf.Abs(player.position.z - t.position.z) - 1, 2);
+            }
+            // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
+            else
+            {
+                alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+            }
 
-        if (player.position.z - t.position.z < 0f)
+        }
+        if(Mathf.Abs(otherZ - t.position.z) < 0.1f)
         {
-            // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-            GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, Mathf.Pow(Mathf.Abs(
-                        player.position.z - t.position.z) - 1, 2), alpha);
+            GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
         }
         else
         {
-            GetComponent<MeshRenderer>().material.color = new Color(Mathf.Pow(Mathf.Abs(
-                        player.position.z - t.position.z) - 1, 2), 0f, 0f, alpha);
+            if (player.position.z - t.position.z < 0f)
+            {
+                GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, Mathf.Pow(Mathf.Abs(
+                            player.position.z - t.position.z) - 1, 2), alpha);
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().material.color = new Color(0f, Mathf.Pow(Mathf.Abs(
+                            player.position.z - t.position.z) - 1, 2), 0f, alpha);
+            }
         }
 
         if (Mathf.Abs(t.position.z) > 6f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
