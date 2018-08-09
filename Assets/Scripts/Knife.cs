@@ -10,6 +10,8 @@ public class Knife : MonoBehaviour {
     private Vector3 dest;       // 목적지입니다. 날아갈 방향을 결정합니다.
 
     private Transform t;
+    private Transform player;
+    private Transform enemy;
 
     public float speed;
 
@@ -17,23 +19,43 @@ public class Knife : MonoBehaviour {
     private void Awake()
     {
         t = GetComponent<Transform>();  // 이 칼의 위치를 갖고 있습니다.
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         start = t.position;
     }
 
     // 매 프레임마다 자동으로 호출됩니다.
     void FixedUpdate () {
+        Vector3 direction = new Vector3();
+        float otherZ = 0f;
 		if (owner != -1)
         {
-            Vector3 direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
-            t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles + new Vector3(-90f, 0f, 90f)));
+            direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
+            t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime, Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles/* + new Vector3(-90f, 0f, 90f)*/));
         }
-        /*
-        // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-        GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f,
-            Mathf.Max(0, Mathf.Pow(Mathf.Abs(
-                GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
-        */
-        if (Mathf.Abs(t.position.z) > 11f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
+
+        float alpha = 1f;   // 대상을 지나 사라질 때 투명화됨
+        if (owner == 0) otherZ = enemy.position.z;
+        else if (owner == 1) otherZ = player.position.z;
+
+        if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
+        {
+            alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+        }
+
+        if (player.position.z - t.position.z < 0f)
+        {
+            // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
+            GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, Mathf.Pow(Mathf.Abs(
+                        player.position.z - t.position.z) - 1, 2), alpha);
+        }
+        else
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(Mathf.Pow(Mathf.Abs(
+                        player.position.z - t.position.z) - 1, 2), 0f, 0f, alpha);
+        }
+
+        if (Mathf.Abs(t.position.z) > 6f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
         {
             Destroy(gameObject);
         }
