@@ -81,6 +81,11 @@ public class Player : MonoBehaviour {
         else
         {
             moveTemporal = Input.GetAxisRaw("Temporal");
+            if (moveTemporal != 0f)
+            {
+                moveHorizontal = 0f;
+                moveVertical = 0f;
+            }
         }
 
         // 플레이어를 움직입니다.
