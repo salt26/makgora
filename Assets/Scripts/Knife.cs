@@ -98,7 +98,7 @@ public class Knife : MonoBehaviour {
         }
         else if (other.tag.Equals("Enemy") && owner == 0 && other.GetComponent<Enemy>().Health > 0)
         {
-            other.GetComponent<Enemy>().Damaged();
+            other.GetComponent<Enemy>().damaged();
             Destroy(gameObject);
         }
     }

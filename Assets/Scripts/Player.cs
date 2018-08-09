@@ -10,14 +10,11 @@ public class Player : MonoBehaviour {
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
-    public GameObject restartPanel;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
     public AudioClip killedSound;
-    public AudioClip loseSound;
     public GameObject blow;
-    public Transform cameraT;
 
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -26,7 +23,6 @@ public class Player : MonoBehaviour {
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private Rigidbody r;
     private GameObject blowend;
-    private bool isGameOver;
 
     public int Health
     {
@@ -50,13 +46,7 @@ public class Player : MonoBehaviour {
         chargedZ = 0f;
         myShield = null;
         blowend = null;
-        isGameOver = false;
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -100,7 +90,7 @@ public class Player : MonoBehaviour {
             Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
-        if (GetGameOver()) return;
+        if (Manager.instance.GetGameOver()) return;
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
@@ -205,10 +195,8 @@ public class Player : MonoBehaviour {
                             new Vector2(hit.point.x, hit.point.y));
                     GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
                     k.GetComponent<Knife>().Initialize(0, new Vector3(
-                        //(hit.point.x - ray.origin.x) * (chargedZ - cameraT.position.z) + hit.point.x,
                         ray.origin.x + ray.direction.x * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                         ray.origin.y + ray.direction.y * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
-                        //(hit.point.y - ray.origin.y) * (chargedZ - cameraT.position.z) + hit.point.y,
                         GetComponent<Transform>().position.z + chargedZ));
                     Destroy(targetObject);
                     targetObject = null;
@@ -268,11 +256,12 @@ public class Player : MonoBehaviour {
             GetComponent<AudioSource>().Play();
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
             
-            StartCoroutine("Restart");
+            StartCoroutine("Blow");
+            Manager.instance.LoseGame();
         }
     }
-
-    IEnumerator Restart()
+    
+    IEnumerator Blow()
     {
         yield return new WaitForSeconds(1.0f);
         if (blowend != null)
@@ -280,21 +269,7 @@ public class Player : MonoBehaviour {
             Destroy(blowend);
         }
         blowend = null;
-        SetGameOver();
-        yield return new WaitForSeconds(1.0f);
-        restartPanel.SetActive(true);
-
-        GetComponent<AudioSource>().clip = loseSound;
-        GetComponent<AudioSource>().Play();
     }
 
-    public void SetGameOver()
-    {
-        isGameOver = true;
-    }
-
-    public bool GetGameOver()
-    {
-        return isGameOver;
-    }
+    
 }

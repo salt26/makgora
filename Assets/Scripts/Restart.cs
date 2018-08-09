@@ -1,35 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using UnityEngine.UI;
 
 public class Restart : MonoBehaviour {
 
-	public void RestartButton()
+    [SerializeField]
+    private GameObject restartPanel;
+    [SerializeField]
+    private Text restartText;
+    [SerializeField]
+    private GameObject skipTutorialButton;
+
+    private void Start()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Manager.instance.RestartPanel = restartPanel;
+        if (restartText != null)
+            Manager.instance.RestartText = restartText;
+        if (skipTutorialButton != null)
+            Manager.instance.SkipTutorialButton = skipTutorialButton;
+    }
+
+    public void RestartButton()
+    {
+        Manager.instance.RestartButton();
     }
 
     public void QuitButton()
     {
-#if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
-#else 
-		Application.Quit();
-#endif
+        Manager.instance.QuitButton();
     }
-
-    // TODO 이름 바꾸기
+    
+    /*
     public void MainGameButton()
     {
-        SceneManager.LoadScene("VagabondH");
+        Manager.instance.MainGameButton();
     }
+    */
 
     public void MenuButton()
     {
-        SceneManager.LoadScene("Menu");
+        Manager.instance.MenuButton();
     }
 }
