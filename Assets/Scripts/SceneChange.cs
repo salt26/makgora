@@ -138,7 +138,7 @@ public class SceneChange : MonoBehaviour {
     IEnumerator LoadMainGameScene()
     {
         yield return new WaitForSeconds(1f);
-        asyncLoad = SceneManager.LoadSceneAsync("VagabondH");
+        asyncLoad = SceneManager.LoadSceneAsync("MainGame");
         while (!asyncLoad.isDone)
         {
             yield return new WaitForSeconds(1f);

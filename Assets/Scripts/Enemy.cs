@@ -186,9 +186,24 @@ public class Enemy : MonoBehaviour {
             // 목적지에 도착했습니다.
             isArrived = true;
         }
+        else if (!isArrived && Mathf.Abs(t.position.z - destPosition.z) > 0.01f)
+        {
+            // 목적지를 향해 시간 축을 따라 이동합니다.
+            Vector3 movement = destPosition - t.position;
+            movement.x = 0f;
+            movement.y = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
         else if (!isArrived)
         {
-            // 목적지를 향해 이동합니다.
+            // 목적지를 향해 XY평면을 따라 이동합니다.
             Vector3 movement = destPosition - t.position;
             r.velocity = movement.normalized * speed;
 
@@ -226,9 +241,24 @@ public class Enemy : MonoBehaviour {
             // 목적지에 도착했습니다.
             isArrived = true;
         }
+        else if (!isArrived && Mathf.Abs(t.position.z - destPosition.z) > 0.01f)
+        {
+            // 목적지를 향해 시간 축을 따라 이동합니다.
+            Vector3 movement = destPosition - t.position;
+            movement.x = 0f;
+            movement.y = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
         else if (!isArrived)
         {
-            // 목적지를 향해 이동합니다.
+            // 목적지를 향해 XY평면을 따라 이동합니다.
             Vector3 movement = destPosition - t.position;
             r.velocity = movement.normalized * speed;
 
