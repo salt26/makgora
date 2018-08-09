@@ -163,8 +163,34 @@ public class Player : MonoBehaviour {
                     }
                 }
             }
+            else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+            {
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
+                    if (targetObject == null)
+                    {
+                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                    }
+                    else
+                    {
+                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+                    }
 
-            if (Input.GetMouseButtonUp(0) || Input.GetMouseButtonUp(1))
+                    if (targetObject != null)
+                    {
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ *
+                            Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                            new Vector2(hit.point.x, hit.point.y));
+                    }
+                }
+            }
+
+            if ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0)))
             {
                 Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
