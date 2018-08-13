@@ -96,7 +96,7 @@ public class Knife : MonoBehaviour {
             GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f, alpha);
         }
 
-        if (Mathf.Abs(t.position.z) > 6f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
+        if (Mathf.Abs(t.position.z) > Boundary.zMax + 1f || Mathf.Abs(t.position.x) > Boundary.xMax + 1f || Mathf.Abs(t.position.y) > Boundary.yMax + 1f)
         {
             Destroy(gameObject);
         }

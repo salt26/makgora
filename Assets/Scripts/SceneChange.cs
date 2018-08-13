@@ -111,11 +111,12 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadTutorialScene()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         asyncLoad = SceneManager.LoadSceneAsync("Tutorial");
         while (!asyncLoad.isDone)
         {
-            yield return new WaitForSeconds(1f);
+            //yield return new WaitForSeconds(1f);
+            yield return null;
         }
         yield return null;
     }
@@ -137,11 +138,12 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadMainGameScene()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         asyncLoad = SceneManager.LoadSceneAsync("MainGame");
         while (!asyncLoad.isDone)
         {
-            yield return new WaitForSeconds(1f);
+            //yield return new WaitForSeconds(1f);
+            yield return null;
         }
         yield return null;
     }
