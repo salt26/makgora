@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour {
         if (gameMode.Equals("Tutorial"))
         {
             whileInvincible += WIMove;
-            // vanish
+            vanish += VanishNormal;
             move += MoveNever;
             shoot += ShootNever;
             damaged += DamagedTutorial;
@@ -80,14 +80,14 @@ public class Enemy : MonoBehaviour {
         else if (gameMode.Equals("Vagabond"))
         {
             whileInvincible += WINormal;
-            // vanish
+            vanish += VanishNormal;
             move += MoveVagabond;
             damaged += DamagedVS;
         }
         else if (gameMode.Equals("Stalker"))
         {
             whileInvincible += WINormal;
-            // vanish
+            vanish += VanishNormal;
             move += MoveStalker;
             damaged += DamagedVS;
         }
@@ -103,10 +103,11 @@ public class Enemy : MonoBehaviour {
         whileInvincible();
 
         if (health <= 0) return;
-        /*
+
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-        Vanish();
-        */
+        if (vanish.GetInvocationList().Length > 0) {
+            vanish();
+        }
 
         move();
         
@@ -164,13 +165,28 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     protected void VanishNormal()
     {
-        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        if (1 - Mathf.Abs(GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) < 0)
         {
-            foreach (Material m in mr.materials)
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
-                m.color = new Color(m.color.r, m.color.g, m.color.b,
-                    Mathf.Max(0, Mathf.Pow(Mathf.Abs(
-                        GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) - 1, 2)));
+                mr.enabled = false;
+            }
+        }
+        else
+        {
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = true;
+                foreach (Material m in mr.materials)
+                {
+                    /*
+                    m.color = new Color(m.color.r, m.color.g, m.color.b,
+                        Mathf.Pow(Mathf.Max(0, 1 - Mathf.Abs(
+                            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z)), 2));
+                    */
+                    m.color = new Color(m.color.r, m.color.g, m.color.b, Mathf.Max(0, 1 - Mathf.Abs(
+                            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z)));
+                }
             }
         }
     }
