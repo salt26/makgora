@@ -73,7 +73,7 @@ public class Knife : MonoBehaviour {
 
         }
 
-        if (Mathf.Abs(otherZ - t.position.z) < 0.06f)
+        if (Mathf.Abs(otherZ - t.position.z) < 0.05f)
         {
             GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
             if (!isCracked && owner == 0)
@@ -123,6 +123,11 @@ public class Knife : MonoBehaviour {
         }
         else if (other.tag.Equals("Enemy") && owner == 0 && other.GetComponent<Enemy>().Health > 0)
         {
+            if (!isCracked)
+            {
+                Instantiate(flare, t.position, Quaternion.identity);
+                isCracked = true;
+            }
             other.GetComponent<Enemy>().damaged();
             Destroy(gameObject);
         }

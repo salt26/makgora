@@ -80,7 +80,14 @@ public class Player : MonoBehaviour {
 
         // 플레이어를 움직입니다.
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, moveTemporal);
-        r.velocity = movement.normalized * speed;
+        if (!Manager.instance.GetGameOver())
+        {
+            r.velocity = movement.normalized * speed;
+        }
+        else
+        {
+            r.velocity = Vector3.zero;
+        }
 
         // 플레이어가 화면 밖으로 나갈 수 없게 합니다.
         r.position = new Vector3
