@@ -90,7 +90,15 @@ public class Player : MonoBehaviour {
             Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
-        if (Manager.instance.GetGameOver()) return;
+        if (Manager.instance.GetGameOver())
+        {
+            if (targetObject != null)
+            {
+                Destroy(targetObject);
+                targetObject = null;
+            }
+            return;
+        }
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
