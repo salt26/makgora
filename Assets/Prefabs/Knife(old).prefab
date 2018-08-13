@@ -221,3 +221,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.5
+  flare: {fileID: 1598354684554190, guid: eb0d1e5dc992e0e4f81cddf94baff1a5, type: 2}
