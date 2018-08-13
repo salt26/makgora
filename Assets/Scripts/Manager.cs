@@ -121,7 +121,7 @@ public class Manager : MonoBehaviour {
     // TODO 이름 바꾸기
     public void MainGameButton()
     {
-        SceneManager.LoadScene("VagabondH");
+        SceneManager.LoadScene("MainGame");
     }
     */
 
@@ -200,7 +200,7 @@ public class Manager : MonoBehaviour {
             l.Add("Hard");
             return l;
         }
-        else if (SceneManager.GetActiveScene().name.Equals("VagabondH"))
+        else if (SceneManager.GetActiveScene().name.Equals("MainGame"))
         {
             l.Add(instance.Mode.ToString());
             l.Add(instance.Level.ToString());
