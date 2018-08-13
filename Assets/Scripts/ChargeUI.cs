@@ -18,7 +18,7 @@ public class ChargeUI : MonoBehaviour {
         }
     }
 
-    public Transform greenHand;
+    public Transform redHand;
     public Transform blueHand;
 
     private void Awake()
@@ -59,12 +59,12 @@ public class ChargeUI : MonoBehaviour {
         GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         if (player.GetComponent<Player>().Health > 0 && chargedZ != 0f)
         {
-            greenHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
+            blueHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
                 Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * (player.position.z + chargedZ)));
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
-            blueHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
+            redHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
                 Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
         }
     }
@@ -72,7 +72,7 @@ public class ChargeUI : MonoBehaviour {
     public void SetVisible()
     {
         GetComponent<Image>().enabled = true;
-        greenHand.GetComponent<Image>().enabled = true;
         blueHand.GetComponent<Image>().enabled = true;
+        redHand.GetComponent<Image>().enabled = true;
     }
 }

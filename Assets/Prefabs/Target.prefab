@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 222552828910463914}
   - component: {fileID: 114625665979756960}
   m_Layer: 5
-  m_Name: ChargeClockBlueHand
+  m_Name: ChargeClockRedHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 222546604015453418}
   - component: {fileID: 114497455902522788}
   m_Layer: 5
-  m_Name: ChargeClockGreenHand
+  m_Name: ChargeClockBlueHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 28436da7bd1077d47976cb622f97bd9e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6d1a28619845b254eb0b781b3cbaec85, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -314,7 +314,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 6d1a28619845b254eb0b781b3cbaec85, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7da6418586b5b8f459c7de7cc4048f4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -333,8 +333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c257e229d81e164ea88f8e7c4a2e5d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  greenHand: {fileID: 224642585309665150}
-  blueHand: {fileID: 224977764141958756}
+  redHand: {fileID: 224977764141958756}
+  blueHand: {fileID: 224642585309665150}
 --- !u!222 &222525163579120344
 CanvasRenderer:
   m_ObjectHideFlags: 1

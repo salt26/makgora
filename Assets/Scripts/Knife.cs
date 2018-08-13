@@ -15,6 +15,8 @@ public class Knife : MonoBehaviour {
 
     public float speed;
 
+    public GameObject flare;
+
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
     {
@@ -27,6 +29,7 @@ public class Knife : MonoBehaviour {
     // 매 프레임마다 자동으로 호출됩니다.
     void FixedUpdate () {
         Vector3 direction = new Vector3();
+        float ownZ = 0f;
         float otherZ = 0f;
 		if (owner != -1)
         {
@@ -35,40 +38,53 @@ public class Knife : MonoBehaviour {
         }
 
         float alpha = 1f;   // 대상을 지나 사라질 때 투명화됨
-        if (owner == 0) otherZ = enemy.position.z;
-        else if (owner == 1) otherZ = player.position.z;
-
-        if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
+        if (owner == 0)
         {
-            // 플레이어가 상대방 위치의 반대 방향으로 총알을 쏘면 플레이어와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-            if (owner == 0 && (enemy.position.z - player.position.z) * direction.z < 0)
+            ownZ = player.position.z;
+            otherZ = enemy.position.z;
+        }
+        else if (owner == 1)
+        {
+            ownZ = enemy.position.z;
+            otherZ = player.position.z;
+        }
+
+        if(Mathf.Abs(player.position.z-t.position.z)>1f)
+        {
+            alpha = 0f;
+        }
+
+        else if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
+        {
+            // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
+            if ((ownZ-otherZ)*(ownZ-t.position.z)<0)
             {
-                alpha = Mathf.Pow(Mathf.Abs(player.position.z - t.position.z) - 1, 2);
+                alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z)-1, 2);
             }
             // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
             else
             {
-                alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+                alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z)-1, 2);
             }
 
         }
-        if(Mathf.Abs(otherZ - t.position.z) < 0.1f)
+
+        if(Mathf.Abs(otherZ-t.position.z)<0.03)
         {
             GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
         }
-        else
+
+        else if(Mathf.Abs(otherZ-t.position.z)<0.15)
         {
-            if (player.position.z - t.position.z < 0f)
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, Mathf.Pow(Mathf.Abs(
-                            player.position.z - t.position.z) - 1, 2), alpha);
-            }
-            else
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(0f, Mathf.Pow(Mathf.Abs(
-                            player.position.z - t.position.z) - 1, 2), 0f, alpha);
-            }
+            GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0f, alpha);
         }
+
+        else if(t.position.z<player.position.z)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1f, alpha);
+        }
+
+        else GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f, alpha);
 
         if (Mathf.Abs(t.position.z) > 6f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
         {
