@@ -325,9 +325,11 @@ public class Enemy : MonoBehaviour {
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {
-            chargedZ += Time.fixedDeltaTime * chargeSpeed
+            chargedZ += Time.fixedDeltaTime * chargeSpeed;
+            /*
                         * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                         new Vector2(exactTarget.x, exactTarget.y));
+            */
         }
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
