@@ -737,7 +737,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ver. 0.1.1
+  m_Text: Ver. 0.1.2
 --- !u!222 &226463316
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1536,9 +1536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12cacc4a7d63c3a42933f61be1af9b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  restartPanel: {fileID: 0}
-  restartText: {fileID: 0}
-  skipTutorialButton: {fileID: 0}
   loseSound: {fileID: 8300000, guid: c5a1c8f28f1dabf4490917a8a5e1239a, type: 3}
   winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
 --- !u!4 &524499476
