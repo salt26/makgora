@@ -73,15 +73,16 @@ public class Knife : MonoBehaviour {
 
         }
 
-        if (Mathf.Abs(otherZ - t.position.z) < 0.05f)
+        if (owner==0)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
-            if (!isCracked && owner == 0)
+            GetComponent<MeshRenderer>().material.color = new Color(0.3f, 0.3f, 0.3f, alpha);
+            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.05f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;
             }
         }
+        
         else if (Mathf.Abs(otherZ - t.position.z) < 0.15f)
         {
             GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0f, alpha);
