@@ -17,28 +17,28 @@ public class Enemy : MonoBehaviour {
     public delegate void Damaged();
     public Damaged damaged;
 
-    protected int health = 3;
-    protected GameObject myShield;
-    protected Vector3 exactTarget;
-    protected Vector3 startPosition;
-    protected Vector3 destPosition;
-    protected bool isArrived = true;
-    protected bool isCharging = false;
-    protected float chargedZ;
-    protected float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
-    protected float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
-    protected Rigidbody r;
-    protected Transform t;
-    protected GameObject blowend;
-    protected Player player;
-    protected delegate void WhileInvincible();
-    protected delegate void Vanish();
-    protected delegate void Move();
-    protected delegate void Shoot();
-    protected WhileInvincible whileInvincible;
-    protected Vanish vanish;
-    protected Move move;
-    protected Shoot shoot;
+    private int health = 3;
+    private GameObject myShield;
+    private Vector3 exactTarget;
+    private Vector3 startPosition;
+    private Vector3 destPosition;
+    private bool isArrived = true;
+    private bool isCharging = false;
+    private float chargedZ;
+    private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
+    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
+    private Rigidbody r;
+    private Transform t;
+    private GameObject blowend;
+    private Player player;
+    private delegate void WhileInvincible();
+    private delegate void Vanish();
+    private delegate void Move();
+    private delegate void Shoot();
+    private WhileInvincible whileInvincible;
+    private Vanish vanish;
+    private Move move;
+    private Shoot shoot;
 
     public int Health
     {
@@ -120,7 +120,7 @@ public class Enemy : MonoBehaviour {
     /// 무적인 동안 매 프레임마다 실행될 함수입니다.
     /// 방랑자, 추적자 인공지능에 사용됩니다.
     /// </summary>
-    protected void WINormal()
+    private void WINormal()
     {
         if (invincibleTime > 0f)
         {
@@ -163,7 +163,7 @@ public class Enemy : MonoBehaviour {
     /// <summary>
     /// 시간대가 다를 때 투명해지도록 하는 함수입니다.
     /// </summary>
-    protected void VanishNormal()
+    private void VanishNormal()
     {
         if (1 - Mathf.Abs(GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) < 0)
         {
@@ -195,7 +195,7 @@ public class Enemy : MonoBehaviour {
     /// 이동 함수입니다.
     /// 방랑자 인공지능에 사용됩니다.
     /// </summary>
-    protected void MoveVagabond()
+    private void MoveVagabond()
     {
         if (!isArrived && Vector3.Distance(t.position, destPosition) < 0.01f)
         {
@@ -250,7 +250,7 @@ public class Enemy : MonoBehaviour {
     /// 이동 함수입니다.
     /// 추적자 인공지능에 사용됩니다.
     /// </summary>
-    protected void MoveStalker()
+    private void MoveStalker()
     {
         if (!isArrived && Vector3.Distance(t.position, destPosition) < 0.01f)
         {
@@ -306,7 +306,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    protected void MoveNever()
+    private void MoveNever()
     {
 
     }
@@ -314,7 +314,7 @@ public class Enemy : MonoBehaviour {
     /// <summary>
     /// 칼을 던지는 함수입니다. 기본은 어려움 인공지능입니다.
     /// </summary>
-    protected void ShootHard()
+    private void ShootHard()
     {
         if (!isCharging)
         {
@@ -339,7 +339,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    protected void ShootNever()
+    private void ShootNever()
     {
 
     }
@@ -468,7 +468,7 @@ public class Enemy : MonoBehaviour {
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
     /// </summary>
     /// <returns></returns>
-    protected float GaussianRandom()
+    private float GaussianRandom()
     {
         float u1 = 1.0f - Random.Range(0f, 1f); // uniform(0,1] random doubles
         float u2 = 1.0f - Random.Range(0f, 1f);
