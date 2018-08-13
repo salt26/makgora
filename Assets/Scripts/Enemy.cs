@@ -409,9 +409,9 @@ public class Enemy : MonoBehaviour {
                     destPosition = new Vector3(-1f, 0.05f, 2.89f);
                     GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
                         "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
-                        "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 초록색 침은 칼이 향할 시간을 가리킵니다.\n" +
+                        "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 파란색 침은 칼이 향할 시간을 가리킵니다.\n" +
                         "마우스를 오래 누를수록 더 먼 과거(미래)로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
-                        "마우스로 상대를 조준하고 초록색 침과 파란색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
+                        "마우스로 상대를 조준하고 파란색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
                         "\"움직이지 않는 상대를 향해 칼을 던져서 2번 더 맞추세요.\"";
                 }
                 else if (Health == 1)
@@ -419,9 +419,9 @@ public class Enemy : MonoBehaviour {
                     destPosition = new Vector3(0.1f, 0.3f, -3.5f);
                     GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
                         "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
-                        "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 초록색 침은 칼이 향할 시간을 가리킵니다.\n" +
+                        "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 파란색 침은 칼이 향할 시간을 가리킵니다.\n" +
                         "마우스를 오래 누를수록 더 먼 과거(미래)로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
-                        "마우스로 상대를 조준하고 초록색 침과 파란색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
+                        "마우스로 상대를 조준하고 파란색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
                         "\"움직이지 않는 상대를 향해 칼을 던져서 1번 더 맞추세요.\"";
                 }
                 invincibleTime = 3f;
