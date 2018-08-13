@@ -68,31 +68,23 @@ public class Knife : MonoBehaviour {
             }
 
         }
-        if (owner == 0)
-        {
-            if (Mathf.Abs(otherZ - t.position.z) < 0.1f)
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1f, alpha);
-            }
 
-            else
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 0.5f*Mathf.Pow(otherZ-t.position.z,2), alpha);
-            }
+        if(Mathf.Abs(otherZ-t.position.z)<0.03)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
         }
 
-        else
+        else if(Mathf.Abs(otherZ-t.position.z)<0.15)
         {
-            if (Mathf.Abs(otherZ - t.position.z) < 0.1f)
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(1f, 0f, 0f, alpha);
-            }
-
-            else
-            {
-                GetComponent<MeshRenderer>().material.color = new Color(0.5f * Mathf.Pow(otherZ - t.position.z, 2), 0f, 0f, alpha);
-            }
+            GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0f, alpha);
         }
+
+        else if(t.position.z<player.position.z)
+        {
+            GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1f, alpha);
+        }
+
+        else GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f, alpha);
 
         if (Mathf.Abs(t.position.z) > 6f || Mathf.Abs(t.position.x) > 2.6f || Mathf.Abs(t.position.y) > 2f)
         {
