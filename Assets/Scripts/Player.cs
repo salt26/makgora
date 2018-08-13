@@ -99,6 +99,7 @@ public class Player : MonoBehaviour {
             }
             return;
         }
+        if (Manager.instance.IsPaused) return;
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {

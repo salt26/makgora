@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Restart : MonoBehaviour {
 
     [SerializeField]
+    private GameObject pausePanel;
+    [SerializeField]
     private GameObject restartPanel;
     [SerializeField]
     private Text restartText;
@@ -19,6 +21,11 @@ public class Restart : MonoBehaviour {
             Manager.instance.RestartText = restartText;
         if (skipTutorialButton != null)
             Manager.instance.SkipTutorialButton = skipTutorialButton;
+        if (pausePanel != null)
+        {
+            Manager.instance.PausePanel = pausePanel;
+            Manager.instance.Pause();
+        }
     }
 
     public void RestartButton()
@@ -41,5 +48,10 @@ public class Restart : MonoBehaviour {
     public void MenuButton()
     {
         Manager.instance.MenuButton();
+    }
+
+    public void StartButton()
+    {
+        Manager.instance.StartButton();
     }
 }

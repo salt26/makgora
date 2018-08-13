@@ -26,11 +26,13 @@ public class Manager : MonoBehaviour {
     private GameMode mode;
     private GameLevel level;
     private bool isGameOver;
+    private bool isPaused;
 
     // TODO 아래 게임오브젝트들 설정하기
-    public GameObject restartPanel;
-    public Text restartText;
-    public GameObject skipTutorialButton;
+    private GameObject pausePanel;
+    private GameObject restartPanel;
+    private Text restartText;
+    private GameObject skipTutorialButton;
 
     [SerializeField]
     private AudioClip loseSound;
@@ -47,6 +49,16 @@ public class Manager : MonoBehaviour {
     {
         get { return level; }
         set { level = value; }
+    }
+
+    public bool IsPaused
+    {
+        get { return isPaused; }
+    }
+
+    public GameObject PausePanel
+    {
+        set { pausePanel = value; }
     }
 
     public GameObject RestartPanel
@@ -78,6 +90,7 @@ public class Manager : MonoBehaviour {
     private void Start()
     {
         instance.isGameOver = false;
+        instance.isPaused = false;
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
     }
@@ -136,6 +149,23 @@ public class Manager : MonoBehaviour {
         SceneManager.LoadScene("Menu");
     }
 
+    public void StartButton()
+    {
+        Time.timeScale = 1f;
+        instance.isPaused = false;
+        instance.pausePanel.SetActive(false);
+    }
+
+    /* TODO 
+     * Invoke this method when 'Esc' key is pressed.
+     */
+    public void PauseButton()
+    {
+        // TODO instance.pauseText = "Paused";
+        instance.pausePanel.SetActive(true);
+        Pause();
+    }
+
     IEnumerator Lose()
     {
         instance.SetGameOver();
@@ -176,6 +206,12 @@ public class Manager : MonoBehaviour {
     public bool GetGameOver()
     {
         return isGameOver;
+    }
+    
+    public void Pause()
+    {
+        instance.isPaused = true;
+        Time.timeScale = 0f;
     }
 
     /// <summary>
