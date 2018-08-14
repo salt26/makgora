@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
 
     public float speed;
-    public float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
@@ -17,6 +16,7 @@ public class Player : MonoBehaviour {
     public GameObject blow;
 
     private int health = 3;
+    private float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
     private GameObject myShield;
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
@@ -47,9 +47,22 @@ public class Player : MonoBehaviour {
         myShield = null;
         blowend = null;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start()
+    {
+        string gameLevel = Manager.instance.GetCurrentGame()[1];
+        if (gameLevel.Equals("Easy") || (Manager.instance.GetCurrentGame()[0].Equals("Tutorial")))
+        {
+            chargeSpeed = Manager.instance.EasyChargeSpeed;
+        }
+        else if (gameLevel.Equals("Hard"))
+        {
+            chargeSpeed = Manager.instance.HardChargeSpeed;
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (health <= 0)
         {
             if (targetObject != null)

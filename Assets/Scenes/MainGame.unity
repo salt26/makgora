@@ -210,9 +210,9 @@ GameObject:
   - component: {fileID: 82032287}
   - component: {fileID: 82032286}
   - component: {fileID: 82032284}
+  - component: {fileID: 82032288}
   - component: {fileID: 82032283}
   - component: {fileID: 82032289}
-  - component: {fileID: 82032288}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -268,7 +268,7 @@ Transform:
   - {fileID: 1824606844}
   - {fileID: 519714918}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &82032288
 MonoBehaviour:
@@ -1028,7 +1028,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &449436114
 GameObject:
@@ -1434,7 +1434,7 @@ RectTransform:
   - {fileID: 1315655327}
   - {fileID: 924385969}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2611,8 +2611,8 @@ GameObject:
   - component: {fileID: 1360910733}
   - component: {fileID: 1360910732}
   - component: {fileID: 1360910730}
-  - component: {fileID: 1360910729}
   - component: {fileID: 1360910728}
+  - component: {fileID: 1360910729}
   - component: {fileID: 1360910734}
   - component: {fileID: 1360910735}
   m_Layer: 0
