@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour {
 
     public float speed;
-    public float chargeSpeed;
     public GameObject knife;
     public GameObject divineShield;
     public List<GameObject> hearts;
@@ -18,6 +17,7 @@ public class Enemy : MonoBehaviour {
     public Damaged damaged;
 
     private int health = 3;
+    private float chargeSpeed = 0f;
     private GameObject myShield;
     private Vector3 exactTarget;
     private Vector3 startPosition;
@@ -101,9 +101,20 @@ public class Enemy : MonoBehaviour {
             MoveGuardian();
         }
 
-        if (gameLevel.Equals("Hard") && !gameMode.Equals("Tutorial"))
+        if (gameLevel.Equals("Hard") && gameMode.Equals("Guardian"))
+        {
+            shoot += ShootInsane;
+            chargeSpeed = Manager.instance.HardChargeSpeed;
+        }
+        else if (gameLevel.Equals("Hard") && !gameMode.Equals("Tutorial"))
         {
             shoot += ShootHard;
+            chargeSpeed = Manager.instance.HardChargeSpeed;
+        }
+        else if (gameLevel.Equals("Easy"))
+        {
+            shoot += ShootEasy;
+            chargeSpeed = Manager.instance.EasyChargeSpeed;
         }
     }
 
@@ -124,6 +135,8 @@ public class Enemy : MonoBehaviour {
 
         shoot();
     }
+
+    #region 무적인 동안(WhileInvincible) 실행될 함수들
 
     /// <summary>
     /// 무적인 동안 매 프레임마다 실행될 함수입니다.
@@ -171,6 +184,10 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    #endregion
+
+    #region 투명해지는(Vanish) 함수들
+
     /// <summary>
     /// 시간대가 다를 때 투명해지도록 하는 함수입니다.
     /// </summary>
@@ -201,6 +218,10 @@ public class Enemy : MonoBehaviour {
             }
         }
     }
+
+    #endregion
+
+    #region 이동(Move) 함수들
 
     /// <summary>
     /// 이동 함수입니다.
@@ -245,7 +266,11 @@ public class Enemy : MonoBehaviour {
         if (isArrived)
         {
             // 새로 가려는 목적지를 정합니다.
-            float z = t.position.z + GaussianRandom();
+            float z = t.position.z;
+            if (Mathf.Abs(Boundary.zMax) - Mathf.Abs(z) < 0.5f)
+                z = Random.Range(Boundary.zMin, Boundary.zMax);
+            else
+                z += GaussianRandom() * 1.2f;
             z = Mathf.Clamp(z, Boundary.zMin, Boundary.zMax);
             destPosition = new Vector3
             (
@@ -301,8 +326,8 @@ public class Enemy : MonoBehaviour {
         {
             // 새로 가려는 목적지를 정합니다.
             Vector3 playerPosition = player.GetComponent<Transform>().position;
-            float x = playerPosition.x + 0.3f * GaussianRandom();
-            float y = playerPosition.y + 0.3f * GaussianRandom();
+            float x = playerPosition.x + 0.8f * GaussianRandom();
+            float y = playerPosition.y + 0.6f * GaussianRandom();
             float z = playerPosition.z + 0.5f * GaussianRandom();
             x = Mathf.Clamp(x, Boundary.xMin, Boundary.xMax);
             y = Mathf.Clamp(y, Boundary.yMin, Boundary.yMax);
@@ -338,8 +363,42 @@ public class Enemy : MonoBehaviour {
 
     }
 
+    #endregion
+
+    #region 던지는(Shoot) 함수들
+
     /// <summary>
-    /// 칼을 던지는 함수입니다. 기본은 어려움 인공지능입니다.
+    /// 투사체를 던지는 함수입니다. 
+    /// 쉬움 인공지능에 사용됩니다.
+    /// </summary>
+    private void ShootEasy()
+    {
+        if (!isCharging)
+        {
+            chargedZ = 0f;
+            isCharging = true;
+            exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+            approxZ = GaussianRandom() * 0.8f;
+        }
+        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        {
+            chargedZ += Time.fixedDeltaTime * chargeSpeed;
+            /*
+                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                        new Vector2(exactTarget.x, exactTarget.y));
+            */
+        }
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        {
+            GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.3f, GaussianRandom() * 0.3f, approxZ));
+            isCharging = false;
+        }
+    }
+
+    /// <summary>
+    /// 투사체를 던지는 함수입니다. 
+    /// 어려움 인공지능에 사용됩니다.
     /// </summary>
     private void ShootHard()
     {
@@ -361,15 +420,52 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.3f, GaussianRandom() * 0.3f, approxZ));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, approxZ));
             isCharging = false;
         }
     }
 
+    /// <summary>
+    /// 투사체를 던지는 함수입니다.
+    /// 수호자(어려움) 인공지능에 사용됩니다.
+    /// </summary>
+    private void ShootInsane()
+    {
+        if (!isCharging)
+        {
+            chargedZ = 0f;
+            isCharging = true;
+            exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
+            approxZ = GaussianRandom() * 0.2f;
+        }
+        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        {
+            chargedZ += Time.fixedDeltaTime * chargeSpeed;
+            /*
+                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
+                        new Vector2(exactTarget.x, exactTarget.y));
+            */
+        }
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        {
+            GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, approxZ));
+            isCharging = false;
+        }
+    }
+
+    /// <summary>
+    /// 투사체를 던지지 않는 함수입니다.
+    /// 튜토리얼에 사용됩니다.
+    /// </summary>
     private void ShootNever()
     {
 
     }
+
+    #endregion
+
+    #region 공격받을 때(Damaged) 실행될 함수들
 
     /// <summary>
     /// 공격받았을 때 실행될 함수입니다.
@@ -536,7 +632,9 @@ public class Enemy : MonoBehaviour {
         blowend = null;
     }
 
-    
+    #endregion
+
+
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.

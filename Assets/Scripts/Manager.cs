@@ -37,7 +37,12 @@ public class Manager : MonoBehaviour {
     [SerializeField]
     private AudioClip loseSound;
     [SerializeField]
-    public AudioClip winSound;
+    private AudioClip winSound;
+
+    [SerializeField]
+    private float easyChargeSpeed;
+    [SerializeField]
+    private float hardChargeSpeed;
 
     public GameMode Mode
     {
@@ -74,6 +79,16 @@ public class Manager : MonoBehaviour {
     public GameObject SkipTutorialButton
     {
         set { skipTutorialButton = value; }
+    }
+
+    public float EasyChargeSpeed
+    {
+        get { return easyChargeSpeed; }
+    }
+
+    public float HardChargeSpeed
+    {
+        get { return hardChargeSpeed; }
     }
 
     private void Awake()
