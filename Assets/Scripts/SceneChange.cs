@@ -29,12 +29,20 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadTutorialScene());
     }
 
-    public void LoadConcentration()
+    public void LoadConcentrationEasy()
+    {
+        loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Shooting;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadConcentrationEasyScene());
+    }
+
+    public void LoadConcentrationHard()
     {
         loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Shooting;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadConcentrationScene());
+        StartCoroutine(LoadConcentrationHardScene());
     }
 
     public void LoadSufferanceEasy()
@@ -121,7 +129,12 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadConcentrationScene()
+    IEnumerator LoadConcentrationEasyScene()
+    {
+        yield return null;
+    }
+
+    IEnumerator LoadConcentrationHardScene()
     {
         yield return null;
     }
