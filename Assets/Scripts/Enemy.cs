@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour {
     private float chargedZ;
     private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
+    private float maxInvincibleTime = 3f;
     private Rigidbody r;
     private Transform t;
     private GameObject blowend;
@@ -91,6 +92,14 @@ public class Enemy : MonoBehaviour {
             move += MoveStalker;
             damaged += DamagedVS;
         }
+        else if (gameMode.Equals("Guardian"))
+        {
+            whileInvincible += WIMove;
+            vanish += VanishNormal;
+            move += MoveNever;
+            damaged += DamagedGuardian;
+            MoveGuardian();
+        }
 
         if (gameLevel.Equals("Hard") && !gameMode.Equals("Tutorial"))
         {
@@ -109,9 +118,9 @@ public class Enemy : MonoBehaviour {
             vanish();
         }
 
-        move();
-        
         if (Manager.instance.GetGameOver()) return;
+
+        move();
 
         shoot();
     }
@@ -122,6 +131,7 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void WINormal()
     {
+        if (Manager.instance.IsPaused) return;
         if (invincibleTime > 0f)
         {
             invincibleTime -= Time.fixedDeltaTime;
@@ -143,10 +153,11 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void WIMove()
     {
+        if (Manager.instance.IsPaused) return;
         if (invincibleTime > 0f)
         {
             invincibleTime -= Time.fixedDeltaTime;
-            t.SetPositionAndRotation(Vector3.Lerp(destPosition, startPosition, invincibleTime / 3f), Quaternion.identity);
+            t.SetPositionAndRotation(Vector3.Lerp(destPosition, startPosition, invincibleTime / maxInvincibleTime), Quaternion.identity);
         }
         if (invincibleTime < 0f)
         {
@@ -306,6 +317,22 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 수호자 인공지능의 이동 함수이지만, move의 이벤트로 사용되지 않는 함수입니다.
+    /// </summary>
+    private void MoveGuardian()
+    {
+        startPosition = GetComponent<Transform>().position;
+        destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
+            Random.Range(Boundary.yMin, Boundary.yMax), Random.Range(Boundary.zMin, Boundary.zMax));
+        invincibleTime = maxInvincibleTime;
+        myShield = Instantiate(divineShield, GetComponent<Transform>());
+    }
+
+    /// <summary>
+    /// 이동하지 않는 함수입니다.
+    /// 튜토리얼과 수호자 인공지능에 사용됩니다.
+    /// </summary>
     private void MoveNever()
     {
 
@@ -360,7 +387,7 @@ public class Enemy : MonoBehaviour {
             }
             if (Health > 0)
             {
-                invincibleTime = 3f;
+                invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
                 GetComponent<AudioSource>().clip = damagedSound;
                 GetComponent<AudioSource>().Play();
@@ -384,6 +411,53 @@ public class Enemy : MonoBehaviour {
 
             StartCoroutine("Blow");
             Manager.instance.WinGame();
+        }
+    }
+
+    /// <summary>
+    /// 공격받았을 때 실행될 함수입니다.
+    /// 수호자 인공지능에 사용됩니다.
+    /// </summary>
+    public void DamagedGuardian()
+    {
+        if (Health > 0 && invincibleTime <= 0f)
+        {
+            Debug.LogWarning("Enemy hit!");
+            health--;
+            if (hearts.Count > Health)
+            {
+                hearts[Health].SetActive(false);
+            }
+            if (Health > 0)
+            {
+                startPosition = GetComponent<Transform>().position;
+                destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
+                    Random.Range(Boundary.yMin, Boundary.yMax), Random.Range(Boundary.zMin, Boundary.zMax));
+                invincibleTime = maxInvincibleTime;
+                myShield = Instantiate(divineShield, GetComponent<Transform>());
+                GetComponent<AudioSource>().clip = damagedSound;
+                GetComponent<AudioSource>().Play();
+            }
+        }
+        else if (Health > 0 && invincibleTime > 0f)
+        {
+            GetComponent<AudioSource>().clip = guardSound;
+            GetComponent<AudioSource>().Play();
+        }
+
+        if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
+        {
+            invincibleTime = 0f;
+            GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            r.velocity = Vector3.zero;
+            GetComponent<AudioSource>().clip = killedSound;
+            GetComponent<AudioSource>().Play();
+
+            blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+
+            StartCoroutine("Blow");
+            Manager.instance.WinGame();
+
         }
     }
 
@@ -424,7 +498,7 @@ public class Enemy : MonoBehaviour {
                         "마우스로 상대를 조준하고 파란색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
                         "\"움직이지 않는 상대를 향해 칼을 던져서 1번 더 맞추세요.\"";
                 }
-                invincibleTime = 3f;
+                invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
                 GetComponent<AudioSource>().clip = damagedSound;
                 GetComponent<AudioSource>().Play();

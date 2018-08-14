@@ -27,6 +27,14 @@ public class Knife : MonoBehaviour {
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         start = t.position;
         isCracked = false;
+
+        if (Mathf.Abs(player.position.z - t.position.z) > 1f)
+        {
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = false;
+            }
+        }
     }
 
     // 매 프레임마다 자동으로 호출됩니다.
@@ -56,33 +64,43 @@ public class Knife : MonoBehaviour {
         if (Mathf.Abs(player.position.z - t.position.z) > 1f)
         {
             alpha = 0f;
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = false;
+            }
         }
-
-        else if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
+        else
         {
-            // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
-            if ((ownZ - otherZ) * (ownZ - t.position.z) < 0)
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
-                alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) - 1, 2);
-            }
-            // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
-            else
-            {
-                alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+                mr.enabled = true;
             }
 
+            if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
+            {
+                // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
+                if ((ownZ - otherZ) * (ownZ - t.position.z) < 0)
+                {
+                    alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) - 1, 2);
+                }
+                // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
+                else
+                {
+                    alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+                }
+
+            }
         }
 
-        if (owner==0)
+        if (owner == 0)
         {
             GetComponent<MeshRenderer>().material.color = new Color(0.3f, 0.3f, 0.3f, alpha);
-            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.05f)
+            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;
             }
         }
-        
         else if (Mathf.Abs(otherZ - t.position.z) < 0.15f)
         {
             GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0f, alpha);
