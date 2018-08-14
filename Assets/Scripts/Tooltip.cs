@@ -11,11 +11,13 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
     public GameObject tooltipPanelClone;
     public Text tooltipText;
     public Transform canvas;
+    public string text;
+    public int x, y;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltipText.text = "튜토리얼입니다.";
-        tooltipPanelClone = Instantiate(tooltipPanel, new Vector3(750, 514, 0), Quaternion.identity, canvas);
+        tooltipText.text = text;
+        tooltipPanelClone = Instantiate(tooltipPanel, new Vector3(x, y, 0), Quaternion.identity, canvas);
     }
 
     public void OnPointerExit(PointerEventData eventData)
