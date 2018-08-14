@@ -2880,7 +2880,6 @@ GameObject:
   - component: {fileID: 1383008002}
   - component: {fileID: 1383008001}
   - component: {fileID: 1383008000}
-  - component: {fileID: 1383007998}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -2888,18 +2887,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1383007998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1383007997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1641aa574316c8646b751f23f012d71f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1360910727}
 --- !u!23 &1383008000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2949,8 +2936,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1383007997}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 5.12, y: 3.84, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
+  m_LocalScale: {x: 12.8, y: 9.6, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

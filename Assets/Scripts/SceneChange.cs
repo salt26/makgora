@@ -29,17 +29,25 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadTutorialScene());
     }
 
-    public void LoadConcentration()
+    public void LoadConcentrationEasy()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Shooting;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadConcentrationEasyScene());
+    }
+
+    public void LoadConcentrationHard()
+    {
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Shooting;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadConcentrationScene());
+        StartCoroutine(LoadConcentrationHardScene());
     }
 
     public void LoadSufferanceEasy()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Avoiding;
         Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadSufferanceEasyScene());
@@ -47,7 +55,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadSufferanceHard()
     {
-        //loadinfPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Avoiding;
         Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadSufferanceHardScene());
@@ -55,7 +63,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadGuardianEasy()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Guardian;
         Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadMainGameScene());
@@ -63,7 +71,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadGuardianHard()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Guardian;
         Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadMainGameScene());
@@ -71,7 +79,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadVagabondEasy()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Vagabond;
         Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadMainGameScene());
@@ -87,7 +95,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadStalkerEasy()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Stalker;
         Manager.instance.Level = Manager.GameLevel.Easy;
         StartCoroutine(LoadMainGameScene());
@@ -103,7 +111,7 @@ public class SceneChange : MonoBehaviour {
 
     public void LoadNetMakgora()
     {
-        //loadingPanel.SetActive(true);
+        loadingPanel.SetActive(true);
         Manager.instance.Mode = Manager.GameMode.Network;
         Manager.instance.Level = Manager.GameLevel.Hard;
         StartCoroutine(LoadNetMakgoraScene());
@@ -121,7 +129,12 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadConcentrationScene()
+    IEnumerator LoadConcentrationEasyScene()
+    {
+        yield return null;
+    }
+
+    IEnumerator LoadConcentrationHardScene()
     {
         yield return null;
     }
