@@ -31,7 +31,8 @@ public class TutorialManager : MonoBehaviour {
 		if (phase == 0 && !isStarted)
         {
             isStarted = true;
-            tutorialText.text = "2차원 벡터공간에서 캐릭터를\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n\"파란색 공이 있는 곳으로 캐릭터를 움직이세요.\"";
+            tutorialText.text = "2차원 벡터공간에서 캐릭터를\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
+                "\"파란색 공이 있는 곳으로 캐릭터를 움직이세요.\"";
             Instantiate(destination, new Vector3(0.96f, 0.38f, 0f), Quaternion.identity);
             redHand.enabled = false;
         }
@@ -42,7 +43,9 @@ public class TutorialManager : MonoBehaviour {
                 "본인이 있는 시간은 초록색 침으로,\n상대가 있는 시간은 빨간색 침으로 표시됩니다.\n" +
                 "\"상대가 있는 시간대로 캐릭터를 움직이세요.\"";
             redHand.enabled = true;
-            //Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
+            Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
+            enemy.SetPositionAndRotation(
+                new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
         }
         else if (phase == 2 && !isStarted)
         {
@@ -54,7 +57,7 @@ public class TutorialManager : MonoBehaviour {
                 "\"움직이지 않는 상대를 향해 칼을 던져서 3번 맞추세요.\"";
 
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
-            enemy.SetPositionAndRotation(new Vector3(0.93f, -0.4f, 4f), enemy.rotation);
+            enemy.SetPositionAndRotation(new Vector3(0.93f, -0.4f, Boundary.RoundZ(4f)), enemy.rotation);
         }
 
         if (phase == 1 && isStarted && 
