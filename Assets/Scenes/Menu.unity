@@ -285,7 +285,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2DC\uAC04\uC744 \uB2EC\uB9AC\uB294 \uB9C9\uACE0\uB77C"
+  m_Text: "\uB9CC\uD654\uB97C \uB2EC\uB9AC\uB294 \uB9C9\uACE0\uB77C"
 --- !u!222 &110261359
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -386,7 +386,6 @@ GameObject:
   - component: {fileID: 199139167}
   - component: {fileID: 199139169}
   - component: {fileID: 199139168}
-  - component: {fileID: 199139170}
   m_Layer: 5
   m_Name: HardText
   m_TagString: Untagged
@@ -452,25 +451,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 199139166}
   m_CullTransparentMesh: 0
---- !u!114 &199139170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 199139166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a0db7124025c594bb3d9f6ec08af9cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
-    type: 2}
-  canvas: {fileID: 321055595}
-  text: "\uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uC5D0\uC11C\uB294"
-  x: 512
-  y: 574
-  width: 200
-  height: 50
 --- !u!1 &203405738
 GameObject:
   m_ObjectHideFlags: 0
