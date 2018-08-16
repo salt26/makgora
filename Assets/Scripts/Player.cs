@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour {
 
     public float speed;
+    public float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
@@ -16,11 +17,12 @@ public class Player : MonoBehaviour {
     public GameObject blow;
 
     private int health = 3;
-    private float chargeSpeed;           // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
+    private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
     private GameObject myShield;
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
+    private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
     private Rigidbody r;
     private GameObject blowend;
 
@@ -73,18 +75,36 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        if (temporalMoveCoolTime > 0f)
+        {
+            temporalMoveCoolTime -= Time.deltaTime;
+            if ((Input.GetKeyUp(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space)) ||
+                (Input.GetKeyUp(KeyCode.Space) && !Input.GetKey(KeyCode.LeftShift)))
+            {
+                temporalMoveCoolTime = 0f;
+            }
+        }
+
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-        float moveTemporal;
         if (SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0)
         {
-            moveTemporal = 0f;
+
         }
         else
         {
-            moveTemporal = Input.GetAxisRaw("Temporal");
-            if (moveTemporal != 0f)
+            if (Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
+            {
+                r.position = new Vector3(r.position.x, r.position.y, r.position.z - Boundary.OnePageToDeltaZ());
+                temporalMoveCoolTime = 1f / temporalSpeed;
+            }
+            else if (!Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
+            {
+                r.position = new Vector3(r.position.x, r.position.y, r.position.z + Boundary.OnePageToDeltaZ());
+                temporalMoveCoolTime = 1f / temporalSpeed;
+            }
+            if (temporalMoveCoolTime > 0f)
             {
                 moveHorizontal = 0f;
                 moveVertical = 0f;
@@ -92,7 +112,7 @@ public class Player : MonoBehaviour {
         }
 
         // 플레이어를 움직입니다.
-        Vector3 movement = new Vector3(moveHorizontal, moveVertical, moveTemporal);
+        Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
         if (!Manager.instance.GetGameOver())
         {
             r.velocity = movement.normalized * speed;

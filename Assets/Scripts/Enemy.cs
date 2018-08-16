@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour {
 
     public float speed;
+    public float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     public GameObject knife;
     public GameObject divineShield;
     public List<GameObject> hearts;
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour {
     private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float maxInvincibleTime = 3f;
+    private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
     private Rigidbody r;
     private Transform t;
     private GameObject blowend;
