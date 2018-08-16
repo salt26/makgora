@@ -88,11 +88,7 @@ public class Player : MonoBehaviour {
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-        if (SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0)
-        {
-
-        }
-        else
+        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0))
         {
             if (Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
             {

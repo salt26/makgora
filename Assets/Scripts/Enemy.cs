@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour {
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float maxInvincibleTime = 3f;
     private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
+    private float easyMoveCoolTime = 0f;// 쉬움 난이도에서 목적지에 도착하고 다시 움직이기까지 대기하는 시간입니다.
     private Rigidbody r;
     private Transform t;
     private GameObject blowend;
@@ -84,14 +85,14 @@ public class Enemy : MonoBehaviour {
         {
             whileInvincible += WINormal;
             vanish += VanishNormal;
-            move += MoveVagabond;
+            move += MoveVagabondHard;
             damaged += DamagedVS;
         }
         else if (gameMode.Equals("Stalker"))
         {
             whileInvincible += WINormal;
             vanish += VanishNormal;
-            move += MoveStalker;
+            move += MoveStalkerHard;
             damaged += DamagedVS;
         }
         else if (gameMode.Equals("Guardian"))
@@ -117,6 +118,16 @@ public class Enemy : MonoBehaviour {
         {
             shoot += ShootEasy;
             chargeSpeed = Manager.instance.EasyChargeSpeed;
+            if (gameMode.Equals("Vagabond"))
+            {
+                move -= MoveVagabondHard;
+                move += MoveVagabondEasy;
+            }
+            else if (gameMode.Equals("Stalker"))
+            {
+                move -= MoveStalkerHard;
+                move += MoveStalkerEasy;
+            }
         }
     }
 
@@ -229,9 +240,9 @@ public class Enemy : MonoBehaviour {
 
     /// <summary>
     /// 이동 함수입니다.
-    /// 방랑자 인공지능에 사용됩니다.
+    /// 방랑자(어려움) 인공지능에 사용됩니다.
     /// </summary>
-    private void MoveVagabond()
+    private void MoveVagabondHard()
     {
         if (!isArrived &&
             Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
@@ -296,9 +307,83 @@ public class Enemy : MonoBehaviour {
 
     /// <summary>
     /// 이동 함수입니다.
-    /// 추적자 인공지능에 사용됩니다.
+    /// 방랑자(쉬움) 인공지능에 사용됩니다.
     /// </summary>
-    private void MoveStalker()
+    private void MoveVagabondEasy()
+    {
+        if (easyMoveCoolTime > 0f)
+        {
+            r.velocity = Vector3.zero;
+            easyMoveCoolTime -= Time.fixedDeltaTime;
+        }
+
+        if (!isArrived &&
+            Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지에 도착했습니다.
+            easyMoveCoolTime = Random.Range(0f, 1f);
+            isArrived = true;
+        }
+        else if (!isArrived && temporalMoveCoolTime > 0f)
+        {
+            temporalMoveCoolTime -= Time.fixedDeltaTime;
+        }
+        else if (!isArrived &&
+            Mathf.Abs(t.position.z - destPosition.z) > Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지를 향해 시간 축을 따라 이동합니다.
+            r.velocity = Vector3.zero;
+            float deltaZ;
+            if (t.position.z > destPosition.z) deltaZ = -Boundary.OnePageToDeltaZ();
+            else deltaZ = Boundary.OnePageToDeltaZ();
+            temporalMoveCoolTime = 1f / temporalSpeed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z + deltaZ, Boundary.zMin, Boundary.zMax)
+            );
+        }
+        else if (!isArrived)
+        {
+            // 목적지를 향해 XY평면을 따라 이동합니다.
+            Vector3 movement = destPosition - t.position;
+            movement.z = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
+
+        if (isArrived && easyMoveCoolTime <= 0f)
+        {
+            // 새로 가려는 목적지를 정합니다.
+            float z = t.position.z;
+            if (Mathf.Abs(Boundary.zMax) - Mathf.Abs(z) < 0.5f)
+                z = Random.Range(Boundary.zMin, Boundary.zMax);
+            else
+                z += GaussianRandom() * 1.2f;
+            z = Mathf.Clamp(z, Boundary.zMin, Boundary.zMax);
+            destPosition = new Vector3
+            (
+                Random.Range(Boundary.xMin, Boundary.xMax),
+                Random.Range(Boundary.yMin, Boundary.yMax),
+                Boundary.RoundZ(z)
+            );
+            isArrived = false;
+        }
+    }
+
+    /// <summary>
+    /// 이동 함수입니다.
+    /// 추적자(어려움) 인공지능에 사용됩니다.
+    /// </summary>
+    private void MoveStalkerHard()
     {
         if (!isArrived &&
             Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
@@ -363,6 +448,81 @@ public class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// 이동 함수입니다.
+    /// 추적자(쉬움) 인공지능에 사용됩니다.
+    /// </summary>
+    private void MoveStalkerEasy()
+    {
+        if (easyMoveCoolTime > 0f)
+        {
+            r.velocity = Vector3.zero;
+            easyMoveCoolTime -= Time.fixedDeltaTime;
+        }
+
+        if (!isArrived &&
+            Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지에 도착했습니다.
+            easyMoveCoolTime = Random.Range(0f, 1f);
+            isArrived = true;
+        }
+        else if (!isArrived && temporalMoveCoolTime > 0f)
+        {
+            temporalMoveCoolTime -= Time.fixedDeltaTime;
+        }
+        else if (!isArrived &&
+            Mathf.Abs(t.position.z - destPosition.z) > Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지를 향해 시간 축을 따라 이동합니다.
+            r.velocity = Vector3.zero;
+            float deltaZ;
+            if (t.position.z > destPosition.z) deltaZ = -Boundary.OnePageToDeltaZ();
+            else deltaZ = Boundary.OnePageToDeltaZ();
+            temporalMoveCoolTime = 1f / temporalSpeed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z + deltaZ, Boundary.zMin, Boundary.zMax)
+            );
+        }
+        else if (!isArrived)
+        {
+            // 목적지를 향해 XY평면을 따라 이동합니다.
+            Vector3 movement = destPosition - t.position;
+            movement.z = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
+
+        if (isArrived && easyMoveCoolTime <= 0f)
+        {
+            // 새로 가려는 목적지를 정합니다.
+            Vector3 playerPosition = player.GetComponent<Transform>().position;
+            float x = playerPosition.x + 0.8f * GaussianRandom();
+            float y = playerPosition.y + 0.6f * GaussianRandom();
+            float z = playerPosition.z + 0.5f * GaussianRandom();
+            x = Mathf.Clamp(x, Boundary.xMin, Boundary.xMax);
+            y = Mathf.Clamp(y, Boundary.yMin, Boundary.yMax);
+            z = Mathf.Clamp(Boundary.RoundZ(z), Boundary.zMin, Boundary.zMax);
+            destPosition = new Vector3
+            (
+                x,
+                y,
+                z
+            );
+            isArrived = false;
+        }
+    }
+
+    /// <summary>
     /// 수호자 인공지능의 이동 함수이지만, move의 이벤트로 사용되지 않는 함수입니다.
     /// </summary>
     private void MoveGuardian()
@@ -398,7 +558,7 @@ public class Enemy : MonoBehaviour {
             chargedZ = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.8f;
+            approxZ = GaussianRandom() * 1f;
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {
@@ -411,7 +571,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.3f, GaussianRandom() * 0.3f, approxZ));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, approxZ));
             isCharging = false;
         }
     }

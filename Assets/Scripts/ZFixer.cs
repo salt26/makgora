@@ -9,17 +9,18 @@ public class ZFixer : MonoBehaviour {
 
     private void Awake()
     {
-        initZ = GetComponent<Transform>().position.z;
+        initZ = GetComponent<Rigidbody>().position.z;
     }
 
     private void FixedUpdate()
     {
         if (player != null)
         {
-            GetComponent<Transform>().position = new Vector3(
-                GetComponent<Transform>().position.x,
-                GetComponent<Transform>().position.y,
-                initZ + player.GetComponent<Transform>().position.z);
+            GetComponent<Rigidbody>().MovePosition(
+                new Vector3(
+                GetComponent<Rigidbody>().position.x,
+                GetComponent<Rigidbody>().position.y,
+                initZ + player.GetComponent<Rigidbody>().position.z));
         }
     }
 }
