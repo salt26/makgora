@@ -26,4 +26,10 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         Destroy(tooltipPanelClone);
         tooltipPanelClone = null;
     }
+
+    public void DestroyTooltip()
+    {
+        Destroy(tooltipPanelClone);
+        tooltipPanelClone = null;
+    }
 }

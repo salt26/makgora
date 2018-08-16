@@ -9,7 +9,6 @@ using UnityEditor;
 public class SceneChange : MonoBehaviour {
 
     public GameObject loadingPanel;
-    //public GameObject inDevelopmentPanel;
     AsyncOperation asyncLoad = null;
 
     public void QuitButton()
