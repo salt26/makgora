@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ZFixer : MonoBehaviour {
 
-    public GameObject player;
+    [SerializeField]
+    private GameObject player;
     private float initZ;
 
     private void Awake()
