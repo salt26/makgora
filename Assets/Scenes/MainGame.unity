@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.7
+  temporalSpeed: 14
   knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
