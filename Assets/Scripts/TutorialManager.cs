@@ -9,6 +9,7 @@ public class TutorialManager : MonoBehaviour {
     public Text tutorialText;
     public GameObject destination;
     public Image redHand;
+    public Text redText;
 
     private int phase;  // 0: XY평면 상 이동, 1: 시간축 상 이동, 2: 멈춘 적 맞추기
     private bool isStarted;   // phase 시작 전에 false
@@ -35,6 +36,7 @@ public class TutorialManager : MonoBehaviour {
                 "\"파란색 공이 있는 곳으로 캐릭터를 움직이세요.\"";
             Instantiate(destination, new Vector3(0.2f, 0.56f, 0f), Quaternion.identity);
             redHand.enabled = false;
+            redText.enabled = false;
         }
         else if (phase == 1 && !isStarted)
         {
@@ -43,6 +45,7 @@ public class TutorialManager : MonoBehaviour {
                 "본인이 있는 시간은 초록색 침으로,\n상대가 있는 시간은 빨간색 침으로 표시됩니다.\n" +
                 "\"상대가 있는 시간대로 캐릭터를 움직이세요.\"";
             redHand.enabled = true;
+            redText.enabled = true;
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
