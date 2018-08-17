@@ -779,7 +779,7 @@ public class Enemy : MonoBehaviour {
                 startPosition = GetComponent<Transform>().position;
                 if (Health == 2)
                 {
-                    destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(2.89f));
+                    destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(4f));
                     GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
                         "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
                         "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 파란색 침은 칼이 향할 시간을 가리킵니다.\n" +
