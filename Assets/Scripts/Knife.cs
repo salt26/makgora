@@ -109,7 +109,7 @@ public class Knife : MonoBehaviour {
                 isCracked = true;
             }
         }
-        else if (Mathf.Abs(otherZ - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        else if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
         {
             GetComponent<MeshRenderer>().material.color = AlphaColor(presentEnemyColor, alpha);
         }
@@ -164,7 +164,7 @@ public class Knife : MonoBehaviour {
         }
     }
 
-    private Color AlphaColor(Color c, float alpha)
+    public Color AlphaColor(Color c, float alpha)
     {
         return new Color(c.r, c.g, c.b, alpha);
     }
