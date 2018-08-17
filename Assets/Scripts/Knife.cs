@@ -22,9 +22,10 @@ public class Knife : MonoBehaviour {
     [Header("Colors")]
     public Color pastPastColor;
     public Color pastColor;
-    public Color presentColor;
+    public Color presentEnemyColor;
     public Color futureColor;
     public Color futureFutureColor;
+    public Color playerColor;
 
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
@@ -101,7 +102,7 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(0.3f, 0.3f, 0.3f, alpha);
+            GetComponent<MeshRenderer>().material.color = AlphaColor(playerColor, alpha);
             if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
@@ -110,7 +111,7 @@ public class Knife : MonoBehaviour {
         }
         else if (Mathf.Abs(otherZ - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
         {
-            GetComponent<MeshRenderer>().material.color = AlphaColor(presentColor, alpha);
+            GetComponent<MeshRenderer>().material.color = AlphaColor(presentEnemyColor, alpha);
         }
         else if (t.position.z < player.position.z)
         {

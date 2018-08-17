@@ -224,6 +224,7 @@ MonoBehaviour:
   flare: {fileID: 1598354684554190, guid: eb0d1e5dc992e0e4f81cddf94baff1a5, type: 2}
   pastPastColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0}
   pastColor: {r: 0.0754717, g: 0.0751157, b: 0.0751157, a: 0}
-  presentColor: {r: 0.8773585, g: 0.15312389, b: 0.3351305, a: 0}
+  presentEnemyColor: {r: 0.9056604, g: 0.10679956, b: 0.3124054, a: 0}
   futureColor: {r: 0.40792987, g: 0.8109983, b: 0.9716981, a: 0}
   futureFutureColor: {r: 0.10092559, g: 0.1780431, b: 0.33962262, a: 0}
+  playerColor: {r: 0.10218088, g: 0.8301887, b: 0.08223567, a: 0}
