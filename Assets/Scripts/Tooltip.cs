@@ -16,9 +16,12 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        tooltipPanelClone = Instantiate(tooltipPanel, new Vector3(x, y, 0), Quaternion.identity, canvas);
-        tooltipPanelClone.GetComponent<RectTransform>().sizeDelta = new Vector2(width,height);
-        tooltipPanelClone.GetComponentInChildren<Text>().text = text;
+        if (gameObject.GetComponent<Button>().interactable)
+        {
+            tooltipPanelClone = Instantiate(tooltipPanel, new Vector3(x, y, 0), Quaternion.identity, canvas);
+            tooltipPanelClone.GetComponent<RectTransform>().sizeDelta = new Vector2(width,height);
+            tooltipPanelClone.GetComponentInChildren<Text>().text = text;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
