@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour {
     public AudioClip guardSound;
     public AudioClip killedSound;
     public GameObject blow;
+    public GameObject zLocation;
 
     private int health = 3;
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
@@ -106,6 +108,8 @@ public class Player : MonoBehaviour {
                 moveVertical = 0f;
             }
         }
+
+        zLocation.GetComponentInChildren<Text>().text = "" + Boundary.ZToPage(r.position.z);
 
         // 플레이어를 움직입니다.
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
