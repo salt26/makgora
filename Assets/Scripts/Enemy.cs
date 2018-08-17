@@ -529,7 +529,7 @@ public class Enemy : MonoBehaviour {
     {
         startPosition = GetComponent<Transform>().position;
         destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
-            Random.Range(Boundary.yMin, Boundary.yMax), Random.Range(Boundary.zMin, Boundary.zMax));
+            Random.Range(Boundary.yMin, Boundary.yMax), Boundary.RoundZ(Random.Range(Boundary.zMin, Boundary.zMax)));
         invincibleTime = maxInvincibleTime;
         myShield = Instantiate(divineShield, GetComponent<Transform>());
     }
@@ -571,7 +571,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, approxZ));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
         }
     }
@@ -600,7 +600,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, approxZ));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
         }
     }
@@ -629,7 +629,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, approxZ));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
             isCharging = false;
         }
     }

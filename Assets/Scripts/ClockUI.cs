@@ -36,11 +36,11 @@ public class ClockUI : MonoBehaviour {
         */
         if (player.GetComponent<Player>().Health > 0)
         {
-            greenHand.SetPositionAndRotation(greenHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * player.position.z));
+            greenHand.SetPositionAndRotation(greenHand.position, Quaternion.Euler(0f, 0f, -30f * player.position.z));
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
-            redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
+            redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -30f * enemy.position.z));
         }
     }
 }
