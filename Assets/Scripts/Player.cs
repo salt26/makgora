@@ -160,12 +160,18 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ -= Time.deltaTime * chargeSpeed;
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v == 0)
+                            chargedZ -= Time.deltaTime * chargeSpeed;
+                        else if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /* 
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -193,13 +199,19 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ += Time.deltaTime * chargeSpeed;
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v == 0)
+                            chargedZ += Time.deltaTime * chargeSpeed;
+                        else if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
 
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -227,7 +239,13 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = chargedZ;
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else if (v > 0)
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
+
+                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -250,7 +268,7 @@ public class Player : MonoBehaviour {
                     k.GetComponent<Knife>().Initialize(0, new Vector3(
                         ray.origin.x + ray.direction.x * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                         ray.origin.y + ray.direction.y * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
-                        GetComponent<Transform>().position.z + chargedZ));
+                        GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
                     Destroy(targetObject);
                     targetObject = null;
                     chargedZ = 0f;

@@ -57,15 +57,15 @@ public class ChargeUI : MonoBehaviour {
     public void SetRectTransform()
     {
         GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
-        if (player.GetComponent<Player>().Health > 0 && chargedZ != 0f)
+        if (player.GetComponent<Player>().Health > 0)
         {
             blueHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * (player.position.z + chargedZ)));
+                Quaternion.Euler(0f, 0f, -30f * (player.position.z + Boundary.RoundZ(chargedZ))));
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
             redHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, -6f * Time.fixedTime - 18f * enemy.position.z));
+                Quaternion.Euler(0f, 0f, -30f * enemy.position.z));
         }
     }
 

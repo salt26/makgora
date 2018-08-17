@@ -167,8 +167,8 @@ public class Manager : MonoBehaviour {
     public void StartButton()
     {
         Time.timeScale = 1f;
-        instance.isPaused = false;
         instance.pausePanel.SetActive(false);
+        StartCoroutine("Unpause");
     }
 
     /* TODO 
@@ -179,6 +179,12 @@ public class Manager : MonoBehaviour {
         // TODO instance.pauseText = "Paused";
         instance.pausePanel.SetActive(true);
         Pause();
+    }
+
+    IEnumerator Unpause()
+    {
+        yield return null;
+        instance.isPaused = false;
     }
 
     IEnumerator Lose()

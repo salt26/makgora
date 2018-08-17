@@ -19,6 +19,14 @@ public class Knife : MonoBehaviour {
 
     public GameObject flare;
 
+    [Header("Colors")]
+    public Color pastPastColor;
+    public Color pastColor;
+    public Color presentEnemyColor;
+    public Color futureColor;
+    public Color futureFutureColor;
+    public Color playerColor;
+
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
     {
@@ -75,7 +83,7 @@ public class Knife : MonoBehaviour {
             {
                 mr.enabled = true;
             }
-
+            
             if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
             {
                 // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
@@ -94,24 +102,28 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(0.3f, 0.3f, 0.3f, alpha);
+            GetComponent<MeshRenderer>().material.color = AlphaColor(playerColor, alpha);
             if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;
             }
         }
-        else if (Mathf.Abs(otherZ - t.position.z) < 0.15f)
+        else if (Mathf.Abs(otherZ - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(1f, 1f, 0f, alpha);
+            GetComponent<MeshRenderer>().material.color = AlphaColor(presentEnemyColor, alpha);
         }
         else if (t.position.z < player.position.z)
         {
-            GetComponent<MeshRenderer>().material.color = new Color(0f, 0f, 1f, alpha);
+            GetComponent<MeshRenderer>().material.color = 
+                AlphaColor(Color.Lerp(pastColor, pastPastColor, 
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
         }
         else
         {
-            GetComponent<MeshRenderer>().material.color = new Color(0f, 1f, 0f, alpha);
+            GetComponent<MeshRenderer>().material.color =
+                AlphaColor(Color.Lerp(futureColor, futureFutureColor,
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
         }
 
         if (Mathf.Abs(t.position.z) > Boundary.zMax + 1f || Mathf.Abs(t.position.x) > Boundary.xMax + 1f || Mathf.Abs(t.position.y) > Boundary.yMax + 1f)
@@ -150,5 +162,10 @@ public class Knife : MonoBehaviour {
             other.GetComponent<Enemy>().damaged();
             Destroy(gameObject);
         }
+    }
+
+    private Color AlphaColor(Color c, float alpha)
+    {
+        return new Color(c.r, c.g, c.b, alpha);
     }
 }
