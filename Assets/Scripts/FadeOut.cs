@@ -26,23 +26,26 @@ public class FadeOut : MonoBehaviour {
         else
         {
             float alpha;
-            if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.5f)
+            if (Mathf.Abs(player.position.z - t.position.z) > Boundary.OnePageToDeltaZ() * 1.5f)
             {
+                GetComponent<SpriteRenderer>().enabled = false;
+                return;
+            }
+            else if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.5f)
+            {
+                GetComponent<SpriteRenderer>().enabled = true;
                 alpha = 1f;
             }
             else if (player.position.z - t.position.z > Boundary.OnePageToDeltaZ() * 0.5f &&
                 player.position.z - t.position.z < Boundary.OnePageToDeltaZ() * 1.5f)
             {
+                GetComponent<SpriteRenderer>().enabled = true;
                 alpha = 0.5f;
-            }
-            else if (player.position.z - t.position.z < -Boundary.OnePageToDeltaZ() * 0.5f &&
-                player.position.z - t.position.z > -Boundary.OnePageToDeltaZ() * 1.5f)
-            {
-                alpha = 0.7f;
             }
             else
             {
-                alpha = 0f;
+                GetComponent<SpriteRenderer>().enabled = true;
+                alpha = 0.7f;
             }
 
             if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
