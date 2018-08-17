@@ -15,12 +15,15 @@ public static class Boundary
     /// <returns></returns>
     public static float PageToZ(int page)
     {
+        /*
         if (page < pageBase) return zMin - 1f;
         else if (page > pageBase + pageNum) return zMax + 1f;
         else
         {
             return Mathf.Lerp(zMin, zMax, (page - pageBase) / (float)pageNum);
         }
+        */
+        return Mathf.LerpUnclamped(zMin, zMax, (page - pageBase) / (float)pageNum);
     }
 
     /// <summary>
@@ -30,12 +33,15 @@ public static class Boundary
     /// <returns></returns>
     public static int ZToPage(float z)
     {
+        /*
         if (z < zMin) return pageBase - 1;
         else if (z > zMax) return pageBase + pageNum + 1;
         else
         {
             return Mathf.RoundToInt(Mathf.Lerp(pageBase, pageBase + pageNum, (z - zMin) / (zMax - zMin)));
         }
+        */
+        return Mathf.RoundToInt(Mathf.LerpUnclamped(pageBase, pageBase + pageNum, (z - zMin) / (zMax - zMin)));
     }
 
     /// <summary>
@@ -49,6 +55,7 @@ public static class Boundary
 
     /// <summary>
     /// 인자로 주어진 z좌표에서 가장 가까운, 페이지 상의 z좌표를 반환합니다.
+    /// 맵 경계를 벗어난 z좌표를 반환할 수도 있습니다.
     /// </summary>
     /// <param name="z"></param>
     /// <returns></returns>
@@ -56,4 +63,30 @@ public static class Boundary
     {
         return PageToZ(ZToPage(z));
     } 
+
+    /// <summary>
+    /// 인자로 주어진 페이지가 맵에서 갈 수 있는 페이지이면 0을 반환합니다.
+    /// 페이지가 너무 작으면 -1을, 너무 크면 1을 반환합니다.
+    /// </summary>
+    /// <param name="page"></param>
+    /// <returns></returns>
+    public static int IsValid(int page)
+    {
+        if (page < pageBase) return -1;
+        else if (page > pageBase + pageNum) return 1;
+        else return 0;
+    }
+
+    /// <summary>
+    /// 인자로 주어진 z좌표가 맵 경계 안쪽의 z좌표이면 0을 반환합니다.
+    /// z좌표가 너무 작으면 -1을, 너무 크면 1을 반환합니다.
+    /// </summary>
+    /// <param name="z"></param>
+    /// <returns></returns>
+    public static int IsValid(float z)
+    {
+        if (z < zMin) return -1;
+        else if (z > zMax) return 1;
+        else return 0;
+    }
 }

@@ -160,7 +160,13 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ -= Time.deltaTime * chargeSpeed;
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v == 0)
+                            chargedZ -= Time.deltaTime * chargeSpeed;
+                        else if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
@@ -193,7 +199,13 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
-                        chargedZ += Time.deltaTime * chargeSpeed;
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v == 0)
+                            chargedZ += Time.deltaTime * chargeSpeed;
+                        else if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
 
                         /*
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
@@ -227,6 +239,12 @@ public class Player : MonoBehaviour {
 
                     if (targetObject != null)
                     {
+                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                        if (v < 0)
+                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                        else if (v > 0)
+                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
+
                         targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),

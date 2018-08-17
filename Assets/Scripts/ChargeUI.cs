@@ -60,12 +60,12 @@ public class ChargeUI : MonoBehaviour {
         if (player.GetComponent<Player>().Health > 0)
         {
             blueHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, 90f - 18f * (player.position.z + Boundary.RoundZ(chargedZ))));
+                Quaternion.Euler(0f, 0f, -30f * (player.position.z + Boundary.RoundZ(chargedZ))));
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
             redHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, 90f - 18f * enemy.position.z));
+                Quaternion.Euler(0f, 0f, -30f * enemy.position.z));
         }
     }
 
