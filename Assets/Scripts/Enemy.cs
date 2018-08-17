@@ -653,6 +653,8 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     public void DamagedVS()
     {
+        if (Manager.instance.GetGameOver()) return;
+
         if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Enemy hit!");
@@ -696,6 +698,8 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     public void DamagedGuardian()
     {
+        if (Manager.instance.GetGameOver()) return;
+
         if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Enemy hit!");
@@ -744,6 +748,8 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     public void DamagedTutorial()
     {
+        if (Manager.instance.GetGameOver()) return;
+
         if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Enemy hit!");

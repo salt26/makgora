@@ -77,6 +77,8 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        #region 움직이는(move) 코드
+
         if (temporalMoveCoolTime > 0f)
         {
             temporalMoveCoolTime -= Time.deltaTime;
@@ -90,7 +92,8 @@ public class Player : MonoBehaviour {
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0))
+        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0) &&
+            !Manager.instance.GetGameOver())
         {
             if (Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
             {
@@ -130,6 +133,8 @@ public class Player : MonoBehaviour {
             Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
         );
 
+        #endregion
+
         if (Manager.instance.GetGameOver())
         {
             if (targetObject != null)
@@ -140,6 +145,8 @@ public class Player : MonoBehaviour {
             return;
         }
         if (Manager.instance.IsPaused) return;
+
+        #region 던지는(shoot) 코드
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
@@ -279,6 +286,7 @@ public class Player : MonoBehaviour {
                 }
             }
         }
+        #endregion
     }
 
     void FixedUpdate()
@@ -300,6 +308,8 @@ public class Player : MonoBehaviour {
 
     public void Damaged()
     {
+        if (Manager.instance.GetGameOver()) return;
+
         if (Health > 0 && invincibleTime <= 0f)
         {
             Debug.LogWarning("Player hit!");
