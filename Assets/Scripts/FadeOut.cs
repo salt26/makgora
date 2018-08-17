@@ -25,20 +25,39 @@ public class FadeOut : MonoBehaviour {
         }
         else
         {
-            float alpha = 1f;
+            float alpha;
+            if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.5f)
+            {
+                alpha = 1f;
+            }
+            else if (player.position.z - t.position.z > Boundary.OnePageToDeltaZ() * 0.5f &&
+                player.position.z - t.position.z < Boundary.OnePageToDeltaZ() * 1.5f)
+            {
+                alpha = 0.5f;
+            }
+            else if (player.position.z - t.position.z < -Boundary.OnePageToDeltaZ() * 0.5f &&
+                player.position.z - t.position.z > -Boundary.OnePageToDeltaZ() * 1.5f)
+            {
+                alpha = 0.7f;
+            }
+            else
+            {
+                alpha = 0f;
+            }
+
             if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
             {
-                GetComponent<MeshRenderer>().material.color = knife.AlphaColor(knife.presentEnemyColor, alpha);
+                GetComponent<SpriteRenderer>().color = knife.AlphaColor(Color.black, alpha);
             }
             else if (t.position.z < player.position.z)
             {
-                GetComponent<MeshRenderer>().material.color =
+                GetComponent<SpriteRenderer>().color =
                     knife.AlphaColor(Color.Lerp(knife.pastColor, knife.pastPastColor,
                     Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
             }
             else
             {
-                GetComponent<MeshRenderer>().material.color =
+                GetComponent<SpriteRenderer>().color =
                     knife.AlphaColor(Color.Lerp(knife.futureColor, knife.futureFutureColor,
                     Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
             }
