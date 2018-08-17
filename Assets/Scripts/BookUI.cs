@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ClockUI : MonoBehaviour {
+public class BookUI : MonoBehaviour {
 
     public Transform player;
     public Transform enemy;
 
-    public Transform greenHand;
-    public Transform redHand;
+    public RectTransform greenPage;
+    public Text greenText;
+    public RectTransform redPage;
+    public Text redText;
 
 	void FixedUpdate () {
         /*
@@ -36,11 +38,15 @@ public class ClockUI : MonoBehaviour {
         */
         if (player.GetComponent<Player>().Health > 0)
         {
-            greenHand.SetPositionAndRotation(greenHand.position, Quaternion.Euler(0f, 0f, -30f * player.position.z));
+            greenPage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                ((Boundary.ZToPage(player.position.z) - Boundary.pageBase) / (float)Boundary.pageNum)), greenPage.anchoredPosition.y);
+            greenText.text = Boundary.ZToPage(player.position.z).ToString();
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
-            redHand.SetPositionAndRotation(redHand.position, Quaternion.Euler(0f, 0f, -30f * enemy.position.z));
+            redPage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                ((Boundary.ZToPage(enemy.position.z) - Boundary.pageBase) / (float)Boundary.pageNum)), redPage.anchoredPosition.y);
+            redText.text = Boundary.ZToPage(enemy.position.z).ToString();
         }
     }
 }
