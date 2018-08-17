@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BackgroundModifier : MonoBehaviour {
 
+    public SpriteRenderer pastSprite;
+    public SpriteRenderer presentSprite;
+    public SpriteRenderer futureSprite;
     public List<Sprite> backgrounds = new List<Sprite>();
 
     [SerializeField]
@@ -14,10 +17,22 @@ public class BackgroundModifier : MonoBehaviour {
         if (player != null)
         {
             int pageNumber = Boundary.ZToPage(player.GetComponent<Rigidbody>().position.z);
-            Debug.Log(pageNumber);
-            GetComponentInChildren<SpriteRenderer>().sprite = 
+            if (pageNumber > Boundary.pageBase)
+                pastSprite.sprite =
+                    backgrounds[Mathf.Abs(pageNumber - 1) % backgrounds.Count];
+            else
+                pastSprite.sprite = null;
+
+            presentSprite.sprite =
                 backgrounds[Mathf.Abs(pageNumber) % backgrounds.Count];
 
+            if (pageNumber < Boundary.pageBase + Boundary.pageNum)
+                futureSprite.sprite = 
+                    backgrounds[Mathf.Abs(pageNumber + 1) % backgrounds.Count];
+            else
+                futureSprite.sprite = null;
+
+            /*
             switch ((pageNumber / backgrounds.Count) % 4)
             {
                 case 0:
@@ -37,6 +52,7 @@ public class BackgroundModifier : MonoBehaviour {
                     GetComponentInChildren<SpriteRenderer>().flipY = true;
                     break;
             }
+            */
         }
     }
 }
