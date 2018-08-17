@@ -17,6 +17,8 @@ public class Player : MonoBehaviour {
     public AudioClip killedSound;
     public GameObject blow;
     public GameObject zLocation;
+    public RectTransform purplePage;
+    public Text purpleText;
 
     private int health = 3;
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
@@ -73,6 +75,8 @@ public class Player : MonoBehaviour {
             {
                 Destroy(targetObject);
                 targetObject = null;
+                purplePage.GetComponent<Image>().enabled = false;
+                purpleText.enabled = false;
             }
             return;
         }
@@ -141,6 +145,8 @@ public class Player : MonoBehaviour {
             {
                 Destroy(targetObject);
                 targetObject = null;
+                purplePage.GetComponent<Image>().enabled = false;
+                purpleText.enabled = false;
             }
             return;
         }
@@ -162,6 +168,8 @@ public class Player : MonoBehaviour {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
                         targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
                         targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        purplePage.GetComponent<Image>().enabled = true;
+                        purpleText.enabled = true;
                     }
                     else
                     {
@@ -187,6 +195,10 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
+                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
+                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
                     }
                 }
             }
@@ -202,6 +214,8 @@ public class Player : MonoBehaviour {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
                         targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
                         targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        purplePage.GetComponent<Image>().enabled = true;
+                        purpleText.enabled = true;
                     }
                     else
                     {
@@ -227,6 +241,10 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
+                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
+                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
                     }
                 }
             }
@@ -242,6 +260,8 @@ public class Player : MonoBehaviour {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
                         targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
                         targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        purplePage.GetComponent<Image>().enabled = true;
+                        purpleText.enabled = true;
                     }
                     else
                     {
@@ -261,6 +281,10 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
+                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
+                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
                     }
                 }
             }
@@ -282,6 +306,8 @@ public class Player : MonoBehaviour {
                         GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
                     Destroy(targetObject);
                     targetObject = null;
+                    purplePage.GetComponent<Image>().enabled = false;
+                    purpleText.enabled = false;
                     chargedZ = 0f;
                 }
             }
