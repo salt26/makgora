@@ -19,14 +19,6 @@ public class Knife : MonoBehaviour {
 
     public GameObject flare;
 
-    [Header("Colors")]
-    public Color pastPastColor;
-    public Color pastColor;
-    public Color presentEnemyColor;
-    public Color futureColor;
-    public Color futureFutureColor;
-    public Color playerColor;
-
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
     {
@@ -102,27 +94,30 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            GetComponent<MeshRenderer>().material.color = AlphaColor(playerColor, alpha);
             if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;
             }
         }
-        else if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
         {
-            GetComponent<MeshRenderer>().material.color = AlphaColor(presentEnemyColor, alpha);
+            if (owner == 0)
+                GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, alpha);
+            else
+                GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
         }
         else if (t.position.z < player.position.z)
         {
-            GetComponent<MeshRenderer>().material.color = 
-                AlphaColor(Color.Lerp(pastColor, pastPastColor, 
+            GetComponent<MeshRenderer>().material.color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor, 
                 Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
         }
         else
         {
             GetComponent<MeshRenderer>().material.color =
-                AlphaColor(Color.Lerp(futureColor, futureFutureColor,
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                 Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
         }
 
@@ -162,10 +157,5 @@ public class Knife : MonoBehaviour {
             other.GetComponent<Enemy>().damaged();
             Destroy(gameObject);
         }
-    }
-
-    public Color AlphaColor(Color c, float alpha)
-    {
-        return new Color(c.r, c.g, c.b, alpha);
     }
 }

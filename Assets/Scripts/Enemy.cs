@@ -208,6 +208,8 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void VanishNormal()
     {
+        float alpha = Mathf.Max(0f, 1f - Mathf.Pow(Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z), 2));
+
         if (1 - Mathf.Abs(GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) < 0)
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
@@ -215,22 +217,36 @@ public class Enemy : MonoBehaviour {
                 mr.enabled = false;
             }
         }
+        else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        {
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = true;
+            }
+            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+            m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+        }
+        else if (t.position.z < player.GetComponent<Transform>().position.z)
+        {
+            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            {
+                mr.enabled = true;
+            }
+            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+            m.color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
+                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+        }
         else
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = true;
-                foreach (Material m in mr.materials)
-                {
-                    /*
-                    m.color = new Color(m.color.r, m.color.g, m.color.b,
-                        Mathf.Pow(Mathf.Max(0, 1 - Mathf.Abs(
-                            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z)), 2));
-                    */
-                    m.color = new Color(m.color.r, m.color.g, m.color.b, Mathf.Max(0, 1 - Mathf.Abs(
-                            GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z)));
-                }
             }
+            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+            m.color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
+                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
         }
     }
 

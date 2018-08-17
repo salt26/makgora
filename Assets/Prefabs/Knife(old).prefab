@@ -227,4 +227,4 @@ MonoBehaviour:
   presentEnemyColor: {r: 0.9056604, g: 0.10679956, b: 0.3124054, a: 0}
   futureColor: {r: 0.40792987, g: 0.8109983, b: 0.9716981, a: 0}
   futureFutureColor: {r: 0.10092559, g: 0.1780431, b: 0.33962262, a: 0}
-  playerColor: {r: 0.10218088, g: 0.8301887, b: 0.08223567, a: 0}
+  presentPlayerColor: {r: 0.12926216, g: 0.8301887, b: 0.05873976, a: 0}

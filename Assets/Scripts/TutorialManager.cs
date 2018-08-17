@@ -33,7 +33,7 @@ public class TutorialManager : MonoBehaviour {
             isStarted = true;
             tutorialText.text = "2차원 벡터공간에서 캐릭터를\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
                 "\"파란색 공이 있는 곳으로 캐릭터를 움직이세요.\"";
-            Instantiate(destination, new Vector3(0.96f, 0.38f, 0f), Quaternion.identity);
+            Instantiate(destination, new Vector3(0.2f, 0.56f, 0f), Quaternion.identity);
             redHand.enabled = false;
         }
         else if (phase == 1 && !isStarted)
@@ -57,7 +57,6 @@ public class TutorialManager : MonoBehaviour {
                 "\"움직이지 않는 상대를 향해 칼을 던져서 3번 맞추세요.\"";
 
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
-            enemy.SetPositionAndRotation(new Vector3(0.93f, -0.4f, Boundary.RoundZ(4f)), enemy.rotation);
         }
 
         if (phase == 1 && isStarted && 
