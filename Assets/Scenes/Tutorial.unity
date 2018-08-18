@@ -2657,7 +2657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.7
   temporalSpeed: 3.5
-  target: {fileID: 1816958221635516, guid: e5c3fd9856cb9ab48a27134857b2386b, type: 2}
+  target: {fileID: 1816958221635516, guid: 2a25a719d66ad2f458cff2cdbe95179b, type: 2}
   knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
