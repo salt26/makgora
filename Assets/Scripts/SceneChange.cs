@@ -118,7 +118,7 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadTutorialScene()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(0.5f);
         asyncLoad = SceneManager.LoadSceneAsync("Tutorial");
         while (!asyncLoad.isDone)
         {
@@ -150,7 +150,7 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadMainGameScene()
     {
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(0.5f);
         asyncLoad = SceneManager.LoadSceneAsync("MainGame");
         while (!asyncLoad.isDone)
         {
