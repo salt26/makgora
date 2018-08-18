@@ -32,8 +32,9 @@ public class TutorialManager : MonoBehaviour {
 		if (phase == 0 && !isStarted)
         {
             isStarted = true;
-            tutorialText.text = "2차원 벡터공간에서 캐릭터를\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
-                "\"파란색 공이 있는 곳으로 캐릭터를 움직이세요.\"";
+            tutorialText.text = "당신은 만화 속의 주인공입니다!\n" +
+                "컷을 넘나들며 주인공을\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
+                "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
             Instantiate(destination, new Vector3(0.2f, 0.56f, 0f), Quaternion.identity);
             redHand.enabled = false;
             redText.enabled = false;
@@ -41,9 +42,10 @@ public class TutorialManager : MonoBehaviour {
         else if (phase == 1 && !isStarted)
         {
             isStarted = true;
-            tutorialText.text = "왼쪽 Shift를 눌러 과거로 가거나,\n스페이스 바를 눌러 미래로 갈 수 있습니다.\n" +
-                "본인이 있는 시간은 초록색 침으로,\n상대가 있는 시간은 빨간색 침으로 표시됩니다.\n" +
-                "\"상대가 있는 시간대로 캐릭터를 움직이세요.\"";
+            tutorialText.text = "주인공은 페이지를 넘나들 수도 있습니다!\n" +
+                "왼쪽 Shift를 눌러 이전 페이지로 가거나,\n스페이스 바를 눌러 다음 페이지로 갈 수 있습니다.\n" +
+                "본인이 있는 페이지는 화면 뒤에 초록색 선으로,\n상대가 있는 페이지는 빨간색 선으로 표시됩니다.\n" +
+                "\"상대가 있는 페이지로 캐릭터를 움직이세요.\"";
             redHand.enabled = true;
             redText.enabled = true;
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
@@ -53,10 +55,12 @@ public class TutorialManager : MonoBehaviour {
         else if (phase == 2 && !isStarted)
         {
             isStarted = true;
-            tutorialText.text = "마우스 왼쪽을 눌러 과거로, 또는 마우스 오른쪽을 눌러 미래로 칼을 던질 수 있습니다.\n" +
-                "마우스를 누르고 있으면 작은 시계가 나타납니다.\n이 시계의 파란색 침은 칼이 향할 시간을 가리킵니다.\n" +
-                "마우스를 오래 누를수록 더 먼 과거(미래)로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
-                "마우스로 상대를 조준하고 파란색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.\n" +
+            tutorialText.text = "주인공은 페이지를 뚫고 다른 페이지로 칼을 던질 수 있습니다.\n" +
+                "마우스 왼쪽을 눌렀다 떼면 앞 페이지로, 오른쪽을 눌렀다 떼면 뒤 페이지로 칼이 날아갑니다.\n" +
+                "마우스를 누르고 있으면 조준점에 작은 시계가 나타납니다.\n" +
+                "이 시계의 보라색 침은 칼이 향할 페이지를, 빨간색 침은 상대가 있는 페이지를 가리킵니다.\n" +
+                "마우스를 오래 누를수록 더 먼 페이지로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
+                "<color=#ff00bf>마우스로 상대를 조준하고, 보라색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.</color>\n" +
                 "\"움직이지 않는 상대를 향해 칼을 던져서 3번 맞추세요.\"";
 
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
