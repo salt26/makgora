@@ -341,7 +341,7 @@ public class Enemy : MonoBehaviour {
             Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
         {
             // 목적지에 도착했습니다.
-            easyMoveCoolTime = Random.Range(0f, 1f);
+            easyMoveCoolTime = Random.Range(0f, 2f);
             isArrived = true;
         }
         else if (!isArrived && temporalMoveCoolTime > 0f)
@@ -483,7 +483,7 @@ public class Enemy : MonoBehaviour {
             Vector3.Distance(t.position, destPosition) < Boundary.OnePageToDeltaZ() / 2f)
         {
             // 목적지에 도착했습니다.
-            easyMoveCoolTime = Random.Range(0f, 1f);
+            easyMoveCoolTime = Random.Range(0f, 2f);
             isArrived = true;
         }
         else if (!isArrived && temporalMoveCoolTime > 0f)
