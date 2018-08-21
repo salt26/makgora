@@ -9,6 +9,7 @@ public class Knife : MonoBehaviour {
     private int owner = -1;     // 칼을 던진 플레이어가 누구인지 (0: 휴먼, 1: 컴퓨터)
     private Vector3 start;      // 출발지입니다.
     private Vector3 dest;       // 목적지입니다. 날아갈 방향을 결정합니다.
+    private Vector3 direction;
 
     private Transform t;
     private Transform player;
@@ -34,7 +35,7 @@ public class Knife : MonoBehaviour {
         isCracked = false;
         speed = Manager.instance.KnifeSpeed;
 
-        if (Mathf.Abs(player.position.z - t.position.z) > 1f)
+        if (Mathf.Abs(player.position.z - t.position.z) > Boundary.sight)
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
@@ -49,12 +50,10 @@ public class Knife : MonoBehaviour {
 
     // 매 프레임마다 자동으로 호출됩니다.
     void FixedUpdate () {
-        Vector3 direction = new Vector3();
         float ownZ = 0f;
         float otherZ = 0f;
 		if (owner != -1)
         {
-            direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime,
                 Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles/* + new Vector3(-90f, 0f, 90f)*/));
         }
@@ -71,7 +70,7 @@ public class Knife : MonoBehaviour {
             otherZ = player.position.z;
         }
 
-        if (Mathf.Abs(player.position.z - t.position.z) > 1f)
+        if (Mathf.Abs(player.position.z - t.position.z) > Boundary.sight)
         {
             alpha = 0f;
             if (text != null) text.GetComponent<Text>().enabled = false;
@@ -89,17 +88,18 @@ public class Knife : MonoBehaviour {
                 mr.enabled = true;
             }
             
+            // 투사체가 날아가다가 목표를 지난 후에
             if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
             {
                 // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
                 if ((ownZ - otherZ) * (ownZ - t.position.z) < 0)
                 {
-                    alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) - 1, 2);
+                    alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) / Boundary.sight - 1, 2);
                 }
                 // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
                 else
                 {
-                    alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+                    alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) / Boundary.sight - 1, 2);
                 }
 
             }
@@ -114,7 +114,7 @@ public class Knife : MonoBehaviour {
             }
         }
 
-        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
         {
             if (owner == 0)
                 GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, alpha);
@@ -125,16 +125,18 @@ public class Knife : MonoBehaviour {
         {
             GetComponent<MeshRenderer>().material.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor, 
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
         else
         {
             GetComponent<MeshRenderer>().material.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
 
-        if (Mathf.Abs(t.position.z) > Boundary.zMax + 1f || Mathf.Abs(t.position.x) > Boundary.xMax + 1f || Mathf.Abs(t.position.y) > Boundary.yMax + 1f)
+        if (Mathf.Abs(t.position.z) > Boundary.zMax + Boundary.sight ||
+            Mathf.Abs(t.position.x) > Boundary.xMax + Boundary.sight || 
+            Mathf.Abs(t.position.y) > Boundary.yMax + Boundary.sight)
         {
             Destroy(text);
             Destroy(gameObject);
@@ -152,6 +154,8 @@ public class Knife : MonoBehaviour {
         dest = destination;
         if (owner == 0 || owner == 1)
             this.owner = owner;
+        
+        if (owner != -1) direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
     }
 
     private void OnTriggerEnter(Collider other)
@@ -197,24 +201,30 @@ public class Knife : MonoBehaviour {
             text.GetComponent<Text>().text = pageDiff.ToString();
         }
 
-        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        float alpha = 1f;
+        if (owner == 1 && direction.z != 0f && (player.position.z - t.position.z) * direction.z < 0)
+        {
+            alpha = Mathf.Pow(Mathf.Abs(player.position.z - t.position.z) / Boundary.sight - 1, 2);
+        }
+
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
         {
             if (owner == 0)
-                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, 1f);
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, alpha);
             else
-                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, 1f);
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
         }
         else if (t.position.z < player.position.z)
         {
             text.GetComponent<Text>().color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), 1f);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
         else
         {
             text.GetComponent<Text>().color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), 1f);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
     }
 }

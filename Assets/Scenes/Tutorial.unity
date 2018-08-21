@@ -194,11 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0a017a0bac5fe04db0a1604365099e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  temporalSpeed: 0
   knife: {fileID: 0}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
+  pageText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
   hearts:
   - {fileID: 649163775}
   - {fileID: 913490175}
@@ -2913,8 +2912,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ce7f2dac6a59346a7c79b55212e29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.7
-  temporalSpeed: 3.5
   target: {fileID: 1816958221635516, guid: 2a25a719d66ad2f458cff2cdbe95179b, type: 2}
   knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,

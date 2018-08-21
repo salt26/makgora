@@ -5,8 +5,11 @@ using UnityEngine;
 public static class Boundary
 {
     // public static float xMin = -1.19f, xMax = 1.19f, yMin = -0.88f, yMax = 0.88f, zMin = -5f, zMax = 5f;
-    public static float xMin = -2f, xMax = 2f, yMin = -1.16f, yMax = 1.4f, zMin = -2f, zMax = 2f;
-    public static int pageNum = 10, pageBase = 10; // 실제 페이지 수는 pageNum + 1입니다.
+    public const float xMin = -2f, xMax = 2f, yMin = -1.16f, yMax = 1.4f, zMin = -3f, zMax = 3f;
+    public const int pageNum = 10, pageBase = 10;   // 실제 페이지 수는 pageNum + 1입니다.
+    public const float sight = 1.5f;                  // 투사체나 상대 캐릭터가 플레이어에게 보이는 z좌표 최대 거리입니다.
+    public const float approach = 0.5f;             // 적 근접 계수
+                                                    // (한 페이지 거리 * approach)보다 가까이 있는 적은 근접하다고 판단합니다.
 
     /// <summary>
     /// 페이지 번호를 z좌표로 변환합니다.
