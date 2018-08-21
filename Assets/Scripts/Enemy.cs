@@ -113,12 +113,12 @@ public class Enemy : MonoBehaviour {
             shoot += ShootInsane;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
-        else if (gameLevel.Equals("Hard") && !gameMode.Equals("Tutorial"))
+        else if (gameLevel.Equals("Hard"))
         {
             shoot += ShootHard;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
-        else if (gameLevel.Equals("Easy"))
+        else if (gameLevel.Equals("Easy") && !gameMode.Equals("Tutorial"))
         {
             shoot += ShootEasy;
             chargeSpeed = Manager.instance.EasyChargeSpeed;
@@ -141,7 +141,14 @@ public class Enemy : MonoBehaviour {
     {
         whileInvincible();
 
-        if (health <= 0) return;
+        if (health <= 0)
+        {
+            if (myText != null)
+            {
+                Destroy(myText);
+            }
+            return;
+        }
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         if (vanish.GetInvocationList().Length > 0) {
@@ -151,7 +158,6 @@ public class Enemy : MonoBehaviour {
         if (Manager.instance.GetGameOver())
         {
             r.velocity = Vector3.zero;
-            if (myText != null) Destroy(myText);
             return;
         }
 

@@ -283,7 +283,7 @@ public class Manager : MonoBehaviour {
         else if (SceneManager.GetActiveScene().name.Equals("Tutorial"))
         {
             l.Add("Tutorial");
-            l.Add("Hard");
+            l.Add("Easy");
             return l;
         }
         else if (SceneManager.GetActiveScene().name.Equals("MainGame"))

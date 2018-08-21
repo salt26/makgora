@@ -181,6 +181,10 @@ public class Knife : MonoBehaviour {
 
     private void TextMover()
     {
+        if (Manager.instance.GetCurrentGame()[1].Equals("Hard"))
+        {
+            return;
+        }
         Vector3 v = mainCamera.WorldToScreenPoint(t.position);
         v.y += 12f;
         if (text != null)

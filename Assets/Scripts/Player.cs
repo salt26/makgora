@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
     private void Start()
     {
         string gameLevel = Manager.instance.GetCurrentGame()[1];
-        if (gameLevel.Equals("Easy") || (Manager.instance.GetCurrentGame()[0].Equals("Tutorial")))
+        if (gameLevel.Equals("Easy"))
         {
             chargeSpeed = Manager.instance.EasyChargeSpeed;
         }
