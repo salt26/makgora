@@ -60,7 +60,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 8c8f15e07ecb98f49b868198ffa844a8, type: 2}
+  - {fileID: 2100000, guid: f54d63e98011c3642af26a19c9cf668e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -220,11 +220,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248288d19de13834aa4b1738f8f0810c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.5
   flare: {fileID: 1598354684554190, guid: eb0d1e5dc992e0e4f81cddf94baff1a5, type: 2}
-  pastPastColor: {r: 0.754717, g: 0.754717, b: 0.754717, a: 0}
-  pastColor: {r: 0.0754717, g: 0.0751157, b: 0.0751157, a: 0}
-  presentEnemyColor: {r: 0.9056604, g: 0.10679956, b: 0.3124054, a: 0}
-  futureColor: {r: 0.40792987, g: 0.8109983, b: 0.9716981, a: 0}
-  futureFutureColor: {r: 0.10092559, g: 0.1780431, b: 0.33962262, a: 0}
-  presentPlayerColor: {r: 0.12926216, g: 0.8301887, b: 0.05873976, a: 0}
+  knifeText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}

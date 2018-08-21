@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
-    public float speed;
-    public float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     public GameObject knife;
     public GameObject divineShield;
     public List<GameObject> hearts;
@@ -17,6 +15,8 @@ public class Enemy : MonoBehaviour {
     public delegate void Damaged();
     public Damaged damaged;
 
+    private float speed;
+    private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     private int health = 3;
     private float chargeSpeed = 0f;
     private GameObject myShield;
@@ -129,6 +129,8 @@ public class Enemy : MonoBehaviour {
                 move += MoveStalkerEasy;
             }
         }
+        speed = Manager.instance.MovingSpeed;
+        temporalSpeed = Manager.instance.TemporalSpeed;
     }
 
     void FixedUpdate ()

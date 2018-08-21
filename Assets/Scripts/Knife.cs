@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Knife : MonoBehaviour {
 
@@ -12,12 +13,15 @@ public class Knife : MonoBehaviour {
     private Transform t;
     private Transform player;
     private Transform enemy;
+    private GameObject text;
+    private Camera mainCamera;
 
     private bool isCracked;
 
-    public float speed;
+    private float speed;
 
     public GameObject flare;
+    public GameObject knifeText;
 
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
@@ -25,8 +29,10 @@ public class Knife : MonoBehaviour {
         t = GetComponent<Transform>();  // 이 칼의 위치를 갖고 있습니다.
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         start = t.position;
         isCracked = false;
+        speed = Manager.instance.KnifeSpeed;
 
         if (Mathf.Abs(player.position.z - t.position.z) > 1f)
         {
@@ -34,6 +40,10 @@ public class Knife : MonoBehaviour {
             {
                 mr.enabled = false;
             }
+        }
+        else
+        {
+            TextMover();
         }
     }
 
@@ -64,6 +74,7 @@ public class Knife : MonoBehaviour {
         if (Mathf.Abs(player.position.z - t.position.z) > 1f)
         {
             alpha = 0f;
+            if (text != null) text.GetComponent<Text>().enabled = false;
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = false;
@@ -71,6 +82,8 @@ public class Knife : MonoBehaviour {
         }
         else
         {
+            if (text != null) text.GetComponent<Text>().enabled = true;
+            TextMover();
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = true;
@@ -123,6 +136,7 @@ public class Knife : MonoBehaviour {
 
         if (Mathf.Abs(t.position.z) > Boundary.zMax + 1f || Mathf.Abs(t.position.x) > Boundary.xMax + 1f || Mathf.Abs(t.position.y) > Boundary.yMax + 1f)
         {
+            Destroy(text);
             Destroy(gameObject);
         }
 
@@ -145,6 +159,7 @@ public class Knife : MonoBehaviour {
         if (other.tag.Equals("Player") && owner == 1 && other.GetComponent<Player>().Health > 0)
         {
             other.GetComponent<Player>().Damaged();
+            Destroy(text);
             Destroy(gameObject);
         }
         else if (other.tag.Equals("Enemy") && owner == 0 && other.GetComponent<Enemy>().Health > 0)
@@ -155,7 +170,51 @@ public class Knife : MonoBehaviour {
                 isCracked = true;
             }
             other.GetComponent<Enemy>().damaged();
+            Destroy(text);
             Destroy(gameObject);
+        }
+    }
+
+    private void TextMover()
+    {
+        Vector3 v = mainCamera.WorldToScreenPoint(t.position);
+        v.y += 12f;
+        if (text != null)
+        {
+            text.GetComponent<Transform>().position = v;
+        }
+        else
+        {
+            text = Instantiate(knifeText, v, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        }
+        int pageDiff = Boundary.ZToPage(t.position.z) - Boundary.ZToPage(player.position.z);
+        if (pageDiff > 0)
+        {
+            text.GetComponent<Text>().text = "+" + pageDiff.ToString();
+        }
+        else
+        {
+            text.GetComponent<Text>().text = pageDiff.ToString();
+        }
+
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        {
+            if (owner == 0)
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, 1f);
+            else
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, 1f);
+        }
+        else if (t.position.z < player.position.z)
+        {
+            text.GetComponent<Text>().color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), 1f);
+        }
+        else
+        {
+            text.GetComponent<Text>().color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), 1f);
         }
     }
 }

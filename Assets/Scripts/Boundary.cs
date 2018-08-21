@@ -5,8 +5,8 @@ using UnityEngine;
 public static class Boundary
 {
     // public static float xMin = -1.19f, xMax = 1.19f, yMin = -0.88f, yMax = 0.88f, zMin = -5f, zMax = 5f;
-    public static float xMin = -2f, xMax = 2f, yMin = -1.16f, yMax = 1.4f, zMin = -5f, zMax = 5f;
-    public static int pageNum = 40, pageBase = 10; // 실제 페이지 수는 pageNum + 1입니다.
+    public static float xMin = -2f, xMax = 2f, yMin = -1.16f, yMax = 1.4f, zMin = -2f, zMax = 2f;
+    public static int pageNum = 10, pageBase = 10; // 실제 페이지 수는 pageNum + 1입니다.
 
     /// <summary>
     /// 페이지 번호를 z좌표로 변환합니다.

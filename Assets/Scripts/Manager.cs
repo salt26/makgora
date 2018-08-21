@@ -29,6 +29,7 @@ public class Manager : MonoBehaviour {
     private bool isPaused;
 
     // TODO 아래 게임오브젝트들 설정하기
+    private GameObject canvas;
     private GameObject pausePanel;
     private GameObject restartPanel;
     private Text restartText;
@@ -43,6 +44,13 @@ public class Manager : MonoBehaviour {
     private float easyChargeSpeed;
     [SerializeField]
     private float hardChargeSpeed;
+
+    [SerializeField]
+    private float movingSpeed;
+    [SerializeField]
+    private float temporalSpeed;
+    [SerializeField]
+    private float knifeSpeed;
 
     public GameMode Mode
     {
@@ -59,6 +67,12 @@ public class Manager : MonoBehaviour {
     public bool IsPaused
     {
         get { return isPaused; }
+    }
+
+    public GameObject Canvas
+    {
+        get { return canvas; }
+        set { canvas = value; }
     }
 
     public GameObject PausePanel
@@ -89,6 +103,21 @@ public class Manager : MonoBehaviour {
     public float HardChargeSpeed
     {
         get { return hardChargeSpeed; }
+    }
+
+    public float MovingSpeed
+    {
+        get { return movingSpeed; }
+    }
+
+    public float TemporalSpeed
+    {
+        get { return temporalSpeed; }
+    }
+
+    public float KnifeSpeed
+    {
+        get { return knifeSpeed; }
     }
 
     private void Awake()
