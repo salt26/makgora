@@ -86,8 +86,10 @@ public class Player : MonoBehaviour {
         if (temporalMoveCoolTime > 0f)
         {
             temporalMoveCoolTime -= Time.deltaTime;
-            if ((Input.GetKeyUp(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space)) ||
-                (Input.GetKeyUp(KeyCode.Space) && !Input.GetKey(KeyCode.LeftShift)))
+            if ((((Input.GetKeyUp(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Q)) || 
+                (Input.GetKeyUp(KeyCode.Q) && !Input.GetKey(KeyCode.LeftShift))) && !GetKeyPageUp()) ||
+                (((Input.GetKeyUp(KeyCode.Space) && !Input.GetKey(KeyCode.E)) ||
+                (Input.GetKeyUp(KeyCode.E) && !Input.GetKey(KeyCode.Space))) && !GetKeyPageDown()))
             {
                 temporalMoveCoolTime = 0f;
             }
@@ -99,12 +101,12 @@ public class Player : MonoBehaviour {
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0) &&
             !Manager.instance.GetGameOver())
         {
-            if (Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
+            if (GetKeyPageDown() && !GetKeyPageUp() && temporalMoveCoolTime <= 0f)
             {
                 r.position = new Vector3(r.position.x, r.position.y, r.position.z - Boundary.OnePageToDeltaZ());
                 temporalMoveCoolTime = 1f / temporalSpeed;
             }
-            else if (!Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Space) && temporalMoveCoolTime <= 0f)
+            else if (!GetKeyPageDown() && GetKeyPageUp() && temporalMoveCoolTime <= 0f)
             {
                 r.position = new Vector3(r.position.x, r.position.y, r.position.z + Boundary.OnePageToDeltaZ());
                 temporalMoveCoolTime = 1f / temporalSpeed;
@@ -190,7 +192,7 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
                         /* 
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -236,7 +238,7 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -276,7 +278,7 @@ public class Player : MonoBehaviour {
                         else if (v > 0)
                             chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
 
-                        targetObject.GetComponentInChildren<ChargeUI>().ChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -382,5 +384,14 @@ public class Player : MonoBehaviour {
         blowend = null;
     }
 
+    private bool GetKeyPageDown()
+    {
+        return (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.Q));
+    }
+
+    private bool GetKeyPageUp()
+    {
+        return (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.E));
+    }
     
 }

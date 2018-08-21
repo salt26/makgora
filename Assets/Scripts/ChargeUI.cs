@@ -37,7 +37,7 @@ public class ChargeUI : MonoBehaviour {
         SetRectTransform();
     }
 
-    public void SetRectTransform()
+    public virtual void SetRectTransform()
     {
         Vector3 v = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         GetComponent<RectTransform>().position = v;
@@ -73,7 +73,7 @@ public class ChargeUI : MonoBehaviour {
         }
     }
 
-    public void SetVisible()
+    public virtual void SetVisible()
     {
         foreach (Image i in GetComponentInParent<Canvas>().GetComponentsInChildren<Image>())
         {
