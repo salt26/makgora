@@ -16,6 +16,7 @@ public class Restart : MonoBehaviour {
 
     private void Start()
     {
+        Manager.instance.Canvas = this.gameObject;
         Manager.instance.RestartPanel = restartPanel;
         if (restartText != null)
             Manager.instance.RestartText = restartText;
