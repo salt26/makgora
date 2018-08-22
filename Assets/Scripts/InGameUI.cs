@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Restart : MonoBehaviour {
+public class InGameUI : MonoBehaviour {
 
     [SerializeField]
     private GameObject pausePanel;
@@ -13,6 +13,8 @@ public class Restart : MonoBehaviour {
     private Text restartText;
     [SerializeField]
     private GameObject skipTutorialButton;
+    [SerializeField]
+    private Text modeText;
 
     private void Start()
     {
@@ -27,6 +29,38 @@ public class Restart : MonoBehaviour {
             Manager.instance.PausePanel = pausePanel;
             Manager.instance.Pause();
         }
+
+        string gameMode = Manager.instance.GetCurrentGame()[0];
+        string gameLevel = Manager.instance.GetCurrentGame()[1];
+        if (gameMode.Equals("Tutorial"))
+        {
+            modeText.text = "튜토리얼";
+        }
+        else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Easy"))
+        {
+            modeText.text = "방랑자(쉬움)";
+        }
+        else if (gameMode.Equals("Guardian") && gameLevel.Equals("Easy"))
+        {
+            modeText.text = "수호자(쉬움)";
+        }
+        else if (gameMode.Equals("Stalker") && gameLevel.Equals("Easy"))
+        {
+            modeText.text = "추적자(쉬움)";
+        }
+        else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "방랑자(어려움)";
+        }
+        else if (gameMode.Equals("Guardian") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "수호자(어려움)";
+        }
+        else if (gameMode.Equals("Stalker") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "추적자(어려움)";
+        }
+        // TODO 모드 추가 시 추가바람
     }
 
     public void RestartButton()
