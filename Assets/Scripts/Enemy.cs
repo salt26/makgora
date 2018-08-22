@@ -235,7 +235,7 @@ public class Enemy : MonoBehaviour {
         {
             if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0)
             {
-                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                foreach (SpriteRenderer mr in GetComponentsInChildren<SpriteRenderer>())
                 {
                     mr.enabled = false;
                 }
@@ -244,11 +244,12 @@ public class Enemy : MonoBehaviour {
             }
             else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
             {
-                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                foreach (SpriteRenderer mr in GetComponentsInChildren<SpriteRenderer>())
                 {
                     mr.enabled = true;
                 }
-                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
 
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
@@ -256,11 +257,12 @@ public class Enemy : MonoBehaviour {
             }
             else if (t.position.z < player.GetComponent<Transform>().position.z)
             {
-                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                foreach (SpriteRenderer mr in GetComponentsInChildren<SpriteRenderer>())
                 {
                     mr.enabled = true;
                 }
-                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color =
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
@@ -270,11 +272,12 @@ public class Enemy : MonoBehaviour {
             }
             else
             {
-                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                foreach (SpriteRenderer mr in GetComponentsInChildren<SpriteRenderer>())
                 {
                     mr.enabled = true;
                 }
-                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color =
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
@@ -303,7 +306,7 @@ public class Enemy : MonoBehaviour {
         }
         myText.GetComponent<Text>().text = Boundary.ZToPage(t.position.z).ToString();
 
-        myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material.color;
+        myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color;
     }
 
     #endregion

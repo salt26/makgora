@@ -22,7 +22,7 @@ public class BackgroundModifier : MonoBehaviour {
         futureSprite.GetComponent<Transform>().localPosition = new Vector3(futureSprite.GetComponent<Transform>().localPosition.x,
             futureSprite.GetComponent<Transform>().localPosition.y, Boundary.OnePageToDeltaZ() * 10000f);
         backgroundCanvas.localPosition = new Vector3(backgroundCanvas.localPosition.x,
-            backgroundCanvas.localPosition.y, Boundary.OnePageToDeltaZ() * 20000f);
+            backgroundCanvas.localPosition.y, Boundary.sight * 10000f);
     }
 
     private void FixedUpdate()
