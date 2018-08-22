@@ -1764,7 +1764,7 @@ MonoBehaviour:
   easyChargeSpeed: 0.6
   hardChargeSpeed: 1
   movingSpeed: 0.7
-  temporalSpeed: 0.9
+  temporalSpeed: 1.5
   knifeSpeed: 2
 --- !u!4 &524499476
 Transform:

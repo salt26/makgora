@@ -89,6 +89,7 @@ public class Player : MonoBehaviour {
         {
             temporalMoveCoolTime -= Time.deltaTime;
             /*
+            // 연타할 때 페이지 간 이동 쿨타임이 초기화됩니다. 
             if ((((Input.GetKeyUp(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Q)) || 
                 (Input.GetKeyUp(KeyCode.Q) && !Input.GetKey(KeyCode.LeftShift))) && !GetKeyPageUp()) ||
                 (((Input.GetKeyUp(KeyCode.Space) && !Input.GetKey(KeyCode.E)) ||
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour {
                 r.position = new Vector3(r.position.x, r.position.y, r.position.z + Boundary.OnePageToDeltaZ());
                 temporalMoveCoolTime = 1f / temporalSpeed;
             }
-            if (temporalMoveCoolTime > 0f)
+            if (temporalMoveCoolTime > 0.5f / temporalSpeed)
             {
                 moveHorizontal = 0f;
                 moveVertical = 0f;
