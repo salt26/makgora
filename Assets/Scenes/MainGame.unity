@@ -336,7 +336,8 @@ MonoBehaviour:
   - {fileID: 1683412149}
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
-  killedSound: {fileID: 8300000, guid: 4d55fa59c3fff5f479b0610835e77346, type: 3}
+  killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
+  readySound: {fileID: 8300000, guid: 35e4ada88b7362944b278f745d51c80a, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
 --- !u!82 &82032289
 AudioSource:
@@ -393,7 +394,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2966,7 +2967,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: '20
+
+'
 --- !u!222 &993067185
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4346,7 +4349,8 @@ MonoBehaviour:
   - {fileID: 2085977499}
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
-  killedSound: {fileID: 8300000, guid: 80760dd81c84d0d4293b53efd8d69181, type: 3}
+  killedSound: {fileID: 8300000, guid: ce4592eee5e468449a93b721f3553bcb, type: 3}
+  readySound: {fileID: 8300000, guid: 9bb9919d57d9f224eb94310499a72549, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   zLocation: {fileID: 993067182}
   purplePage: {fileID: 2083756120}

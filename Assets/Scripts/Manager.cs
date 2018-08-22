@@ -34,6 +34,8 @@ public class Manager : MonoBehaviour {
     private GameObject restartPanel;
     private Text restartText;
     private GameObject skipTutorialButton;
+    private GameObject player;
+    private GameObject enemy;
 
     [SerializeField]
     private AudioClip loseSound;
@@ -74,7 +76,7 @@ public class Manager : MonoBehaviour {
         get { return canvas; }
         set { canvas = value; }
     }
-
+    
     public GameObject PausePanel
     {
         set { pausePanel = value; }
@@ -88,6 +90,18 @@ public class Manager : MonoBehaviour {
     public Text RestartText
     {
         set { restartText = value; }
+    }
+
+    public GameObject PlayerObject
+    {
+        get { return player; }
+        set { player = value; }
+    }
+
+    public GameObject EnemyObject
+    {
+        get { return enemy; }
+        set { enemy = value; }
     }
 
     public GameObject SkipTutorialButton
@@ -214,12 +228,20 @@ public class Manager : MonoBehaviour {
     {
         yield return null;
         instance.isPaused = false;
+
+        string gameMode = Manager.instance.GetCurrentGame()[0];
+        if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+        {
+            EnemyObject.GetComponent<Enemy>().SpeakReady();
+            yield return new WaitForSeconds(2.2f);
+            PlayerObject.GetComponent<Player>().SpeakReady();
+        }
     }
 
     IEnumerator Lose()
     {
         instance.SetGameOver();
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         GetComponent<AudioSource>().clip = loseSound;
         GetComponent<AudioSource>().Play();
         instance.restartPanel.SetActive(true);
@@ -228,7 +250,7 @@ public class Manager : MonoBehaviour {
     IEnumerator Win()
     {
         instance.SetGameOver();
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         instance.restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         instance.restartText.text = "YOU WIN!";
         instance.restartPanel.SetActive(true);
@@ -240,7 +262,7 @@ public class Manager : MonoBehaviour {
     {
         instance.skipTutorialButton.SetActive(false);
         instance.SetGameOver();
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         instance.restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
         instance.restartPanel.SetActive(true);
 

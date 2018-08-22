@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
     public AudioClip damagedSound;
     public AudioClip guardSound;
     public AudioClip killedSound;
+    public AudioClip readySound;
     public GameObject blow;
     public delegate void Damaged();
     public Damaged damaged;
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour {
     private Vector3 destPosition;
     private bool isArrived = true;
     private bool isCharging = false;
+    private bool hasReadySpoken = false;
     private float chargedZ;
     private float approxZ;                  // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
     private float invincibleTime;           // 피격 후 무적 판정이 되는, 남은 시간 
@@ -75,6 +77,7 @@ public class Enemy : MonoBehaviour {
 
     void Start()
     {
+        Manager.instance.EnemyObject = this.gameObject;
         string gameMode = Manager.instance.GetCurrentGame()[0];
         string gameLevel = Manager.instance.GetCurrentGame()[1];
         if (gameMode.Equals("Tutorial"))
@@ -932,6 +935,26 @@ public class Enemy : MonoBehaviour {
 
     #endregion
 
+
+    public void SpeakReady()
+    {
+        if (!hasReadySpoken)
+        {
+            hasReadySpoken = true;
+
+            string gameMode = Manager.instance.GetCurrentGame()[0];
+            if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+                StartCoroutine("ReadySpeech");
+        }
+    }
+
+    IEnumerator ReadySpeech()
+    {
+        yield return null;
+        GetComponent<AudioSource>().clip = readySound;
+        GetComponent<AudioSource>().Play();
+        // TODO 말풍선 띄웠다 사라지게 하기
+    }
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
