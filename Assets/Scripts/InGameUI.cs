@@ -35,6 +35,7 @@ public class InGameUI : MonoBehaviour {
         if (gameMode.Equals("Tutorial"))
         {
             modeText.text = "튜토리얼";
+            // TODO 현재 페이즈에 따라 다른 텍스트 표시
         }
         else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Easy"))
         {

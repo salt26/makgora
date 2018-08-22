@@ -361,8 +361,11 @@ public class Player : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)

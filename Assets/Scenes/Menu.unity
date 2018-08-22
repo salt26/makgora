@@ -6635,7 +6635,7 @@ MonoBehaviour:
     type: 2}
   menuPanel: {fileID: 1583865021}
   canvas: {fileID: 321055595}
-  text: "\u2605\u2605\u2606\u2606\u2606                \uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294
+  text: "\u2605\u2605\u2605\u2606\u2606                \uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294
     \uBC29\uB791\uC790\uB97C \uC0C1\uB300\uD569\uB2C8\uB2E4."
   x: 832
   y: 264

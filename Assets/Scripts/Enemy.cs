@@ -240,6 +240,7 @@ public class Enemy : MonoBehaviour {
                     mr.enabled = false;
                 }
 
+                if (myShield != null) myShield.GetComponent<MeshRenderer>().enabled = false;
                 if (myText != null) myText.GetComponent<Text>().enabled = false;
             }
             else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
@@ -251,6 +252,13 @@ public class Enemy : MonoBehaviour {
                 //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
                 SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
 
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
@@ -267,6 +275,13 @@ public class Enemy : MonoBehaviour {
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
 
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
+
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
             }
@@ -282,6 +297,13 @@ public class Enemy : MonoBehaviour {
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
 
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
+
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
             }
@@ -295,7 +317,7 @@ public class Enemy : MonoBehaviour {
     private void TextMover()
     {
         Vector3 v = mainCamera.WorldToScreenPoint(t.position);
-        v.y += 65f;
+        v.y += 70f;
         if (myText != null)
         {
             myText.GetComponent<Transform>().position = v;
@@ -748,8 +770,11 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -797,8 +822,12 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            Debug.Log("Enemy guarded!");
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -868,8 +897,11 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
