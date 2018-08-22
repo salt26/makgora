@@ -653,7 +653,7 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void ShootEasy()
     {
-        if (!isCharging)
+        if (!isCharging && !IsInvincible)
         {
             chargedZ = 0f;
             isCharging = true;
@@ -687,7 +687,7 @@ public class Enemy : MonoBehaviour {
             chargedZ = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.5f;
+            approxZ = GaussianRandom() * 0.7f;
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {
@@ -711,12 +711,12 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void ShootInsane()
     {
-        if (!isCharging)
+        if (!isCharging && !IsInvincible)
         {
             chargedZ = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.2f;
+            approxZ = GaussianRandom() * 0.4f;
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {

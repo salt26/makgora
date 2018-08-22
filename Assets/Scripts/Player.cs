@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
+    public GameObject pageText;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
@@ -25,6 +26,8 @@ public class Player : MonoBehaviour {
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
     private GameObject myShield;
+    private GameObject myText;
+    private Camera mainCamera;
     private bool hasReadySpoken = false;
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -54,6 +57,7 @@ public class Player : MonoBehaviour {
         chargedZ = 0f;
         myShield = null;
         blowend = null;
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     private void Start()
@@ -74,19 +78,7 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (health <= 0)
-        {
-            if (targetObject != null)
-            {
-                Destroy(targetObject);
-                targetObject = null;
-                purplePage.GetComponent<Image>().enabled = false;
-                purpleText.enabled = false;
-            }
-            return;
-        }
-        
-        if (Manager.instance.GetGameOver())
+        if (health <= 0 || Manager.instance.GetGameOver())
         {
             r.velocity = Vector3.zero;
             if (targetObject != null)
@@ -96,8 +88,13 @@ public class Player : MonoBehaviour {
                 purplePage.GetComponent<Image>().enabled = false;
                 purpleText.enabled = false;
             }
+            if (myText != null)
+            {
+                Destroy(myText);
+            }
             return;
         }
+        
         if (Manager.instance.IsPaused) return;
 
         #region 움직이는(move) 코드
@@ -334,6 +331,42 @@ public class Player : MonoBehaviour {
             Destroy(myShield);
             myShield = null;
         }
+
+        if (Manager.instance.GetGameOver()) return;
+
+        if (Manager.instance.IsPaused && myText != null)
+        {
+            myText.GetComponent<Text>().enabled = false;
+        }
+        else if (!Manager.instance.IsPaused)
+        {
+            if (myText != null) myText.GetComponent<Text>().enabled = true;
+            TextMover();
+        }
+    }
+
+    /// <summary>
+    /// 플레이어가 있는 페이지를 텍스트로 표시하는 함수입니다.
+    /// </summary>
+    private void TextMover()
+    {
+        if (Manager.instance.GetCurrentGame()[1].Equals("Hard"))
+        {
+            return;
+        }
+        Vector3 v = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
+        v.y += 70f;
+        if (myText != null)
+        {
+            myText.GetComponent<Transform>().position = v;
+        }
+        else
+        {
+            myText = Instantiate(pageText, v, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        }
+        myText.GetComponent<Text>().text = Boundary.ZToPage(GetComponent<Transform>().position.z).ToString();
+
+        myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color;
     }
 
     public void Damaged()

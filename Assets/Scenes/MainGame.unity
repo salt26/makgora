@@ -394,7 +394,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5
+      value: 0.3
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4343,6 +4343,7 @@ MonoBehaviour:
   knife: {fileID: 1234118706354578, guid: 0e68012957eab9b4cb99470ced64fb01, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
+  pageText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
   hearts:
   - {fileID: 1027244156}
   - {fileID: 1217482997}

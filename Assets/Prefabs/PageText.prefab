@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222533912626786504}
   - component: {fileID: 114806009900973538}
   m_Layer: 5
-  m_Name: KnifeText
+  m_Name: PageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

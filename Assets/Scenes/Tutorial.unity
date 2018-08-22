@@ -3484,6 +3484,7 @@ MonoBehaviour:
   knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
+  pageText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
   hearts:
   - {fileID: 1205852880}
   - {fileID: 1107696448}
