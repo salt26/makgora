@@ -735,7 +735,7 @@ MonoBehaviour:
   menuPanel: {fileID: 64779291}
   canvas: {fileID: 321055595}
   text: "\uD53C\uACA9 \uC804\uAE4C\uC9C0 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC26C\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2606\u2606\u2606\u2606"
   x: 192
   y: 264
   width: 300
@@ -743,6 +743,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &226463313
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1357,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.8
+  fontSize: 0
 --- !u!1 &410974323
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1586,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1259136376}
   canvas: {fileID: 321055595}
   text: "\uD50C\uB808\uC774\uC5B4\uB97C \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2606"
   x: 512
   y: 424
   width: 300
@@ -1592,6 +1594,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &424707122
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,7 +2269,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1168317421}
   canvas: {fileID: 321055595}
   text: "\uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294 \uBC29\uB791\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2605"
   x: 832
   y: 424
   width: 300
@@ -2274,6 +2277,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &545167007
 GameObject:
   m_ObjectHideFlags: 0
@@ -3033,6 +3037,7 @@ MonoBehaviour:
   r: 0.8
   g: 0.4
   b: 0.4
+  fontSize: 0
 --- !u!1 &626123936
 GameObject:
   m_ObjectHideFlags: 0
@@ -3191,6 +3196,7 @@ MonoBehaviour:
   r: 0.8
   g: 0.4
   b: 0.4
+  fontSize: 0
 --- !u!1 &661933087
 GameObject:
   m_ObjectHideFlags: 0
@@ -3575,6 +3581,7 @@ MonoBehaviour:
   r: 0.8
   g: 0.4
   b: 0.4
+  fontSize: 0
 --- !u!1 &802649661
 GameObject:
   m_ObjectHideFlags: 0
@@ -3933,6 +3940,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.8
+  fontSize: 0
 --- !u!1 &934256347
 GameObject:
   m_ObjectHideFlags: 0
@@ -4306,7 +4314,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1042269864}
   canvas: {fileID: 321055595}
   text: "\uD50C\uB808\uC774\uC5B4\uB97C \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC26C\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2606\u2606\u2606"
   x: 512
   y: 264
   width: 300
@@ -4314,6 +4322,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &1027638029
 GameObject:
   m_ObjectHideFlags: 0
@@ -4968,6 +4977,7 @@ MonoBehaviour:
   r: 0.8
   g: 0.4
   b: 0.4
+  fontSize: 0
 --- !u!1 &1225170208
 GameObject:
   m_ObjectHideFlags: 0
@@ -5266,6 +5276,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.4
+  fontSize: 32
 --- !u!1 &1257796708
 GameObject:
   m_ObjectHideFlags: 0
@@ -5562,6 +5573,7 @@ MonoBehaviour:
   r: 0.8
   g: 0.4
   b: 0.8
+  fontSize: 0
 --- !u!1 &1271122943
 GameObject:
   m_ObjectHideFlags: 0
@@ -5845,6 +5857,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.8
+  fontSize: 0
 --- !u!1 &1334364596
 GameObject:
   m_ObjectHideFlags: 0
@@ -6084,6 +6097,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 32
 --- !u!1 &1384023135
 GameObject:
   m_ObjectHideFlags: 0
@@ -6619,7 +6633,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1583865021}
   canvas: {fileID: 321055595}
   text: "\uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294 \uBC29\uB791\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC26C\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2606\u2606\u2606"
   x: 832
   y: 264
   width: 300
@@ -6627,6 +6641,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &1510734276
 GameObject:
   m_ObjectHideFlags: 0
@@ -7629,6 +7644,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.8
+  fontSize: 0
 --- !u!1 &1832480016
 GameObject:
   m_ObjectHideFlags: 0
@@ -7798,6 +7814,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.8
   b: 0.8
+  fontSize: 32
 --- !u!1 &1860117953
 GameObject:
   m_ObjectHideFlags: 0
@@ -8522,7 +8539,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1665060597}
   canvas: {fileID: 321055595}
   text: "\uD53C\uACA9 \uC804\uAE4C\uC9C0 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+    \uC0C1\uB300\uD569\uB2C8\uB2E4.            \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2606"
   x: 192
   y: 424
   width: 300
@@ -8530,6 +8547,7 @@ MonoBehaviour:
   r: 0.4
   g: 0.4
   b: 0.8
+  fontSize: 24
 --- !u!1 &2071182883
 GameObject:
   m_ObjectHideFlags: 0
