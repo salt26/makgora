@@ -227,54 +227,61 @@ public class Enemy : MonoBehaviour {
     {
         float alpha = Mathf.Max(0f, 1f - Mathf.Pow(Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight, 2));
 
-        if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0)
+        if (Manager.instance.IsPaused && myText != null)
         {
-            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-            {
-                mr.enabled = false;
-            }
-
-            if (myText != null) myText.GetComponent<Text>().enabled = false;
+            myText.GetComponent<Text>().enabled = false;
         }
-        else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
+        else if (!Manager.instance.IsPaused)
         {
-            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+            if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0)
             {
-                mr.enabled = true;
-            }
-            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
-            m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                {
+                    mr.enabled = false;
+                }
 
-            if (myText != null) myText.GetComponent<Text>().enabled = true;
-            TextMover();
-        }
-        else if (t.position.z < player.GetComponent<Transform>().position.z)
-        {
-            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-            {
-                mr.enabled = true;
+                if (myText != null) myText.GetComponent<Text>().enabled = false;
             }
-            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
-            m.color =
-                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
-                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+            else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
+            {
+                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                {
+                    mr.enabled = true;
+                }
+                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
 
-            if (myText != null) myText.GetComponent<Text>().enabled = true;
-            TextMover();
-        }
-        else
-        {
-            foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
-            {
-                mr.enabled = true;
+                if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
+                TextMover();
             }
-            Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
-            m.color =
-                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
-                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
-            
-            if (myText != null) myText.GetComponent<Text>().enabled = true;
-            TextMover();
+            else if (t.position.z < player.GetComponent<Transform>().position.z)
+            {
+                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                {
+                    mr.enabled = true;
+                }
+                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                m.color =
+                    ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
+                    Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+
+                if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
+                TextMover();
+            }
+            else
+            {
+                foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+                {
+                    mr.enabled = true;
+                }
+                Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
+                m.color =
+                    ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
+                    Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+
+                if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
+                TextMover();
+            }
         }
     }
     

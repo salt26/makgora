@@ -107,7 +107,8 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f && dest.z - start.z > Boundary.OnePageToDeltaZ() * 0.5f)
+            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f &&
+                Mathf.Abs(dest.z - start.z) > Boundary.OnePageToDeltaZ() * 0.5f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;

@@ -202,7 +202,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
@@ -248,7 +248,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
@@ -288,7 +288,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
