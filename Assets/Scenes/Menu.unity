@@ -1844,6 +1844,9 @@ MonoBehaviour:
   winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
   easyChargeSpeed: 0.6
   hardChargeSpeed: 1
+  movingSpeed: 0.7
+  temporalSpeed: 1.5
+  knifeSpeed: 2
 --- !u!4 &524499476
 Transform:
   m_ObjectHideFlags: 0

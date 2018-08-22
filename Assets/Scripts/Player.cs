@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
-    public float speed;
-    public float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
@@ -20,6 +18,8 @@ public class Player : MonoBehaviour {
     public RectTransform purplePage;
     public Text purpleText;
 
+    private float speed;
+    private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     private int health = 3;
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour {
     private void Start()
     {
         string gameLevel = Manager.instance.GetCurrentGame()[1];
-        if (gameLevel.Equals("Easy") || (Manager.instance.GetCurrentGame()[0].Equals("Tutorial")))
+        if (gameLevel.Equals("Easy"))
         {
             chargeSpeed = Manager.instance.EasyChargeSpeed;
         }
@@ -65,6 +65,8 @@ public class Player : MonoBehaviour {
         {
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
+        speed = Manager.instance.MovingSpeed;
+        temporalSpeed = Manager.instance.TemporalSpeed;
     }
 
     // Update is called once per frame
@@ -86,6 +88,8 @@ public class Player : MonoBehaviour {
         if (temporalMoveCoolTime > 0f)
         {
             temporalMoveCoolTime -= Time.deltaTime;
+            /*
+            // 연타할 때 페이지 간 이동 쿨타임이 초기화됩니다. 
             if ((((Input.GetKeyUp(KeyCode.LeftShift) && !Input.GetKey(KeyCode.Q)) || 
                 (Input.GetKeyUp(KeyCode.Q) && !Input.GetKey(KeyCode.LeftShift))) && !GetKeyPageUp()) ||
                 (((Input.GetKeyUp(KeyCode.Space) && !Input.GetKey(KeyCode.E)) ||
@@ -93,6 +97,7 @@ public class Player : MonoBehaviour {
             {
                 temporalMoveCoolTime = 0f;
             }
+            */
         }
 
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
@@ -111,7 +116,7 @@ public class Player : MonoBehaviour {
                 r.position = new Vector3(r.position.x, r.position.y, r.position.z + Boundary.OnePageToDeltaZ());
                 temporalMoveCoolTime = 1f / temporalSpeed;
             }
-            if (temporalMoveCoolTime > 0f)
+            if (temporalMoveCoolTime > 0.5f / temporalSpeed)
             {
                 moveHorizontal = 0f;
                 moveVertical = 0f;
@@ -197,7 +202,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
@@ -243,7 +248,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
@@ -283,7 +288,7 @@ public class Player : MonoBehaviour {
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
                         */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(54f, 169f,
                             ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
                             / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                         purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();

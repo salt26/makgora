@@ -7,10 +7,23 @@ public class BackgroundModifier : MonoBehaviour {
     public SpriteRenderer pastSprite;
     public SpriteRenderer presentSprite;
     public SpriteRenderer futureSprite;
+    public RectTransform backgroundCanvas;
     public List<Sprite> backgrounds = new List<Sprite>();
 
     [SerializeField]
     private GameObject player;
+
+    private void Start()
+    {
+        pastSprite.GetComponent<Transform>().localPosition = new Vector3(pastSprite.GetComponent<Transform>().localPosition.x,
+            pastSprite.GetComponent<Transform>().localPosition.y, -Boundary.OnePageToDeltaZ() * 10000f);
+        presentSprite.GetComponent<Transform>().localPosition = new Vector3(presentSprite.GetComponent<Transform>().localPosition.x,
+            presentSprite.GetComponent<Transform>().localPosition.y, 0f);
+        futureSprite.GetComponent<Transform>().localPosition = new Vector3(futureSprite.GetComponent<Transform>().localPosition.x,
+            futureSprite.GetComponent<Transform>().localPosition.y, Boundary.OnePageToDeltaZ() * 10000f);
+        backgroundCanvas.localPosition = new Vector3(backgroundCanvas.localPosition.x,
+            backgroundCanvas.localPosition.y, Boundary.OnePageToDeltaZ() * 20000f);
+    }
 
     private void FixedUpdate()
     {

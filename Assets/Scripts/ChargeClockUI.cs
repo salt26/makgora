@@ -20,6 +20,7 @@ public class ChargeClockUI : ChargeUI {
 
     public Transform redHand;
     public Transform purpleHand;
+    public Text purpleText;
 
     private void Awake()
     {
@@ -59,13 +60,14 @@ public class ChargeClockUI : ChargeUI {
         GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         if (player.GetComponent<Player>().Health > 0)
         {
-            purpleHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, -30f * (player.position.z + Boundary.RoundZ(chargedZ))));
+            float deg = Mathf.Lerp(150f, -150f, ((player.position.z + Boundary.RoundZ(chargedZ)) - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
+            purpleHand.SetPositionAndRotation(GetComponent<RectTransform>().position, Quaternion.Euler(0f, 0f, deg));
+            purpleText.text = Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)).ToString();
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
-            redHand.SetPositionAndRotation(GetComponent<RectTransform>().position,
-                Quaternion.Euler(0f, 0f, -30f * enemy.position.z));
+            float deg = Mathf.Lerp(150f, -150f, (enemy.position.z - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
+            redHand.SetPositionAndRotation(GetComponent<RectTransform>().position, Quaternion.Euler(0f, 0f, deg));
             if (Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)) - Boundary.ZToPage(enemy.position.z) == 0)
             {
                 Color c = new Color(redHand.GetComponent<Image>().color.r, redHand.GetComponent<Image>().color.g, redHand.GetComponent<Image>().color.b, GetComponent<Image>().color.a);
@@ -83,5 +85,6 @@ public class ChargeClockUI : ChargeUI {
         GetComponent<Image>().enabled = true;
         purpleHand.GetComponent<Image>().enabled = true;
         redHand.GetComponent<Image>().enabled = true;
+        purpleText.enabled = true;
     }
 }

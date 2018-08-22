@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
 
-    public float speed;
-    public float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     public GameObject knife;
     public GameObject divineShield;
+    public GameObject pageText;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
@@ -17,24 +16,28 @@ public class Enemy : MonoBehaviour {
     public delegate void Damaged();
     public Damaged damaged;
 
+    private float speed;
+    private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
     private int health = 3;
     private float chargeSpeed = 0f;
     private GameObject myShield;
+    private GameObject myText;
     private Vector3 exactTarget;
     private Vector3 startPosition;
     private Vector3 destPosition;
     private bool isArrived = true;
     private bool isCharging = false;
     private float chargedZ;
-    private float approxZ;              // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
-    private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
+    private float approxZ;                  // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
+    private float invincibleTime;           // 피격 후 무적 판정이 되는, 남은 시간 
     private float maxInvincibleTime = 3f;
-    private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
-    private float easyMoveCoolTime = 0f;// 쉬움 난이도에서 목적지에 도착하고 다시 움직이기까지 대기하는 시간입니다.
+    private float temporalMoveCoolTime;     // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
+    private float easyMoveCoolTime = 0f;    // 쉬움 난이도에서 목적지에 도착하고 다시 움직이기까지 대기하는 시간입니다.
     private Rigidbody r;
     private Transform t;
     private GameObject blowend;
     private Player player;
+    private Camera mainCamera;
     private delegate void WhileInvincible();
     private delegate void Vanish();
     private delegate void Move();
@@ -67,6 +70,7 @@ public class Enemy : MonoBehaviour {
         myShield = null;
         blowend = null;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Start()
@@ -109,12 +113,12 @@ public class Enemy : MonoBehaviour {
             shoot += ShootInsane;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
-        else if (gameLevel.Equals("Hard") && !gameMode.Equals("Tutorial"))
+        else if (gameLevel.Equals("Hard"))
         {
             shoot += ShootHard;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
-        else if (gameLevel.Equals("Easy"))
+        else if (gameLevel.Equals("Easy") && !gameMode.Equals("Tutorial"))
         {
             shoot += ShootEasy;
             chargeSpeed = Manager.instance.EasyChargeSpeed;
@@ -129,13 +133,22 @@ public class Enemy : MonoBehaviour {
                 move += MoveStalkerEasy;
             }
         }
+        speed = Manager.instance.MovingSpeed;
+        temporalSpeed = Manager.instance.TemporalSpeed;
     }
 
     void FixedUpdate ()
     {
         whileInvincible();
 
-        if (health <= 0) return;
+        if (health <= 0)
+        {
+            if (myText != null)
+            {
+                Destroy(myText);
+            }
+            return;
+        }
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         if (vanish.GetInvocationList().Length > 0) {
@@ -212,16 +225,18 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void VanishNormal()
     {
-        float alpha = Mathf.Max(0f, 1f - Mathf.Pow(Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z), 2));
+        float alpha = Mathf.Max(0f, 1f - Mathf.Pow(Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight, 2));
 
-        if (1 - Mathf.Abs(GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position.z - t.position.z) < 0)
+        if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0)
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = false;
             }
+
+            if (myText != null) myText.GetComponent<Text>().enabled = false;
         }
-        else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
@@ -229,6 +244,9 @@ public class Enemy : MonoBehaviour {
             }
             Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
             m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+
+            if (myText != null) myText.GetComponent<Text>().enabled = true;
+            TextMover();
         }
         else if (t.position.z < player.GetComponent<Transform>().position.z)
         {
@@ -239,7 +257,10 @@ public class Enemy : MonoBehaviour {
             Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
             m.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
-                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+
+            if (myText != null) myText.GetComponent<Text>().enabled = true;
+            TextMover();
         }
         else
         {
@@ -250,8 +271,32 @@ public class Enemy : MonoBehaviour {
             Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
             m.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
-                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+            
+            if (myText != null) myText.GetComponent<Text>().enabled = true;
+            TextMover();
         }
+    }
+    
+    /// <summary>
+    /// 상대가 있는 페이지를 텍스트로 표시하는 함수입니다.
+    /// delegate로 호출되지 않습니다.
+    /// </summary>
+    private void TextMover()
+    {
+        Vector3 v = mainCamera.WorldToScreenPoint(t.position);
+        v.y += 65f;
+        if (myText != null)
+        {
+            myText.GetComponent<Transform>().position = v;
+        }
+        else
+        {
+            myText = Instantiate(pageText, v, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        }
+        myText.GetComponent<Text>().text = Boundary.ZToPage(t.position.z).ToString();
+
+        myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material.color;
     }
 
     #endregion
@@ -844,7 +889,6 @@ public class Enemy : MonoBehaviour {
     }
 
     #endregion
-
 
 
     /// <summary>

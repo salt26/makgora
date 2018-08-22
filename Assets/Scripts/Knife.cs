@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Knife : MonoBehaviour {
 
     private int owner = -1;     // 칼을 던진 플레이어가 누구인지 (0: 휴먼, 1: 컴퓨터)
     private Vector3 start;      // 출발지입니다.
     private Vector3 dest;       // 목적지입니다. 날아갈 방향을 결정합니다.
+    private Vector3 direction;
 
     private Transform t;
     private Transform player;
     private Transform enemy;
+    private GameObject text;
+    private Camera mainCamera;
 
     private bool isCracked;
 
-    public float speed;
+    private float speed;
 
     public GameObject flare;
+    public GameObject knifeText;
 
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
@@ -25,26 +30,30 @@ public class Knife : MonoBehaviour {
         t = GetComponent<Transform>();  // 이 칼의 위치를 갖고 있습니다.
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         start = t.position;
         isCracked = false;
+        speed = Manager.instance.KnifeSpeed;
 
-        if (Mathf.Abs(player.position.z - t.position.z) > 1f)
+        if (Mathf.Abs(player.position.z - t.position.z) > Boundary.sight)
         {
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = false;
             }
         }
+        else
+        {
+            TextMover();
+        }
     }
 
     // 매 프레임마다 자동으로 호출됩니다.
     void FixedUpdate () {
-        Vector3 direction = new Vector3();
         float ownZ = 0f;
         float otherZ = 0f;
 		if (owner != -1)
         {
-            direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime,
                 Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles/* + new Vector3(-90f, 0f, 90f)*/));
         }
@@ -61,9 +70,10 @@ public class Knife : MonoBehaviour {
             otherZ = player.position.z;
         }
 
-        if (Mathf.Abs(player.position.z - t.position.z) > 1f)
+        if (Mathf.Abs(player.position.z - t.position.z) > Boundary.sight)
         {
             alpha = 0f;
+            if (text != null) text.GetComponent<Text>().enabled = false;
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = false;
@@ -71,22 +81,25 @@ public class Knife : MonoBehaviour {
         }
         else
         {
+            if (text != null) text.GetComponent<Text>().enabled = true;
+            TextMover();
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = true;
             }
             
+            // 투사체가 날아가다가 목표를 지난 후에
             if (direction.z != 0f && (otherZ - t.position.z) * direction.z < 0)
             {
                 // 상대방 위치의 반대 방향으로 총알을 쏘면 자신과의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
                 if ((ownZ - otherZ) * (ownZ - t.position.z) < 0)
                 {
-                    alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) - 1, 2);
+                    alpha = Mathf.Pow(Mathf.Abs(ownZ - t.position.z) / Boundary.sight - 1, 2);
                 }
                 // 그 외의 경우 대상 캐릭터와의 Z좌표 차이에 따라 투명도를 적용합니다.
                 else
                 {
-                    alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) - 1, 2);
+                    alpha = Mathf.Pow(Mathf.Abs(otherZ - t.position.z) / Boundary.sight - 1, 2);
                 }
 
             }
@@ -94,14 +107,14 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f)
+            if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f && dest.z - start.z > Boundary.OnePageToDeltaZ() * 0.5f)
             {
                 Instantiate(flare, t.position, Quaternion.identity);
                 isCracked = true;
             }
         }
 
-        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * 0.8f)
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
         {
             if (owner == 0)
                 GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, alpha);
@@ -112,17 +125,20 @@ public class Knife : MonoBehaviour {
         {
             GetComponent<MeshRenderer>().material.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor, 
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
         else
         {
             GetComponent<MeshRenderer>().material.color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
-                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * 0.8f), alpha);
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
 
-        if (Mathf.Abs(t.position.z) > Boundary.zMax + 1f || Mathf.Abs(t.position.x) > Boundary.xMax + 1f || Mathf.Abs(t.position.y) > Boundary.yMax + 1f)
+        if (Mathf.Abs(t.position.z) > Boundary.zMax + Boundary.sight ||
+            Mathf.Abs(t.position.x) > Boundary.xMax + Boundary.sight || 
+            Mathf.Abs(t.position.y) > Boundary.yMax + Boundary.sight)
         {
+            Destroy(text);
             Destroy(gameObject);
         }
 
@@ -138,6 +154,8 @@ public class Knife : MonoBehaviour {
         dest = destination;
         if (owner == 0 || owner == 1)
             this.owner = owner;
+        
+        if (owner != -1) direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
     }
 
     private void OnTriggerEnter(Collider other)
@@ -145,6 +163,7 @@ public class Knife : MonoBehaviour {
         if (other.tag.Equals("Player") && owner == 1 && other.GetComponent<Player>().Health > 0)
         {
             other.GetComponent<Player>().Damaged();
+            Destroy(text);
             Destroy(gameObject);
         }
         else if (other.tag.Equals("Enemy") && owner == 0 && other.GetComponent<Enemy>().Health > 0)
@@ -155,7 +174,61 @@ public class Knife : MonoBehaviour {
                 isCracked = true;
             }
             other.GetComponent<Enemy>().damaged();
+            Destroy(text);
             Destroy(gameObject);
+        }
+    }
+
+    private void TextMover()
+    {
+        if (Manager.instance.GetCurrentGame()[1].Equals("Hard"))
+        {
+            return;
+        }
+        Vector3 v = mainCamera.WorldToScreenPoint(t.position);
+        v.y += 12f;
+        if (text != null)
+        {
+            text.GetComponent<Transform>().position = v;
+        }
+        else
+        {
+            text = Instantiate(knifeText, v, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        }
+        int pageDiff = Boundary.ZToPage(t.position.z) - Boundary.ZToPage(player.position.z);
+        if (pageDiff > 0)
+        {
+            text.GetComponent<Text>().text = "+" + pageDiff.ToString();
+        }
+        else
+        {
+            text.GetComponent<Text>().text = pageDiff.ToString();
+        }
+
+        float alpha = 1f;
+        if (owner == 1 && direction.z != 0f && (player.position.z - t.position.z) * direction.z < 0)
+        {
+            alpha = Mathf.Pow(Mathf.Abs(player.position.z - t.position.z) / Boundary.sight - 1, 2);
+        }
+
+        if (Mathf.Abs(player.position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
+        {
+            if (owner == 0)
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentPlayerColor, alpha);
+            else
+                text.GetComponent<Text>().color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+        }
+        else if (t.position.z < player.position.z)
+        {
+            text.GetComponent<Text>().color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+        }
+        else
+        {
+            text.GetComponent<Text>().color =
+                ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
+                Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
         }
     }
 }
