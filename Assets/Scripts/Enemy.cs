@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour {
     public AudioClip damagedSound;
     public AudioClip guardSound;
     public AudioClip killedSound;
+    public AudioClip readySound;
     public GameObject blow;
     public delegate void Damaged();
     public Damaged damaged;
@@ -27,6 +28,7 @@ public class Enemy : MonoBehaviour {
     private Vector3 destPosition;
     private bool isArrived = true;
     private bool isCharging = false;
+    private bool hasReadySpoken = false;
     private float chargedZ;
     private float approxZ;                  // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
     private float invincibleTime;           // 피격 후 무적 판정이 되는, 남은 시간 
@@ -75,6 +77,7 @@ public class Enemy : MonoBehaviour {
 
     void Start()
     {
+        Manager.instance.EnemyObject = this.gameObject;
         string gameMode = Manager.instance.GetCurrentGame()[0];
         string gameLevel = Manager.instance.GetCurrentGame()[1];
         if (gameMode.Equals("Tutorial"))
@@ -240,6 +243,7 @@ public class Enemy : MonoBehaviour {
                     mr.enabled = false;
                 }
 
+                if (myShield != null) myShield.GetComponent<MeshRenderer>().enabled = false;
                 if (myText != null) myText.GetComponent<Text>().enabled = false;
             }
             else if (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) < Boundary.OnePageToDeltaZ() * Boundary.approach)
@@ -251,6 +255,13 @@ public class Enemy : MonoBehaviour {
                 //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
                 SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
 
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
@@ -267,6 +278,13 @@ public class Enemy : MonoBehaviour {
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
 
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
+
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
             }
@@ -282,6 +300,13 @@ public class Enemy : MonoBehaviour {
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
 
+                if (myShield != null)
+                {
+                    myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
+                        myShield.GetComponent<MeshRenderer>().material.color, alpha);
+                    myShield.GetComponent<MeshRenderer>().enabled = true;
+                }
+
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
             }
@@ -295,7 +320,7 @@ public class Enemy : MonoBehaviour {
     private void TextMover()
     {
         Vector3 v = mainCamera.WorldToScreenPoint(t.position);
-        v.y += 65f;
+        v.y += 70f;
         if (myText != null)
         {
             myText.GetComponent<Transform>().position = v;
@@ -628,7 +653,7 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void ShootEasy()
     {
-        if (!isCharging)
+        if (!isCharging && !IsInvincible)
         {
             chargedZ = 0f;
             isCharging = true;
@@ -662,7 +687,7 @@ public class Enemy : MonoBehaviour {
             chargedZ = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.5f;
+            approxZ = GaussianRandom() * 0.7f;
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {
@@ -686,12 +711,12 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void ShootInsane()
     {
-        if (!isCharging)
+        if (!isCharging && !IsInvincible)
         {
             chargedZ = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.2f;
+            approxZ = GaussianRandom() * 0.4f;
         }
         else if (isCharging && chargedZ < Mathf.Abs(approxZ))
         {
@@ -748,8 +773,11 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -797,8 +825,12 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            Debug.Log("Enemy guarded!");
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -868,8 +900,11 @@ public class Enemy : MonoBehaviour {
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -900,6 +935,26 @@ public class Enemy : MonoBehaviour {
 
     #endregion
 
+
+    public void SpeakReady()
+    {
+        if (!hasReadySpoken)
+        {
+            hasReadySpoken = true;
+
+            string gameMode = Manager.instance.GetCurrentGame()[0];
+            if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+                StartCoroutine("ReadySpeech");
+        }
+    }
+
+    IEnumerator ReadySpeech()
+    {
+        yield return null;
+        GetComponent<AudioSource>().clip = readySound;
+        GetComponent<AudioSource>().Play();
+        // TODO 말풍선 띄웠다 사라지게 하기
+    }
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.

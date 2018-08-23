@@ -9,10 +9,12 @@ public class Player : MonoBehaviour {
     public GameObject target;           // 마우스 클릭 지점 프리팹입니다.
     public GameObject knife;            // 칼 프리팹입니다.
     public GameObject divineShield;
+    public GameObject pageText;
     public List<GameObject> hearts;
     public AudioClip damagedSound;
     public AudioClip guardSound;
     public AudioClip killedSound;
+    public AudioClip readySound;
     public GameObject blow;
     public GameObject zLocation;
     public RectTransform purplePage;
@@ -24,6 +26,9 @@ public class Player : MonoBehaviour {
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
     private GameObject myShield;
+    private GameObject myText;
+    private Camera mainCamera;
+    private bool hasReadySpoken = false;
     private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
@@ -52,10 +57,12 @@ public class Player : MonoBehaviour {
         chargedZ = 0f;
         myShield = null;
         blowend = null;
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     private void Start()
     {
+        Manager.instance.PlayerObject = this.gameObject;
         string gameLevel = Manager.instance.GetCurrentGame()[1];
         if (gameLevel.Equals("Easy"))
         {
@@ -71,8 +78,9 @@ public class Player : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (health <= 0)
+        if (health <= 0 || Manager.instance.GetGameOver())
         {
+            r.velocity = Vector3.zero;
             if (targetObject != null)
             {
                 Destroy(targetObject);
@@ -80,8 +88,14 @@ public class Player : MonoBehaviour {
                 purplePage.GetComponent<Image>().enabled = false;
                 purpleText.enabled = false;
             }
+            if (myText != null)
+            {
+                Destroy(myText);
+            }
             return;
         }
+        
+        if (Manager.instance.IsPaused) return;
 
         #region 움직이는(move) 코드
 
@@ -127,14 +141,7 @@ public class Player : MonoBehaviour {
 
         // 플레이어를 움직입니다.
         Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0f);
-        if (!Manager.instance.GetGameOver())
-        {
-            r.velocity = movement.normalized * speed;
-        }
-        else
-        {
-            r.velocity = Vector3.zero;
-        }
+        r.velocity = movement.normalized * speed;
 
         // 플레이어가 화면 밖으로 나갈 수 없게 합니다.
         r.position = new Vector3
@@ -145,19 +152,6 @@ public class Player : MonoBehaviour {
         );
 
         #endregion
-
-        if (Manager.instance.GetGameOver())
-        {
-            if (targetObject != null)
-            {
-                Destroy(targetObject);
-                targetObject = null;
-                purplePage.GetComponent<Image>().enabled = false;
-                purpleText.enabled = false;
-            }
-            return;
-        }
-        if (Manager.instance.IsPaused) return;
 
         #region 던지는(shoot) 코드
 
@@ -337,6 +331,42 @@ public class Player : MonoBehaviour {
             Destroy(myShield);
             myShield = null;
         }
+
+        if (Manager.instance.GetGameOver()) return;
+
+        if (Manager.instance.IsPaused && myText != null)
+        {
+            myText.GetComponent<Text>().enabled = false;
+        }
+        else if (!Manager.instance.IsPaused)
+        {
+            if (myText != null) myText.GetComponent<Text>().enabled = true;
+            TextMover();
+        }
+    }
+
+    /// <summary>
+    /// 플레이어가 있는 페이지를 텍스트로 표시하는 함수입니다.
+    /// </summary>
+    private void TextMover()
+    {
+        if (Manager.instance.GetCurrentGame()[1].Equals("Hard"))
+        {
+            return;
+        }
+        Vector3 v = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
+        v.y += 70f;
+        if (myText != null)
+        {
+            myText.GetComponent<Transform>().position = v;
+        }
+        else
+        {
+            myText = Instantiate(pageText, v, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        }
+        myText.GetComponent<Text>().text = Boundary.ZToPage(GetComponent<Transform>().position.z).ToString();
+
+        myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color;
     }
 
     public void Damaged()
@@ -355,14 +385,18 @@ public class Player : MonoBehaviour {
             {
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
+                myShield.GetComponent<MeshRenderer>().enabled = true;
                 GetComponent<AudioSource>().clip = damagedSound;
                 GetComponent<AudioSource>().Play();
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            GetComponent<AudioSource>().clip = guardSound;
-            GetComponent<AudioSource>().Play();
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
         }
 
         if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
@@ -387,6 +421,26 @@ public class Player : MonoBehaviour {
             Destroy(blowend);
         }
         blowend = null;
+    }
+
+    public void SpeakReady()
+    {
+        if (!hasReadySpoken)
+        {
+            hasReadySpoken = true;
+
+            string gameMode = Manager.instance.GetCurrentGame()[0];
+            if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+                StartCoroutine("ReadySpeech");
+        }
+    }
+
+    IEnumerator ReadySpeech()
+    {
+        yield return null;
+        GetComponent<AudioSource>().clip = readySound;
+        GetComponent<AudioSource>().Play();
+        // TODO 말풍선 띄웠다 사라지게 하기
     }
 
     private bool GetKeyPageDown()

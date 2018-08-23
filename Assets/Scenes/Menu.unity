@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -462,10 +462,10 @@ RectTransform:
   m_Father: {fileID: 1474015525}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 448, y: 86}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219418207
 MonoBehaviour:
@@ -499,7 +499,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBC29\uB791\uC790\uC640 \uB9C9\uACE0\uB77C (\uC26C\uC6C0)\n"
+  m_Text: "\uBC29\uB791\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC26C\uC6C0)"
 --- !u!222 &219418208
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -734,8 +734,8 @@ MonoBehaviour:
     type: 2}
   menuPanel: {fileID: 64779291}
   canvas: {fileID: 321055595}
-  text: "\uD53C\uACA9 \uC804\uAE4C\uC9C0 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2606\u2606\u2606\u2606"
+  text: "\u2605\u2606\u2606\u2606\u2606                \uD53C\uACA9 \uC804\uAE4C\uC9C0
+    \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C \uC0C1\uB300\uD569\uB2C8\uB2E4."
   x: 192
   y: 264
   width: 300
@@ -1586,7 +1586,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1259136376}
   canvas: {fileID: 321055595}
   text: "\uD50C\uB808\uC774\uC5B4\uB97C \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2606"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2606"
   x: 512
   y: 424
   width: 300
@@ -2272,7 +2272,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1168317421}
   canvas: {fileID: 321055595}
   text: "\uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294 \uBC29\uB791\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2605"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2605"
   x: 832
   y: 424
   width: 300
@@ -2311,10 +2311,10 @@ RectTransform:
   m_Father: {fileID: 987388315}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -15}
-  m_SizeDelta: {x: 448, y: 80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &545167009
 MonoBehaviour:
@@ -2348,7 +2348,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCD94\uC801\uC790\uC640 \uB9C9\uACE0\uB77C (\uC26C\uC6C0)\n"
+  m_Text: "\uCD94\uC801\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC26C\uC6C0)"
 --- !u!222 &545167010
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2730,7 +2730,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC218\uD638\uC790\uC640 \uB9C9\uACE0\uB77C (\uC5B4\uB824\uC6C0)"
+  m_Text: "\uC218\uD638\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC5B4\uB824\uC6C0)"
 --- !u!222 &578921918
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4316,8 +4316,8 @@ MonoBehaviour:
     type: 2}
   menuPanel: {fileID: 1042269864}
   canvas: {fileID: 321055595}
-  text: "\uD50C\uB808\uC774\uC5B4\uB97C \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2606\u2606\u2606"
+  text: "\u2605\u2605\u2606\u2606\u2606                \uD50C\uB808\uC774\uC5B4\uB97C
+    \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C \uC0C1\uB300\uD569\uB2C8\uB2E4."
   x: 512
   y: 264
   width: 300
@@ -6131,10 +6131,10 @@ RectTransform:
   m_Father: {fileID: 540484132}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 376, y: 64}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1384023137
 MonoBehaviour:
@@ -6168,7 +6168,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBC29\uB791\uC790\uC640 \uB9C9\uACE0\uB77C (\uC5B4\uB824\uC6C0)\n"
+  m_Text: "\uBC29\uB791\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC5B4\uB824\uC6C0)"
 --- !u!222 &1384023138
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6635,8 +6635,8 @@ MonoBehaviour:
     type: 2}
   menuPanel: {fileID: 1583865021}
   canvas: {fileID: 321055595}
-  text: "\uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294 \uBC29\uB791\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \uB09C\uC774\uB3C4 : \u2605\u2605\u2606\u2606\u2606"
+  text: "\u2605\u2605\u2605\u2606\u2606                \uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294
+    \uBC29\uB791\uC790\uB97C \uC0C1\uB300\uD569\uB2C8\uB2E4."
   x: 832
   y: 264
   width: 300
@@ -6814,10 +6814,10 @@ RectTransform:
   m_Father: {fileID: 410974324}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -16}
-  m_SizeDelta: {x: 376, y: 84}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1559450310
 MonoBehaviour:
@@ -6851,7 +6851,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uCD94\uC801\uC790\uC640 \uB9C9\uACE0\uB77C (\uC5B4\uB824\uC6C0)\n"
+  m_Text: "\uCD94\uC801\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC5B4\uB824\uC6C0)"
 --- !u!222 &1559450311
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7069,7 +7069,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC218\uD638\uC790\uC640 \uB9C9\uACE0\uB77C (\uC26C\uC6C0)"
+  m_Text: "\uC218\uD638\uC790\uC640 \uB9C9\uACE0\uB77C\n(\uC26C\uC6C0)"
 --- !u!222 &1641994988
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8542,7 +8542,7 @@ MonoBehaviour:
   menuPanel: {fileID: 1665060597}
   canvas: {fileID: 321055595}
   text: "\uD53C\uACA9 \uC804\uAE4C\uC9C0 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4.            \uB09C\uC774\uB3C4 : \u2605\u2605\u2605\u2605\u2606"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2606"
   x: 192
   y: 424
   width: 300

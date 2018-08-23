@@ -55,7 +55,9 @@ public class Knife : MonoBehaviour {
 		if (owner != -1)
         {
             t.SetPositionAndRotation(t.position + direction * Time.fixedDeltaTime,
-                Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles/* + new Vector3(-90f, 0f, 90f)*/));
+                //Quaternion.Euler(Quaternion.LookRotation(direction).eulerAngles + new Vector3(0f, 0f, 0f)));
+                Quaternion.LookRotation(direction, Vector3.forward) *
+                Quaternion.FromToRotation(new Vector3(0f, 1f, 0f), new Vector3(0f, 0f, 1f)));
         }
 
         float alpha = 1f;   // 대상을 지나 사라질 때 투명화됨
@@ -187,7 +189,22 @@ public class Knife : MonoBehaviour {
             return;
         }
         Vector3 v = mainCamera.WorldToScreenPoint(t.position);
-        v.y += 12f;
+        Vector3 d = mainCamera.WorldToScreenPoint(t.position + direction) - v;
+        // d.x * a.x + d.y * a.y = 0
+        // a.x = d.y
+        // a.y = -d.x
+        Vector3 o = new Vector3(d.y, -d.x, 0f).normalized;
+        if (owner == 0)
+        {
+            v -= o * 30f;
+            v -= d.normalized * 10f;
+        }
+        else if (owner == 1)
+        {
+            v -= o * 20f;
+            v -= d.normalized * 25f;
+        }
+
         if (text != null)
         {
             text.GetComponent<Transform>().position = v;

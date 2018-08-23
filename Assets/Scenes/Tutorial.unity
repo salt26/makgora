@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -204,7 +204,8 @@ MonoBehaviour:
   - {fileID: 1635039975}
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
-  killedSound: {fileID: 8300000, guid: 4d55fa59c3fff5f479b0610835e77346, type: 3}
+  killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
+  readySound: {fileID: 0}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
 --- !u!82 &82032289
 AudioSource:
@@ -324,8 +325,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 134385162}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03636364, z: 2500}
-  m_LocalScale: {x: 0.06363636, y: 0.07878788, z: 2800}
+  m_LocalPosition: {x: 0, y: 0.035294116, z: 2500}
+  m_LocalScale: {x: 0.062222227, y: 0.07647058, z: 2800}
   m_Children: []
   m_Father: {fileID: 1370145636}
   m_RootOrder: 2
@@ -428,6 +429,7 @@ MonoBehaviour:
   restartPanel: {fileID: 0}
   restartText: {fileID: 0}
   skipTutorialButton: {fileID: 0}
+  modeText: {fileID: 0}
 --- !u!114 &137897136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,6 +1554,7 @@ MonoBehaviour:
   restartPanel: {fileID: 1315655326}
   restartText: {fileID: 0}
   skipTutorialButton: {fileID: 1307553982}
+  modeText: {fileID: 1037010127}
 --- !u!1 &649163775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1688,7 +1691,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 30
+  m_Text: '20
+
+'
 --- !u!222 &748283566
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1984,7 +1989,7 @@ RectTransform:
   m_GameObject: {fileID: 892957429}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 5000}
-  m_LocalScale: {x: 0.00106, y: 0.0014233, z: 10000}
+  m_LocalScale: {x: 0.0010364446, y: 0.0013814381, z: 10000}
   m_Children:
   - {fileID: 1279553096}
   - {fileID: 1549000443}
@@ -2522,8 +2527,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1061261819}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03636364, z: 0}
-  m_LocalScale: {x: 0.06363636, y: 0.07878788, z: 2800}
+  m_LocalPosition: {x: 0, y: 0.035294116, z: 0}
+  m_LocalScale: {x: 0.062222227, y: 0.07647058, z: 2800}
   m_Children: []
   m_Father: {fileID: 1370145636}
   m_RootOrder: 1
@@ -3479,13 +3484,15 @@ MonoBehaviour:
   knife: {fileID: 1095277858497108, guid: 84230d657a721bb4c9b12d4786ffed6f, type: 2}
   divineShield: {fileID: 1083816958362840, guid: 0253f49f01085e64a8b49cebe057705a,
     type: 2}
+  pageText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
   hearts:
   - {fileID: 1205852880}
   - {fileID: 1107696448}
   - {fileID: 489079333}
   damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
-  killedSound: {fileID: 8300000, guid: 80760dd81c84d0d4293b53efd8d69181, type: 3}
+  killedSound: {fileID: 8300000, guid: ce4592eee5e468449a93b721f3553bcb, type: 3}
+  readySound: {fileID: 0}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   zLocation: {fileID: 748283563}
   purplePage: {fileID: 399366460}
@@ -3687,7 +3694,7 @@ Transform:
   m_GameObject: {fileID: 1370145635}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.4, y: 3.3, z: 0.000100000005}
+  m_LocalScale: {x: 4.5, y: 3.4, z: 0.000100000005}
   m_Children:
   - {fileID: 1681102098}
   - {fileID: 1061261820}
@@ -4188,8 +4195,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1681102097}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03636364, z: -2500}
-  m_LocalScale: {x: 0.06363636, y: 0.07878788, z: 2800}
+  m_LocalPosition: {x: 0, y: 0.035294116, z: -2500}
+  m_LocalScale: {x: 0.062222227, y: 0.07647058, z: 2800}
   m_Children: []
   m_Father: {fileID: 1370145636}
   m_RootOrder: 0
