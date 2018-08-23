@@ -274,6 +274,7 @@ public class Manager : MonoBehaviour {
     IEnumerator Lose()
     {
         instance.SetGameOver();
+        instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.0f);
         GetComponent<AudioSource>().clip = loseSound;
         GetComponent<AudioSource>().Play();
@@ -283,10 +284,11 @@ public class Manager : MonoBehaviour {
     IEnumerator Win()
     {
         instance.SetGameOver();
+        instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.5f);
-        instance.winPanel.SetActive(true);
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
+        instance.winPanel.SetActive(true);
     }
 
     IEnumerator Graduate()

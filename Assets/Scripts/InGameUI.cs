@@ -19,10 +19,12 @@ public class InGameUI : MonoBehaviour {
     private GameObject skipTutorialButton;
     [SerializeField]
     private Text modeText;
+    [SerializeField]
+    private GameObject sortingObject;   // 새로 생성될 ui 오브젝트들이 패널 뒤에 배치되도록 하는 오브젝트입니다.
 
     private void Start()
     {
-        Manager.instance.Canvas = this.gameObject;
+        Manager.instance.Canvas = sortingObject;
         if (startPanel != null)
         {
             Manager.instance.StartPanel = startPanel;
