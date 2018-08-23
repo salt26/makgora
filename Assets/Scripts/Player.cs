@@ -30,7 +30,6 @@ public class Player : MonoBehaviour {
     private GameObject blowend;
     private Camera mainCamera;
     private bool hasReadySpoken = false;
-    private bool hasMouseReleased = false;
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -172,7 +171,7 @@ public class Player : MonoBehaviour {
                     targetObject.GetComponentInChildren<ChargeClockUI>().PrepareTime = prepareWeaponTime;
                 }
             }
-            
+
             if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
             {
                 Charging(-1f);
@@ -185,23 +184,14 @@ public class Player : MonoBehaviour {
             {
                 Charging(0f);
             }
-            else if (hasMouseReleased && prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
+            else if (prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
             {
+                // 마우스를 누르고 있지 않지만 무기 소환이 시작되어 완료되지 않은 경우
                 Charging(0f);
             }
-
-            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+            else if (prepareWeaponTime >= Manager.instance.PrepareChargeTime)
             {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-                {
-                    hasMouseReleased = true;
-                }
-            }
-
-            if (hasMouseReleased && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
-            {
+                // 마우스를 누르고 있지 않고 무기 소환이 완료된 경우
                 Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
@@ -219,9 +209,20 @@ public class Player : MonoBehaviour {
                     purpleText.enabled = false;
                     chargedZ = 0f;
                     prepareWeaponTime = -1f;
-                    hasMouseReleased = false;
                 }
             }
+
+            /*
+            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+            {
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    hasMouseReleased = true;
+                }
+            }
+            */
         }
         #endregion
     }
