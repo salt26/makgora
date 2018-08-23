@@ -20,6 +20,8 @@ public class Player : MonoBehaviour {
     public GameObject weaponToSummon;
     public RectTransform purplePage;
     public Text purpleText;
+    public GameObject speechBubble;
+    
 
     private float speed;
     private float temporalSpeed;        // 시간 축을 따라 초당 움직이는 칸 수입니다.
@@ -36,6 +38,9 @@ public class Player : MonoBehaviour {
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
     private Rigidbody r;
+    private Vector3 releasedMousePosition;
+    private GameObject mySpeech;
+    private Vector3 speechVector;
 
     public int Health
     {
@@ -245,6 +250,14 @@ public class Player : MonoBehaviour {
             myShield = null;
         }
 
+        speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
+        speechVector.x -= 120f;
+        speechVector.y += 80f;
+        if (mySpeech != null)
+        {
+            mySpeech.GetComponent<RectTransform>().position = speechVector;
+        }
+
         if (Manager.instance.GetGameOver()) return;
 
         if (Manager.instance.IsPaused)
@@ -333,6 +346,7 @@ public class Player : MonoBehaviour {
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
             
             StartCoroutine("Blow");
+            StartCoroutine("EndSpeech");
             Manager.instance.LoseGame();
         }
     }
@@ -347,6 +361,15 @@ public class Player : MonoBehaviour {
         blowend = null;
     }
 
+    IEnumerator EndSpeech()
+    {
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "이제 그만...";
+        yield return new WaitForSeconds(2.2f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
     public void SpeakReady()
     {
         if (!hasReadySpoken)
@@ -355,16 +378,21 @@ public class Player : MonoBehaviour {
 
             string gameMode = Manager.instance.GetCurrentGame()[0];
             if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+            {
                 StartCoroutine("ReadySpeech");
+            }
         }
     }
 
     IEnumerator ReadySpeech()
     {
-        yield return null;
         GetComponent<AudioSource>().clip = readySound;
         GetComponent<AudioSource>().Play();
-        // TODO 말풍선 띄웠다 사라지게 하기
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "난 준비되었네.";
+        yield return new WaitForSeconds(1.5f);
+        Destroy(mySpeech);
+        mySpeech = null;
     }
 
     private bool GetKeyPageDown()

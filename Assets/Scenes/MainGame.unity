@@ -375,6 +375,8 @@ MonoBehaviour:
   readySound: {fileID: 8300000, guid: 35e4ada88b7362944b278f745d51c80a, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   weaponToSummon: {fileID: 1050851794}
+  speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
+    type: 2}
 --- !u!82 &82032289
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4524,6 +4526,8 @@ MonoBehaviour:
   weaponToSummon: {fileID: 1897797794}
   purplePage: {fileID: 2083756120}
   purpleText: {fileID: 308421940}
+  speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
+    type: 2}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6402,8 +6406,8 @@ MonoBehaviour:
   width: 0
   height: 0
   r: 0.4
-  g: 0.8
-  b: 0.4
+  g: 0.4
+  b: 0.8
   fontSize: 0
 --- !u!1 &1996745151
 GameObject:

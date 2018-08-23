@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour {
     public GameObject weaponToSummon;
     public delegate void Damaged();
     public Damaged damaged;
+    public GameObject speechBubble;
 
     private float speed;
     private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
@@ -50,6 +51,8 @@ public class Enemy : MonoBehaviour {
     private Vanish vanish;
     private Move move;
     private Shoot shoot;
+    private GameObject mySpeech;
+    private Vector3 speechVector;
 
     public int Health
     {
@@ -154,6 +157,14 @@ public class Enemy : MonoBehaviour {
                 Destroy(myText);
             }
             return;
+        }
+
+        speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
+        speechVector.x -= 120f;
+        speechVector.y += 80f;
+        if (mySpeech != null)
+        {
+            mySpeech.GetComponent<RectTransform>().position = speechVector;
         }
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
@@ -808,6 +819,7 @@ public class Enemy : MonoBehaviour {
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
             StartCoroutine("Blow");
+            StartCoroutine("EndSpeech");
             Manager.instance.WinGame();
         }
     }
@@ -862,6 +874,7 @@ public class Enemy : MonoBehaviour {
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
             StartCoroutine("Blow");
+            StartCoroutine("EndSpeech");
             Manager.instance.WinGame();
 
         }
@@ -952,6 +965,15 @@ public class Enemy : MonoBehaviour {
         blowend = null;
     }
 
+    IEnumerator EndSpeech()
+    {
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "이 세계에 파멸을...";
+        yield return new WaitForSeconds(3.0f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
     #endregion
 
     #region 대사 재생 함수들
@@ -964,16 +986,21 @@ public class Enemy : MonoBehaviour {
 
             string gameMode = Manager.instance.GetCurrentGame()[0];
             if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+            {
                 StartCoroutine("ReadySpeech");
+            }
         }
     }
 
     IEnumerator ReadySpeech()
     {
-        yield return null;
         GetComponent<AudioSource>().clip = readySound;
         GetComponent<AudioSource>().Play();
-        // TODO 말풍선 띄웠다 사라지게 하기
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "이 전투를 기다려왔다!";
+        yield return new WaitForSeconds(2.2f);
+        Destroy(mySpeech);
+        mySpeech = null;
     }
 
     #endregion
