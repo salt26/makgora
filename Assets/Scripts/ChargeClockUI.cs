@@ -10,6 +10,7 @@ public class ChargeClockUI : MonoBehaviour {
     private Transform enemy;
     private float chargedZ = 0f;
     private float prepareTime = 0f;
+    private bool isColored = false;
 
     public float ChargedZ
     {
@@ -29,6 +30,7 @@ public class ChargeClockUI : MonoBehaviour {
 
     public Transform redHand;
     public Transform purpleHand;
+    public RectTransform background; 
     public Text purpleText;
 
     private void Awake()
@@ -45,12 +47,14 @@ public class ChargeClockUI : MonoBehaviour {
 
     public void SetRectTransform()
     {
+        isColored = false;
         GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         if (player.GetComponent<Player>().Health > 0)
         {
             float deg = Mathf.Lerp(150f, -150f, ((player.position.z + Boundary.RoundZ(chargedZ)) - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
             purpleHand.SetPositionAndRotation(GetComponent<RectTransform>().position, Quaternion.Euler(0f, 0f, deg));
             purpleText.text = Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)).ToString();
+            background.position = GetComponent<RectTransform>().position;
         }
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
@@ -61,16 +65,19 @@ public class ChargeClockUI : MonoBehaviour {
             {
                 Color c = new Color(redHand.GetComponent<Image>().color.r, redHand.GetComponent<Image>().color.g, redHand.GetComponent<Image>().color.b, GetComponent<Image>().color.a);
                 GetComponent<Image>().color = c;
-            }
-            else if (prepareTime >= Manager.instance.PrepareChargeTime)
-            {
-                GetComponent<Image>().color = new Color(0f, 0f, 0f, GetComponent<Image>().color.a);
+                isColored = true;
             }
         }
 
         if (prepareTime < Manager.instance.PrepareChargeTime)
         {
+            background.sizeDelta = Vector2.Lerp(new Vector2(100f, 100f), Vector2.zero, prepareTime / Manager.instance.PrepareChargeTime);
             GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, GetComponent<Image>().color.a);
+            isColored = true;
+        }
+        if (!isColored)
+        {
+            GetComponent<Image>().color = new Color(0f, 0f, 0f, GetComponent<Image>().color.a);
         }
     }
 
@@ -80,5 +87,6 @@ public class ChargeClockUI : MonoBehaviour {
         purpleHand.GetComponent<Image>().enabled = true;
         redHand.GetComponent<Image>().enabled = true;
         purpleText.enabled = true;
+        background.GetComponent<Image>().enabled = true;
     }
 }
