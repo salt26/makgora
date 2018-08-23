@@ -30,9 +30,10 @@ public class Manager : MonoBehaviour {
 
     // TODO 아래 게임오브젝트들 설정하기
     private GameObject canvas;
+    private GameObject startPanel;
     private GameObject pausePanel;
-    private GameObject restartPanel;
-    private Text restartText;
+    private GameObject winPanel;
+    private GameObject losePanel;
     private GameObject skipTutorialButton;
     private GameObject player;
     private GameObject enemy;
@@ -79,19 +80,24 @@ public class Manager : MonoBehaviour {
         set { canvas = value; }
     }
     
+    public GameObject StartPanel
+    {
+        set { startPanel = value; }
+    }
+
     public GameObject PausePanel
     {
         set { pausePanel = value; }
     }
 
-    public GameObject RestartPanel
+    public GameObject WinPanel
     {
-        set { restartPanel = value; }
+        set { winPanel = value; }
     }
 
-    public Text RestartText
+    public GameObject LosePanel
     {
-        set { restartText = value; }
+        set { losePanel = value; }
     }
 
     public GameObject PlayerObject
@@ -170,14 +176,14 @@ public class Manager : MonoBehaviour {
         instance.Level = GameLevel.None;
     }
 
-    public void LoseGame()
-    {
-        StartCoroutine("Lose");
-    }
-
     public void WinGame()
     {
         StartCoroutine("Win");
+    }
+
+    public void LoseGame()
+    {
+        StartCoroutine("Lose");
     }
 
     public void GraduateTutorial()
@@ -215,8 +221,8 @@ public class Manager : MonoBehaviour {
 
     public void MenuButton()
     {
-        instance.RestartPanel = null;
-        instance.RestartText = null;
+        instance.WinPanel = null;
+        instance.losePanel = null;
         instance.SkipTutorialButton = null;
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
@@ -227,7 +233,7 @@ public class Manager : MonoBehaviour {
     public void StartButton()
     {
         Time.timeScale = 1f;
-        instance.pausePanel.SetActive(false);
+        instance.startPanel.SetActive(false);
         StartCoroutine("Unpause");
     }
 
@@ -261,16 +267,14 @@ public class Manager : MonoBehaviour {
         yield return new WaitForSeconds(3.0f);
         GetComponent<AudioSource>().clip = loseSound;
         GetComponent<AudioSource>().Play();
-        instance.restartPanel.SetActive(true);
+        instance.losePanel.SetActive(true);
     }
 
     IEnumerator Win()
     {
         instance.SetGameOver();
         yield return new WaitForSeconds(3.0f);
-        instance.restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
-        instance.restartText.text = "YOU WIN!";
-        instance.restartPanel.SetActive(true);
+        instance.winPanel.SetActive(true);
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
     }
@@ -280,8 +284,7 @@ public class Manager : MonoBehaviour {
         instance.skipTutorialButton.SetActive(false);
         instance.SetGameOver();
         yield return new WaitForSeconds(3.0f);
-        instance.restartPanel.GetComponent<Image>().color = new Color(0f, 0f, 1f, 0.5f);
-        instance.restartPanel.SetActive(true);
+        instance.winPanel.SetActive(true);
 
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();

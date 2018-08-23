@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class InGameUI : MonoBehaviour {
 
     [SerializeField]
-    private GameObject pausePanel;
+    private GameObject startPanel;
     [SerializeField]
-    private GameObject restartPanel;
+    private GameObject winPanel;
     [SerializeField]
-    private Text restartText;
+    private GameObject losePanel;
     [SerializeField]
     private GameObject skipTutorialButton;
     [SerializeField]
@@ -19,14 +19,16 @@ public class InGameUI : MonoBehaviour {
     private void Start()
     {
         Manager.instance.Canvas = this.gameObject;
-        Manager.instance.RestartPanel = restartPanel;
-        if (restartText != null)
-            Manager.instance.RestartText = restartText;
+        Manager.instance.WinPanel = winPanel;
+        if (losePanel != null)
+        {
+            Manager.instance.LosePanel = losePanel;
+        }
         if (skipTutorialButton != null)
             Manager.instance.SkipTutorialButton = skipTutorialButton;
-        if (pausePanel != null)
+        if (startPanel != null)
         {
-            Manager.instance.PausePanel = pausePanel;
+            Manager.instance.StartPanel = startPanel;
             Manager.instance.Pause();
         }
 
@@ -64,11 +66,6 @@ public class InGameUI : MonoBehaviour {
         // TODO 모드 추가 시 추가바람
     }
 
-    public void RestartButton()
-    {
-        Manager.instance.RestartButton();
-    }
-
     public void QuitButton()
     {
         Manager.instance.QuitButton();
@@ -81,6 +78,11 @@ public class InGameUI : MonoBehaviour {
     }
     */
 
+    public void RestartButton()
+    {
+        Manager.instance.RestartButton();
+    }
+    
     public void MenuButton()
     {
         Manager.instance.MenuButton();
