@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     public AudioClip killedSound;
     public AudioClip readySound;
     public GameObject blow;
+    public GameObject weaponToSummon;
     public delegate void Damaged();
     public Damaged damaged;
     public GameObject speechBubble;
@@ -249,6 +250,7 @@ public class Enemy : MonoBehaviour {
                 {
                     mr.enabled = false;
                 }
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
 
                 if (myShield != null) myShield.GetComponent<MeshRenderer>().enabled = false;
                 if (myText != null) myText.GetComponent<Text>().enabled = false;
@@ -262,6 +264,9 @@ public class Enemy : MonoBehaviour {
                 //Material m = GetComponentInChildren<CharacterModel>().GetComponent<MeshRenderer>().material;
                 SpriteRenderer m = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>();
                 m.color = ColorUtil.instance.AlphaColor(ColorUtil.instance.presentEnemyColor, alpha);
+                
+                weaponToSummon.GetComponent<MeshRenderer>().material.color =
+                    ColorUtil.instance.AlphaColor(weaponToSummon.GetComponent<MeshRenderer>().material.color, alpha);
 
                 if (myShield != null)
                 {
@@ -285,6 +290,9 @@ public class Enemy : MonoBehaviour {
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.pastColor, ColorUtil.instance.pastPastColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
 
+                weaponToSummon.GetComponent<MeshRenderer>().material.color =
+                        ColorUtil.instance.AlphaColor(weaponToSummon.GetComponent<MeshRenderer>().material.color, alpha);
+
                 if (myShield != null)
                 {
                     myShield.GetComponent<MeshRenderer>().material.color = ColorUtil.instance.AlphaColor(
@@ -306,6 +314,9 @@ public class Enemy : MonoBehaviour {
                 m.color =
                     ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                     Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+                
+                weaponToSummon.GetComponent<MeshRenderer>().material.color =
+                    ColorUtil.instance.AlphaColor(weaponToSummon.GetComponent<MeshRenderer>().material.color, alpha);
 
                 if (myShield != null)
                 {
@@ -316,6 +327,18 @@ public class Enemy : MonoBehaviour {
 
                 if (myText != null && !Manager.instance.IsPaused) myText.GetComponent<Text>().enabled = true;
                 TextMover();
+            }
+
+
+            if (!(1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0) &&
+                prepareWeaponTime > 0f)
+            {
+                weaponToSummon.GetComponent<Transform>().localScale = new Vector3(
+                    Mathf.Lerp(0f, 0.8f, prepareWeaponTime / Manager.instance.PrepareChargeTime),
+                    Mathf.Lerp(0f, 0.8f, prepareWeaponTime / Manager.instance.PrepareChargeTime),
+                    weaponToSummon.GetComponent<Transform>().localScale.z
+                    );
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = true;
             }
         }
     }
@@ -678,6 +701,7 @@ public class Enemy : MonoBehaviour {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
+            weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
@@ -705,6 +729,7 @@ public class Enemy : MonoBehaviour {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
+            weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
@@ -732,6 +757,7 @@ public class Enemy : MonoBehaviour {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
             isCharging = false;
+            weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
@@ -785,6 +811,7 @@ public class Enemy : MonoBehaviour {
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
@@ -839,6 +866,7 @@ public class Enemy : MonoBehaviour {
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();
@@ -914,6 +942,7 @@ public class Enemy : MonoBehaviour {
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();

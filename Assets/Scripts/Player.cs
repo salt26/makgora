@@ -17,6 +17,7 @@ public class Player : MonoBehaviour {
     public AudioClip readySound;
     public GameObject blow;
     public GameObject zLocation;
+    public GameObject weaponToSummon;
     public RectTransform purplePage;
     public Text purpleText;
     public GameObject speechBubble;
@@ -212,6 +213,7 @@ public class Player : MonoBehaviour {
                     targetObject = null;
                     purplePage.GetComponent<Image>().enabled = false;
                     purpleText.enabled = false;
+                    weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
                     chargedZ = 0f;
                     prepareWeaponTime = -1f;
                 }
@@ -258,14 +260,24 @@ public class Player : MonoBehaviour {
 
         if (Manager.instance.GetGameOver()) return;
 
-        if (Manager.instance.IsPaused && myText != null)
+        if (Manager.instance.IsPaused)
         {
-            myText.GetComponent<Text>().enabled = false;
+            if (myText != null) myText.GetComponent<Text>().enabled = false;
         }
-        else if (!Manager.instance.IsPaused)
+        else
         {
             if (myText != null) myText.GetComponent<Text>().enabled = true;
             TextMover();
+
+            if (prepareWeaponTime > 0f)
+            {
+                weaponToSummon.GetComponent<Transform>().localScale = new Vector3(
+                    Mathf.Lerp(0f, 0.8f, prepareWeaponTime / Manager.instance.PrepareChargeTime),
+                    Mathf.Lerp(0f, 0.8f, prepareWeaponTime / Manager.instance.PrepareChargeTime),
+                    weaponToSummon.GetComponent<Transform>().localScale.z
+                    );
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = true;
+            }
         }
     }
 
@@ -327,6 +339,7 @@ public class Player : MonoBehaviour {
         {
             invincibleTime = 0f;
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
             r.velocity = Vector3.zero;
             GetComponent<AudioSource>().clip = killedSound;
             GetComponent<AudioSource>().Play();

@@ -205,6 +205,7 @@ public class Manager : MonoBehaviour {
             instance.Level = GameLevel.None;
         }
         instance.isGameOver = false;
+        instance.isPaused = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -233,6 +234,7 @@ public class Manager : MonoBehaviour {
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
         instance.isGameOver = false;
+        instance.isPaused = true;
         SceneManager.LoadScene("Menu");
     }
 
