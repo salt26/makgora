@@ -19,10 +19,11 @@ public class Enemy : MonoBehaviour {
 
     private float speed;
     private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
-    private int health = 3;
     private float chargeSpeed = 0f;
+    private int health = 3;
     private GameObject myShield;
     private GameObject myText;
+    private GameObject blowend;
     private Vector3 exactTarget;
     private Vector3 startPosition;
     private Vector3 destPosition;
@@ -38,7 +39,6 @@ public class Enemy : MonoBehaviour {
     private float easyMoveCoolTime = 0f;    // 쉬움 난이도에서 목적지에 도착하고 다시 움직이기까지 대기하는 시간입니다.
     private Rigidbody r;
     private Transform t;
-    private GameObject blowend;
     private Player player;
     private Camera mainCamera;
     private delegate void WhileInvincible();
@@ -145,8 +145,9 @@ public class Enemy : MonoBehaviour {
     {
         whileInvincible();
 
-        if (health <= 0)
+        if (health <= 0 || Manager.instance.GetGameOver())
         {
+            r.velocity = Vector3.zero;
             if (myText != null)
             {
                 Destroy(myText);
@@ -157,12 +158,6 @@ public class Enemy : MonoBehaviour {
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
         if (vanish.GetInvocationList().Length > 0) {
             vanish();
-        }
-
-        if (Manager.instance.GetGameOver())
-        {
-            r.velocity = Vector3.zero;
-            return;
         }
 
         move();
@@ -657,19 +652,17 @@ public class Enemy : MonoBehaviour {
         if (!isCharging && !IsInvincible)
         {
             chargedZ = 0f;
+            prepareWeaponTime = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 1f;
+            approxZ = GaussianRandom() * 1.2f;
         }
-        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        else if (isCharging && (chargedZ < Mathf.Abs(approxZ) || prepareWeaponTime < Manager.instance.PrepareChargeTime))
         {
             chargedZ += Time.fixedDeltaTime * chargeSpeed;
-            /*
-                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                        new Vector2(exactTarget.x, exactTarget.y));
-            */
+            prepareWeaponTime += Time.fixedDeltaTime;
         }
-        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
@@ -686,19 +679,17 @@ public class Enemy : MonoBehaviour {
         if (!isCharging)
         {
             chargedZ = 0f;
+            prepareWeaponTime = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.7f;
+            approxZ = GaussianRandom() * 0.9f;
         }
-        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        else if (isCharging && (chargedZ < Mathf.Abs(approxZ) || prepareWeaponTime < Manager.instance.PrepareChargeTime))
         {
             chargedZ += Time.fixedDeltaTime * chargeSpeed;
-            /*
-                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                        new Vector2(exactTarget.x, exactTarget.y));
-            */
+            prepareWeaponTime += Time.fixedDeltaTime;
         }
-        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
@@ -712,22 +703,20 @@ public class Enemy : MonoBehaviour {
     /// </summary>
     private void ShootInsane()
     {
-        if (!isCharging && !IsInvincible)
+        if (!isCharging)
         {
             chargedZ = 0f;
+            prepareWeaponTime = 0f;
             isCharging = true;
             exactTarget = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>().position;
-            approxZ = GaussianRandom() * 0.4f;
+            approxZ = GaussianRandom() * 0.5f;
         }
-        else if (isCharging && chargedZ < Mathf.Abs(approxZ))
+        else if (isCharging && (chargedZ < Mathf.Abs(approxZ) || prepareWeaponTime < Manager.instance.PrepareChargeTime))
         {
             chargedZ += Time.fixedDeltaTime * chargeSpeed;
-            /*
-                        * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                        new Vector2(exactTarget.x, exactTarget.y));
-            */
+            prepareWeaponTime += Time.fixedDeltaTime;
         }
-        else if (isCharging && chargedZ >= Mathf.Abs(approxZ))
+        else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
             k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
@@ -936,6 +925,7 @@ public class Enemy : MonoBehaviour {
 
     #endregion
 
+    #region 대사 재생 함수들
 
     public void SpeakReady()
     {
@@ -956,6 +946,8 @@ public class Enemy : MonoBehaviour {
         GetComponent<AudioSource>().Play();
         // TODO 말풍선 띄웠다 사라지게 하기
     }
+
+    #endregion
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
