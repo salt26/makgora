@@ -9,12 +9,21 @@ public class ChargeClockUI : MonoBehaviour {
     private Transform player;
     private Transform enemy;
     private float chargedZ = 0f;
+    private float prepareTime = 0f;
 
     public float ChargedZ
     {
         set
         {
             chargedZ = value;
+        }
+    }
+
+    public float PrepareTime
+    {
+        set
+        {
+            prepareTime = value;
         }
     }
 
@@ -29,29 +38,8 @@ public class ChargeClockUI : MonoBehaviour {
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
     }
 
-    void FixedUpdate () {
-        /*
-        float pz = player.GetComponent<Transform>().position.z + Time.fixedTime;
-        float ez = enemy.GetComponent<Transform>().position.z + Time.fixedTime;
-        GetComponent<Text>().text = "자신의 시간: ";
-        if (pz < 0)
-        {
-            GetComponent<Text>().text += "-" + (int)(Mathf.Abs(pz)) + "." + (int)(Mathf.Abs(pz) * 1000) % 1000;
-        }
-        else
-        {
-            GetComponent<Text>().text += (int)(Mathf.Abs(pz)) + "." + (int)(Mathf.Abs(pz) * 1000) % 1000;
-        }
-        GetComponent<Text>().text += "\n상대의 시간: ";
-        if (ez < 0)
-        {
-            GetComponent<Text>().text += "-" + (int)(Mathf.Abs(ez)) + "." + (int)(Mathf.Abs(ez) * 1000) % 1000;
-        }
-        else
-        {
-            GetComponent<Text>().text += (int)(Mathf.Abs(ez)) + "." + (int)(Mathf.Abs(ez) * 1000) % 1000;
-        }
-        */
+    void FixedUpdate ()
+    {
         SetRectTransform();
     }
 
@@ -68,15 +56,21 @@ public class ChargeClockUI : MonoBehaviour {
         {
             float deg = Mathf.Lerp(150f, -150f, (enemy.position.z - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
             redHand.SetPositionAndRotation(GetComponent<RectTransform>().position, Quaternion.Euler(0f, 0f, deg));
-            if (Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)) - Boundary.ZToPage(enemy.position.z) == 0)
+            if (prepareTime >= Manager.instance.PrepareChargeTime &&
+                Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)) - Boundary.ZToPage(enemy.position.z) == 0)
             {
                 Color c = new Color(redHand.GetComponent<Image>().color.r, redHand.GetComponent<Image>().color.g, redHand.GetComponent<Image>().color.b, GetComponent<Image>().color.a);
                 GetComponent<Image>().color = c;
             }
-            else
+            else if (prepareTime >= Manager.instance.PrepareChargeTime)
             {
                 GetComponent<Image>().color = new Color(0f, 0f, 0f, GetComponent<Image>().color.a);
             }
+        }
+
+        if (prepareTime < Manager.instance.PrepareChargeTime)
+        {
+            GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, GetComponent<Image>().color.a);
         }
     }
 
