@@ -30,7 +30,8 @@ public class Enemy : MonoBehaviour {
     private bool isCharging = false;
     private bool hasReadySpoken = false;
     private float chargedZ;
-    private float approxZ;                  // 플레이어 캐릭터 근처의, 칼을 발사할 지점의 Z좌표
+    private float approxZ;                  // 플레이어 캐릭터 근처의, 투사체를 발사할 지점의 Z좌표
+    private float prepareWeaponTime;        // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;           // 피격 후 무적 판정이 되는, 남은 시간 
     private float maxInvincibleTime = 3f;
     private float temporalMoveCoolTime;     // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.

@@ -22,18 +22,21 @@ public class Player : MonoBehaviour {
 
     private float speed;
     private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
-    private int health = 3;
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
+    private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
     private GameObject myShield;
     private GameObject myText;
+    private GameObject blowend;
     private Camera mainCamera;
     private bool hasReadySpoken = false;
-    private float chargedZ;             // 칼을 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
+    private bool hasMouseReleased = false;
+    private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
+    private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
     private Rigidbody r;
-    private GameObject blowend;
+    private Vector3 releasedMousePosition;
 
     public int Health
     {
@@ -55,6 +58,7 @@ public class Player : MonoBehaviour {
     {
         r = GetComponent<Rigidbody>();
         chargedZ = 0f;
+        prepareWeaponTime = -1f;
         myShield = null;
         blowend = null;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -157,159 +161,71 @@ public class Player : MonoBehaviour {
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
-            if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && prepareWeaponTime < 0f)
             {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-                {
-                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                    if (targetObject == null)
-                    {
-                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
-                        purplePage.GetComponent<Image>().enabled = true;
-                        purpleText.enabled = true;
-                    }
-                    else
-                    {
-                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
-                    }
-
-
-                    if (targetObject != null)
-                    {
-                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
-                        if (v == 0)
-                            chargedZ -= Time.deltaTime * chargeSpeed;
-                        else if (v < 0)
-                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
-                        else
-                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
-                        /*
-                        targetObject.GetComponentInChildren<Text>().text = "과거로 ";
-                        targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
-                        */
-                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
-                        /* 
-                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
-                        */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
-                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
-                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
-                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
-                    }
-                }
+                prepareWeaponTime = 0f;
             }
-            else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
+            else if (prepareWeaponTime >= 0f)
             {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                prepareWeaponTime += Time.deltaTime;
+                if (targetObject != null)
                 {
-                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                    if (targetObject == null)
-                    {
-                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
-                        purplePage.GetComponent<Image>().enabled = true;
-                        purpleText.enabled = true;
-                    }
-                    else
-                    {
-                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
-                    }
-
-                    if (targetObject != null)
-                    {
-                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
-                        if (v == 0)
-                            chargedZ += Time.deltaTime * chargeSpeed;
-                        else if (v < 0)
-                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
-                        else
-                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
-
-                        /*
-                        targetObject.GetComponentInChildren<Text>().text = "미래로 ";
-                        targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
-                        */
-                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
-                        /*
-                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
-                        */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
-                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
-                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
-                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
-                    }
-                }
-            }
-            else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
-            {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-                {
-                    //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
-                    if (targetObject == null)
-                    {
-                        targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
-                        purplePage.GetComponent<Image>().enabled = true;
-                        purpleText.enabled = true;
-                    }
-                    else
-                    {
-                        targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
-                    }
-
-                    if (targetObject != null)
-                    {
-                        int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
-                        if (v < 0)
-                            chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
-                        else if (v > 0)
-                            chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
-
-                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
-                        /*
-                            * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
-                        */
-                        purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
-                            ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
-                            / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
-                        purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
-                    }
+                    targetObject.GetComponentInChildren<ChargeClockUI>().PrepareTime = prepareWeaponTime;
                 }
             }
 
-            if ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0)))
+            if (!hasMouseReleased)
             {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
+                {
+                    Charging(-1f);
+                }
+                else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
+                {
+                    Charging(1f);
+                }
+                else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+                {
+                    Charging(0f);
+                }
+            }
+            else if (prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
+            {
+                Charging(0f, releasedMousePosition);
+            }
+
+            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+            {
+                Vector3 mouse = Input.mousePosition;
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(mouse);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
-                    /*
-                    chargedZ *= Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
-                            new Vector2(hit.point.x, hit.point.y));
-                    */
+                    hasMouseReleased = true;
+                    releasedMousePosition = mouse;
+                }
+            }
+
+            if (hasMouseReleased && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
+            {
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(releasedMousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
                     GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
                     k.GetComponent<Knife>().Initialize(0, new Vector3(
-                        ray.origin.x + ray.direction.x * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
-                        ray.origin.y + ray.direction.y * (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                        ray.origin.x + ray.direction.x *
+                        (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                        ray.origin.y + ray.direction.y *
+                        (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                         GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
                     Destroy(targetObject);
                     targetObject = null;
                     purplePage.GetComponent<Image>().enabled = false;
                     purpleText.enabled = false;
                     chargedZ = 0f;
+                    prepareWeaponTime = -1f;
+                    hasMouseReleased = false;
                 }
             }
         }
@@ -451,6 +367,64 @@ public class Player : MonoBehaviour {
     private bool GetKeyPageUp()
     {
         return (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.E));
+    }
+
+    /// <summary>
+    /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
+    /// chargeDelta가 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
+    /// 조준점은 마우스의 위치를 따릅니다.
+    /// </summary>
+    /// <param name="chargeDelta"></param>
+    private void Charging(float chargeDelta)
+    {
+        Charging(chargeDelta, Input.mousePosition);
+    }
+
+    /// <summary>
+    /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
+    /// chargeDelta가 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
+    /// mousePosition으로 조준점을 직접 지정할 수 있습니다.
+    /// </summary>
+    /// <param name="chargeDelta"></param>
+    /// <param name="mousePosition"></param>
+    private void Charging(float chargeDelta, Vector3 mousePosition)
+    {
+        Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+        {
+            //Debug.DrawLine(ray.origin, hit.point, Color.yellow, 3f);
+            if (targetObject == null)
+            {
+                targetObject = Instantiate(target, hit.point, Quaternion.identity);
+                targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
+                targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
+                purplePage.GetComponent<Image>().enabled = true;
+                purpleText.enabled = true;
+            }
+            else
+            {
+                targetObject.GetComponent<Transform>().SetPositionAndRotation(hit.point, Quaternion.identity);
+            }
+
+            if (targetObject != null)
+            {
+                int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
+                if (v == 0)
+                    chargedZ += Time.deltaTime * chargeSpeed * chargeDelta;
+                else if (v < 0)
+                    chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
+                else if (v > 0)
+                    chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
+
+                targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
+
+                purplePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                    ((Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)) - Boundary.pageBase)
+                    / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
+                purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
+            }
+        }
     }
     
 }

@@ -46,6 +46,8 @@ public class Manager : MonoBehaviour {
     private float easyChargeSpeed;
     [SerializeField]
     private float hardChargeSpeed;
+    [SerializeField]
+    private float prepareChargeTime;
 
     [SerializeField]
     private float movingSpeed;
@@ -117,6 +119,11 @@ public class Manager : MonoBehaviour {
     public float HardChargeSpeed
     {
         get { return hardChargeSpeed; }
+    }
+
+    public float PrepareChargeTime
+    {
+        get { return prepareChargeTime; }
     }
 
     public float MovingSpeed
