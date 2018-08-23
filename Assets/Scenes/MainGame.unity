@@ -189,7 +189,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 33447577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 646863712}
+        m_MethodName: MenuButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &33447577
@@ -1864,8 +1875,8 @@ RectTransform:
   - {fileID: 163636119}
   - {fileID: 1315655327}
   - {fileID: 924385969}
-  - {fileID: 1343005078}
   - {fileID: 958734123}
+  - {fileID: 1343005078}
   - {fileID: 1324627235}
   - {fileID: 1669354943}
   - {fileID: 993067183}
@@ -1889,9 +1900,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2859f2cc0ea28e14cbacd23ce90e3107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 924385968}
-  restartPanel: {fileID: 1315655326}
-  restartText: {fileID: 917781378}
+  startPanel: {fileID: 924385968}
+  winPanel: {fileID: 958734122}
+  losePanel: {fileID: 1343005077}
   skipTutorialButton: {fileID: 0}
   modeText: {fileID: 1669354944}
 --- !u!1 &662315551
@@ -2417,7 +2428,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 831476503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 646863712}
+        m_MethodName: QuitButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &831476503
@@ -2907,7 +2929,7 @@ RectTransform:
   - {fileID: 1348763217}
   - {fileID: 831346690}
   m_Father: {fileID: 646863711}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4262,7 +4284,7 @@ RectTransform:
   - {fileID: 498603390}
   - {fileID: 1993162005}
   m_Father: {fileID: 646863711}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
