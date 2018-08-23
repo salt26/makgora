@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1704,9 +1704,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loseSound: {fileID: 8300000, guid: c5a1c8f28f1dabf4490917a8a5e1239a, type: 3}
   winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
-  easyChargeSpeed: 0.8
-  hardChargeSpeed: 1.2
-  prepareChargeTime: 1
+  easyChargeSpeed: 1
+  hardChargeSpeed: 1.5
+  prepareChargeDistance: 0.7
   movingSpeed: 0.7
   temporalSpeed: 1.5
   knifeSpeed: 2

@@ -44,11 +44,11 @@ public class Manager : MonoBehaviour {
     private AudioClip winSound;
 
     [SerializeField]
-    private float easyChargeSpeed;
+    private float easyChargeSpeed;          // 쉬움 모드에서 한쪽 방향으로 조준 중에 초당 충전되는 Z좌표 거리
     [SerializeField]
-    private float hardChargeSpeed;
+    private float hardChargeSpeed;          // 어려움 모드에서 한쪽 방향으로 조준 중에 초당 충전되는 Z좌표 거리
     [SerializeField]
-    private float prepareChargeTime;
+    private float prepareChargeDistance;    // 한쪽 방향으로 조준 중에 Z좌표 거리로 이 변수의 값만큼 충전될 시간 동안 무기를 소환함.
 
     [SerializeField]
     private float movingSpeed;
@@ -129,7 +129,17 @@ public class Manager : MonoBehaviour {
 
     public float PrepareChargeTime
     {
-        get { return prepareChargeTime; }
+        get {
+            string gameLevel = instance.GetCurrentGame()[1];
+            if (gameLevel.Equals("Easy") && instance.EasyChargeSpeed != 0f) {
+                return prepareChargeDistance / instance.EasyChargeSpeed;
+            }
+            else if (gameLevel.Equals("Hard") && instance.HardChargeSpeed != 0f)
+            {
+                return prepareChargeDistance / instance.HardChargeSpeed;
+            }
+            else return prepareChargeDistance;
+        }
     }
 
     public float MovingSpeed

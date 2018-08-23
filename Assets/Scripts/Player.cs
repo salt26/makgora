@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     
 
     private float speed;
-    private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
+    private float temporalSpeed;        // 시간 축을 따라 초당 움직이는 칸 수입니다.
     private float chargeSpeed;          // 마우스 클릭 시 Z좌표가 증가(감소)하는 속도입니다.
     private int health = 3;
     private GameObject targetObject;    // 현재 화면에 나타난 마우스 클릭 지점 오브젝트를 관리합니다.
@@ -32,7 +32,6 @@ public class Player : MonoBehaviour {
     private GameObject blowend;
     private Camera mainCamera;
     private bool hasReadySpoken = false;
-    private bool hasMouseReleased = false;
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -178,41 +177,27 @@ public class Player : MonoBehaviour {
                 }
             }
 
-            if (!hasMouseReleased)
+            if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
             {
-                if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
-                {
-                    Charging(-1f);
-                }
-                else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
-                {
-                    Charging(1f);
-                }
-                else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
-                {
-                    Charging(0f);
-                }
+                Charging(-1f);
+            }
+            else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
+            {
+                Charging(1f);
+            }
+            else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
+            {
+                Charging(0f);
             }
             else if (prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
             {
-                Charging(0f, releasedMousePosition);
+                // 마우스를 누르고 있지 않지만 무기 소환이 시작되어 완료되지 않은 경우
+                Charging(0f);
             }
-
-            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+            else if (prepareWeaponTime >= Manager.instance.PrepareChargeTime)
             {
-                Vector3 mouse = Input.mousePosition;
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(mouse);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-                {
-                    hasMouseReleased = true;
-                    releasedMousePosition = mouse;
-                }
-            }
-
-            if (hasMouseReleased && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
-            {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(releasedMousePosition);
+                // 마우스를 누르고 있지 않고 무기 소환이 완료된 경우
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
@@ -229,9 +214,20 @@ public class Player : MonoBehaviour {
                     purpleText.enabled = false;
                     chargedZ = 0f;
                     prepareWeaponTime = -1f;
-                    hasMouseReleased = false;
                 }
             }
+
+            /*
+            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+            {
+                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    hasMouseReleased = true;
+                }
+            }
+            */
         }
         #endregion
     }
@@ -398,23 +394,23 @@ public class Player : MonoBehaviour {
 
     /// <summary>
     /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
-    /// chargeDelta가 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
+    /// chargeDirection이 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
     /// 조준점은 마우스의 위치를 따릅니다.
     /// </summary>
-    /// <param name="chargeDelta"></param>
-    private void Charging(float chargeDelta)
+    /// <param name="chargeDirection"></param>
+    private void Charging(float chargeDirection)
     {
-        Charging(chargeDelta, Input.mousePosition);
+        Charging(chargeDirection, Input.mousePosition);
     }
 
     /// <summary>
     /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
-    /// chargeDelta가 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
+    /// chargeDirection이 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
     /// mousePosition으로 조준점을 직접 지정할 수 있습니다.
     /// </summary>
-    /// <param name="chargeDelta"></param>
+    /// <param name="chargeDirection"></param>
     /// <param name="mousePosition"></param>
-    private void Charging(float chargeDelta, Vector3 mousePosition)
+    private void Charging(float chargeDirection, Vector3 mousePosition)
     {
         Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(mousePosition);
         RaycastHit hit;
@@ -438,7 +434,7 @@ public class Player : MonoBehaviour {
             {
                 int v = Boundary.IsValid(Boundary.RoundZ(chargedZ) + GetComponent<Transform>().position.z);
                 if (v == 0)
-                    chargedZ += Time.deltaTime * chargeSpeed * chargeDelta;
+                    chargedZ += Time.deltaTime * chargeSpeed * chargeDirection;
                 else if (v < 0)
                     chargedZ = Boundary.zMin - GetComponent<Transform>().position.z;
                 else if (v > 0)
