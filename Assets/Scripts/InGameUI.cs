@@ -12,6 +12,10 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private GameObject losePanel;
     [SerializeField]
+    private GameObject pausePanel;
+    [SerializeField]
+    private GameObject pauseButton;
+    [SerializeField]
     private GameObject skipTutorialButton;
     [SerializeField]
     private Text modeText;
@@ -19,18 +23,20 @@ public class InGameUI : MonoBehaviour {
     private void Start()
     {
         Manager.instance.Canvas = this.gameObject;
-        Manager.instance.WinPanel = winPanel;
-        if (losePanel != null)
-        {
-            Manager.instance.LosePanel = losePanel;
-        }
-        if (skipTutorialButton != null)
-            Manager.instance.SkipTutorialButton = skipTutorialButton;
         if (startPanel != null)
         {
             Manager.instance.StartPanel = startPanel;
             Manager.instance.Pause();
         }
+        Manager.instance.WinPanel = winPanel;
+        if (losePanel != null)
+        {
+            Manager.instance.LosePanel = losePanel;
+        }
+        Manager.instance.PausePanel = pausePanel;
+        Manager.instance.ButtonPause = pauseButton;
+        if (skipTutorialButton != null)
+            Manager.instance.SkipTutorialButton = skipTutorialButton;
 
         string gameMode = Manager.instance.GetCurrentGame()[0];
         string gameLevel = Manager.instance.GetCurrentGame()[1];
@@ -91,5 +97,10 @@ public class InGameUI : MonoBehaviour {
     public void StartButton()
     {
         Manager.instance.StartButton();
+    }
+
+    public void PauseButton()
+    {
+        Manager.instance.PauseButton();
     }
 }

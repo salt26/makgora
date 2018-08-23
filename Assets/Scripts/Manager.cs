@@ -32,6 +32,7 @@ public class Manager : MonoBehaviour {
     private GameObject canvas;
     private GameObject startPanel;
     private GameObject pausePanel;
+    private GameObject buttonPause;
     private GameObject winPanel;
     private GameObject losePanel;
     private GameObject skipTutorialButton;
@@ -85,11 +86,6 @@ public class Manager : MonoBehaviour {
         set { startPanel = value; }
     }
 
-    public GameObject PausePanel
-    {
-        set { pausePanel = value; }
-    }
-
     public GameObject WinPanel
     {
         set { winPanel = value; }
@@ -98,6 +94,16 @@ public class Manager : MonoBehaviour {
     public GameObject LosePanel
     {
         set { losePanel = value; }
+    }
+
+    public GameObject PausePanel
+    {
+        set { pausePanel = value; }
+    }
+
+    public GameObject ButtonPause
+    {
+        set { buttonPause = value; }
     }
 
     public GameObject PlayerObject
@@ -242,8 +248,8 @@ public class Manager : MonoBehaviour {
      */
     public void PauseButton()
     {
-        // TODO instance.pauseText = "Paused";
         instance.pausePanel.SetActive(true);
+        instance.buttonPause.SetActive(false);
         Pause();
     }
 
@@ -251,6 +257,8 @@ public class Manager : MonoBehaviour {
     {
         yield return null;
         instance.isPaused = false;
+        instance.pausePanel.SetActive(false);
+        instance.buttonPause.SetActive(true);
 
         string gameMode = Manager.instance.GetCurrentGame()[0];
         if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
