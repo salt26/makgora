@@ -167,8 +167,8 @@ public class Player : MonoBehaviour {
                     if (targetObject == null)
                     {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
                         purplePage.GetComponent<Image>().enabled = true;
                         purpleText.enabled = true;
                     }
@@ -191,7 +191,7 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "과거로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /* 
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -213,8 +213,8 @@ public class Player : MonoBehaviour {
                     if (targetObject == null)
                     {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
                         purplePage.GetComponent<Image>().enabled = true;
                         purpleText.enabled = true;
                     }
@@ -237,7 +237,7 @@ public class Player : MonoBehaviour {
                         targetObject.GetComponentInChildren<Text>().text = "미래로 ";
                         targetObject.GetComponentInChildren<Text>().text += (int)(Mathf.Abs(chargedZ)) + "." + (int)(Mathf.Abs(chargedZ) * 100) % 100;
                         */
-                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));
@@ -259,8 +259,8 @@ public class Player : MonoBehaviour {
                     if (targetObject == null)
                     {
                         targetObject = Instantiate(target, hit.point, Quaternion.identity);
-                        targetObject.GetComponentInChildren<ChargeUI>().SetRectTransform();
-                        targetObject.GetComponentInChildren<ChargeUI>().SetVisible();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetRectTransform();
+                        targetObject.GetComponentInChildren<ChargeClockUI>().SetVisible();
                         purplePage.GetComponent<Image>().enabled = true;
                         purpleText.enabled = true;
                     }
@@ -277,7 +277,7 @@ public class Player : MonoBehaviour {
                         else if (v > 0)
                             chargedZ = Boundary.zMax - GetComponent<Transform>().position.z;
 
-                        targetObject.GetComponentInChildren<ChargeClockUI>().NewChargedZ = Boundary.RoundZ(chargedZ);
+                        targetObject.GetComponentInChildren<ChargeClockUI>().ChargedZ = Boundary.RoundZ(chargedZ);
                         /*
                             * Vector2.Distance(new Vector2(GetComponent<Transform>().position.x, GetComponent<Transform>().position.y),
                             new Vector2(hit.point.x, hit.point.y));

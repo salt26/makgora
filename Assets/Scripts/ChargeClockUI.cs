@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChargeClockUI : ChargeUI {
+public class ChargeClockUI : MonoBehaviour {
 
     private Camera mainCamera;
     private Transform player;
     private Transform enemy;
     private float chargedZ = 0f;
 
-    public float NewChargedZ
+    public float ChargedZ
     {
         set
         {
@@ -55,7 +55,7 @@ public class ChargeClockUI : ChargeUI {
         SetRectTransform();
     }
 
-    public override void SetRectTransform()
+    public void SetRectTransform()
     {
         GetComponent<RectTransform>().position = mainCamera.WorldToScreenPoint(GetComponentInParent<MeshRenderer>().GetComponent<Transform>().position);
         if (player.GetComponent<Player>().Health > 0)
@@ -80,7 +80,7 @@ public class ChargeClockUI : ChargeUI {
         }
     }
 
-    public override void SetVisible()
+    public void SetVisible()
     {
         GetComponent<Image>().enabled = true;
         purpleHand.GetComponent<Image>().enabled = true;

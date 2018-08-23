@@ -383,16 +383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72c838fae4e8eb4cb261156ac4c8e78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargePoint: {fileID: 0}
-  enemyPoint: {fileID: 0}
-  chargeBar: {fileID: 0}
-  chargeCircle: {fileID: 0}
-  pageText: {fileID: 0}
-  minPos: 0
-  maxPos: 0
-  black: {r: 0, g: 0, b: 0, a: 0}
-  red: {r: 0, g: 0, b: 0, a: 0}
-  darkPurple: {r: 0, g: 0, b: 0, a: 0}
   redHand: {fileID: 224977764141958756}
   purpleHand: {fileID: 224642585309665150}
   purpleText: {fileID: 114590862380641990}
