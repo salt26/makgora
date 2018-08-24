@@ -95,6 +95,7 @@ public class Player : MonoBehaviour {
                 targetObject = null;
                 purplePage.GetComponent<Image>().enabled = false;
                 purpleText.enabled = false;
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
             }
             if (myText != null)
             {
@@ -102,8 +103,30 @@ public class Player : MonoBehaviour {
             }
             return;
         }
-        
-        if (Manager.instance.IsPaused) return;
+
+        if (Input.GetKeyUp(KeyCode.Escape) && !Manager.instance.IsPaused)
+        {
+            Manager.instance.PauseButton();
+        }
+        else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused)
+        {
+            Manager.instance.StartButton();
+        }
+
+        if (Manager.instance.IsPaused)
+        {
+            if (targetObject != null)
+            {
+                Destroy(targetObject);
+                targetObject = null;
+                purplePage.GetComponent<Image>().enabled = false;
+                purpleText.enabled = false;
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
+                chargedZ = 0f;
+                prepareWeaponTime = -1f;
+            }
+            return;
+        }
 
         #region 움직이는(move) 코드
 
@@ -165,9 +188,14 @@ public class Player : MonoBehaviour {
 
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
         {
-            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && prepareWeaponTime < 0f)
+            if ((Input.GetMouseButton(0) || Input.GetMouseButton(1)) && prepareWeaponTime < 0f)
             {
-                prepareWeaponTime = 0f;
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
+                {
+                    prepareWeaponTime = 0f;
+                }
             }
             else if (prepareWeaponTime >= 0f)
             {
@@ -178,45 +206,48 @@ public class Player : MonoBehaviour {
                 }
             }
 
+            bool isMouseClickedAndInGameArea = false;
             if (!Input.GetMouseButton(1) && Input.GetMouseButton(0))
             {
-                Charging(-1f);
+                isMouseClickedAndInGameArea = Charging(-1f);
             }
             else if (!Input.GetMouseButton(0) && Input.GetMouseButton(1))
             {
-                Charging(1f);
+                isMouseClickedAndInGameArea = Charging(1f);
             }
             else if (Input.GetMouseButton(0) && Input.GetMouseButton(1))
             {
-                Charging(0f);
+                isMouseClickedAndInGameArea = Charging(0f);
             }
             else if (prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
             {
                 // 마우스를 누르고 있지 않지만 무기 소환이 시작되어 완료되지 않은 경우
                 Charging(0f);
             }
-            else if (prepareWeaponTime >= Manager.instance.PrepareChargeTime)
+            // 위의 조건들을 하나도 처리하지 않고 통과하는 경우는, 
+            // 마우스를 누르고 있지 않고 (무기 소환을 시작하지 않은 경우 또는 무기 소환이 완료된 경우)뿐이다.
+            // 위의 조건 중 하나를 처리했지만 isInGameArea가 false인 경우는,
+            // 마우스가 게임 영역 밖(아래 UI)으로 나간 경우이다.
+
+            if (!isMouseClickedAndInGameArea && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
             {
                 // 마우스를 누르고 있지 않고 무기 소환이 완료된 경우
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
-                {
-                    GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                    k.GetComponent<Knife>().Initialize(0, new Vector3(
-                        ray.origin.x + ray.direction.x *
-                        (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
-                        ray.origin.y + ray.direction.y *
-                        (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
-                        GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
-                    Destroy(targetObject);
-                    targetObject = null;
-                    purplePage.GetComponent<Image>().enabled = false;
-                    purpleText.enabled = false;
-                    weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
-                    chargedZ = 0f;
-                    prepareWeaponTime = -1f;
-                }
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+                k.GetComponent<Knife>().Initialize(0, new Vector3(
+                    ray.origin.x + ray.direction.x *
+                    (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                    ray.origin.y + ray.direction.y *
+                    (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                    GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
+                Destroy(targetObject);
+                targetObject = null;
+                purplePage.GetComponent<Image>().enabled = false;
+                purpleText.enabled = false;
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
+                chargedZ = 0f;
+                prepareWeaponTime = -1f;
             }
 
             /*
@@ -409,23 +440,25 @@ public class Player : MonoBehaviour {
     /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
     /// chargeDirection이 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
     /// 조준점은 마우스의 위치를 따릅니다.
+    /// 반환값이 false이면 마우스가 영역을 벗어나서 charging이 되지 않는 상태라는 것을 의미합니다.
     /// </summary>
     /// <param name="chargeDirection"></param>
-    private void Charging(float chargeDirection)
+    private bool Charging(float chargeDirection)
     {
-        Charging(chargeDirection, Input.mousePosition);
+        return Charging(chargeDirection, Input.mousePosition);
     }
 
     /// <summary>
     /// 무기를 충전하여 던질 곳을 정하고 시계 UI로 보여주는 함수입니다.
     /// chargeDirection이 -1f이면 앞 페이지로, 1f이면 뒤 페이지로 조준합니다. 0f이면 조준하는 페이지가 멈춥니다.
     /// mousePosition으로 조준점을 직접 지정할 수 있습니다.
+    /// 반환값이 false이면 마우스가 영역을 벗어나서 charging이 되지 않는 상태라는 것을 의미합니다.
     /// </summary>
     /// <param name="chargeDirection"></param>
     /// <param name="mousePosition"></param>
-    private void Charging(float chargeDirection, Vector3 mousePosition)
+    private bool Charging(float chargeDirection, Vector3 mousePosition)
     {
-        Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
         {
@@ -460,7 +493,9 @@ public class Player : MonoBehaviour {
                     / (float)Boundary.pageNum)), purplePage.anchoredPosition.y);
                 purpleText.text = Boundary.ZToPage(GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)).ToString();
             }
+            return true;
         }
+        return false;
     }
     
 }

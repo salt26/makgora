@@ -230,6 +230,7 @@ public class Manager : MonoBehaviour {
     {
         instance.WinPanel = null;
         instance.losePanel = null;
+        instance.pausePanel = null;
         instance.SkipTutorialButton = null;
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
