@@ -394,6 +394,10 @@ public class Player : MonoBehaviour {
 
     IEnumerator EndSpeech()
     {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "이제 그만...";
         yield return new WaitForSeconds(2.2f);
@@ -417,6 +421,10 @@ public class Player : MonoBehaviour {
 
     IEnumerator ReadySpeech()
     {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
         GetComponent<AudioSource>().clip = readySound;
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());

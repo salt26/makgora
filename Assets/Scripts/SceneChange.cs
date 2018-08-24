@@ -11,6 +11,11 @@ public class SceneChange : MonoBehaviour {
     public GameObject loadingPanel;
     AsyncOperation asyncLoad = null;
 
+    private void Awake()
+    {
+        asyncLoad = null;
+    }
+
     public void QuitButton()
     {
 #if UNITY_EDITOR
@@ -150,6 +155,8 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadMainGameScene()
     {
+        bool b = true;
+        if (asyncLoad == null) b = false;
         yield return new WaitForSeconds(0.5f);
         asyncLoad = SceneManager.LoadSceneAsync("MainGame");
         while (!asyncLoad.isDone)
