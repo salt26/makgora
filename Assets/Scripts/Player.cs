@@ -104,11 +104,12 @@ public class Player : MonoBehaviour {
             return;
         }
 
+        // Esc키와 일시정지 관련 코드
         if (Input.GetKeyUp(KeyCode.Escape) && !Manager.instance.IsPaused)
         {
             Manager.instance.PauseButton();
         }
-        else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused)
+        else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart)
         {
             Manager.instance.StartButton();
         }

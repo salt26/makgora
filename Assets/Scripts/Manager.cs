@@ -75,6 +75,11 @@ public class Manager : MonoBehaviour {
         get { return isPaused; }
     }
 
+    public bool IsGameStart
+    {
+        get { return !startPanel.activeInHierarchy; }
+    }
+
     public GameObject Canvas
     {
         get { return canvas; }
@@ -244,10 +249,7 @@ public class Manager : MonoBehaviour {
         instance.startPanel.SetActive(false);
         StartCoroutine("UnpauseInGame");
     }
-
-    /* TODO 
-     * Invoke this method when 'Esc' key is pressed.
-     */
+    
     public void PauseButton()
     {
         instance.pausePanel.SetActive(true);
