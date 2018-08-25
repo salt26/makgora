@@ -147,6 +147,60 @@ public class Enemy : MonoBehaviour {
 
     void FixedUpdate ()
     {
+        speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
+        if (speechVector.x < 512f)
+        {
+            speechVector.x += 120f;
+            if (speechVector.y < 384f)
+            {
+                speechVector.y += 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+            else
+            {
+                speechVector.y -= 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+        }
+        else
+        {
+            speechVector.x -= 120f;
+            if (speechVector.y < 384f)
+            {
+                speechVector.y += 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+            else
+            {
+                speechVector.y -= 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+        }
+        if (mySpeech != null)
+        {
+            mySpeech.GetComponent<RectTransform>().position = speechVector;
+        }
+
         whileInvincible();
 
         if (health <= 0 || Manager.instance.GetGameOver())
@@ -157,14 +211,6 @@ public class Enemy : MonoBehaviour {
                 Destroy(myText);
             }
             return;
-        }
-
-        speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
-        speechVector.x -= 120f;
-        speechVector.y += 80f;
-        if (mySpeech != null)
-        {
-            mySpeech.GetComponent<RectTransform>().position = speechVector;
         }
 
         // 플레이어 캐릭터와의 Z좌표(시간축 좌표) 차이에 따라 투명도를 적용합니다.
