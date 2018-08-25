@@ -251,7 +251,32 @@ public class Player : MonoBehaviour {
         }
 
         speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
-        speechVector.x -= 120f;
+        if (speechVector.x < 512f)
+        {
+            speechVector.x += 120f;
+            if (mySpeech != null)
+            {
+                RectTransform[] recttransforms;
+                recttransforms = mySpeech.GetComponentsInChildren<RectTransform>();
+                foreach (RectTransform rect in recttransforms)
+                {
+                    rect.rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+                }
+            }
+        }
+        else
+        {
+            speechVector.x -= 120f;
+            if (mySpeech != null)
+            {
+                RectTransform[] recttransforms;
+                recttransforms = mySpeech.GetComponentsInChildren<RectTransform>();
+                foreach (RectTransform rect in recttransforms)
+                {
+                    rect.rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+        }
         speechVector.y += 80f;
         if (mySpeech != null)
         {
