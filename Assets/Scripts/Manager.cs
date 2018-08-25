@@ -78,7 +78,14 @@ public class Manager : MonoBehaviour {
 
     public bool IsGameStart
     {
-        get { return !startPanel.activeInHierarchy; }
+        get
+        {
+            if (startPanel != null)
+                return !startPanel.activeInHierarchy;
+            else if (instance.GetCurrentGame()[0].Equals("Tutorial"))
+                return true;
+            else return false;
+        }
     }
 
     public GameObject Canvas
@@ -252,7 +259,8 @@ public class Manager : MonoBehaviour {
 
     public void StartButton()
     {
-        instance.startPanel.SetActive(false);
+        if (startPanel != null)
+            instance.startPanel.SetActive(false);
         StartCoroutine("UnpauseInGame");
     }
     

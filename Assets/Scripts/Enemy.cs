@@ -32,6 +32,7 @@ public class Enemy : MonoBehaviour {
     private bool isArrived = true;
     private bool isCharging = false;
     private bool hasReadySpoken = false;
+    private bool isSFXPlaying = false;
     private float chargedZ;
     private float approxZ;                  // 플레이어 캐릭터 근처의, 투사체를 발사할 지점의 Z좌표
     private float prepareWeaponTime;        // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
@@ -932,13 +933,13 @@ public class Enemy : MonoBehaviour {
             {
                 invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
-                GetComponent<AudioSource>().clip = damagedSound;
-                GetComponent<AudioSource>().Play();
+                StartCoroutine("DamagedSFX");
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            if (!GetComponent<AudioSource>().isPlaying)
+            Debug.Log("Enemy guarded!");
+            if (!isSFXPlaying)
             {
                 GetComponent<AudioSource>().clip = guardSound;
                 GetComponent<AudioSource>().Play();
@@ -986,14 +987,13 @@ public class Enemy : MonoBehaviour {
                     Boundary.RoundZ(Random.Range(Boundary.zMin, Boundary.zMax)));
                 invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
-                GetComponent<AudioSource>().clip = damagedSound;
-                GetComponent<AudioSource>().Play();
+                StartCoroutine("DamagedSFX");
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
             Debug.Log("Enemy guarded!");
-            if (!GetComponent<AudioSource>().isPlaying)
+            if (!isSFXPlaying)
             {
                 GetComponent<AudioSource>().clip = guardSound;
                 GetComponent<AudioSource>().Play();
@@ -1063,13 +1063,12 @@ public class Enemy : MonoBehaviour {
                 }
                 invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
-                GetComponent<AudioSource>().clip = damagedSound;
-                GetComponent<AudioSource>().Play();
+                StartCoroutine("DamagedSFX");
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            if (!GetComponent<AudioSource>().isPlaying)
+            if (!isSFXPlaying)
             {
                 GetComponent<AudioSource>().clip = guardSound;
                 GetComponent<AudioSource>().Play();
@@ -1200,6 +1199,15 @@ public class Enemy : MonoBehaviour {
     }
 
     #endregion
+
+    IEnumerator DamagedSFX()
+    {
+        GetComponent<AudioSource>().clip = damagedSound;
+        GetComponent<AudioSource>().Play();
+        isSFXPlaying = true;
+        yield return new WaitForSeconds(0.5f);
+        isSFXPlaying = false;
+    }
 
     /// <summary>
     /// 표준정규분포를 따르는 랜덤한 값을 생성합니다.
