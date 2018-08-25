@@ -3736,6 +3736,10 @@ MonoBehaviour:
   purpleText: {fileID: 195261597}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
     type: 2}
+  pausePanelButtons:
+  - {fileID: 441936576}
+  - {fileID: 1273197700}
+  - {fileID: 1770299361}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0

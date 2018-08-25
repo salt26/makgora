@@ -21,6 +21,7 @@ public class Player : MonoBehaviour {
     public RectTransform purplePage;
     public Text purpleText;
     public GameObject speechBubble;
+    public List<Tooltip> pausePanelButtons;
     
 
     private float speed;
@@ -112,7 +113,16 @@ public class Player : MonoBehaviour {
         }
         else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart)
         {
+            foreach (Tooltip t in pausePanelButtons)
+            {
+                t.DestroyTooltip();
+            }
             Manager.instance.StartButton();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart &&
+            pausePanelButtons.Count > 0)
+        {
+            pausePanelButtons[0].CreateTooltip();
         }
 
         if (Manager.instance.IsPaused)
