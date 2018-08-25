@@ -283,8 +283,54 @@ public class Player : MonoBehaviour {
         }
 
         speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
-        speechVector.x -= 120f;
-        speechVector.y += 80f;
+        if (speechVector.x < 512f)
+        {
+            speechVector.x += 120f;
+            if (speechVector.y < 384f)
+            {
+                speechVector.y += 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+            else
+            {
+                speechVector.y -= 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+        }
+        else
+        {
+            speechVector.x -= 120f;
+            if (speechVector.y < 384f)
+            {
+                speechVector.y += 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+            else
+            {
+                speechVector.y -= 80f;
+                if (mySpeech != null)
+                {
+                    mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+                    Transform child = mySpeech.transform.Find("SpeechText");
+                    child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+                }
+            }
+        }
         if (mySpeech != null)
         {
             mySpeech.GetComponent<RectTransform>().position = speechVector;
