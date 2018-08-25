@@ -35,6 +35,7 @@ public class Manager : MonoBehaviour {
     private GameObject buttonPause;
     private GameObject winPanel;
     private GameObject losePanel;
+    private GameObject blindPanel;
     private GameObject skipTutorialButton;
     private GameObject player;
     private GameObject enemy;
@@ -109,6 +110,11 @@ public class Manager : MonoBehaviour {
     public GameObject ButtonPause
     {
         set { buttonPause = value; }
+    }
+
+    public GameObject BlindPanel
+    {
+        set { blindPanel = value; }
     }
 
     public GameObject PlayerObject
@@ -254,6 +260,7 @@ public class Manager : MonoBehaviour {
     {
         instance.pausePanel.SetActive(true);
         instance.buttonPause.SetActive(false);
+        instance.blindPanel.SetActive(true);
         Pause();
     }
 
@@ -263,6 +270,7 @@ public class Manager : MonoBehaviour {
         Unpause();
         instance.pausePanel.SetActive(false);
         instance.buttonPause.SetActive(true);
+        instance.blindPanel.SetActive(false);
 
         string gameMode = instance.GetCurrentGame()[0];
         if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
