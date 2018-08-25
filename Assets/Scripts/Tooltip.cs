@@ -30,9 +30,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        GetComponent<Image>().color = new Color(0, 0, 0, 1);
-        Destroy(tooltipPanelClone);
-        tooltipPanelClone = null;
+        DestroyTooltip();
     }
 
     public void DestroyTooltip()
