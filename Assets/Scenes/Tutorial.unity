@@ -277,7 +277,7 @@ MonoBehaviour:
   - {fileID: 649163775}
   - {fileID: 913490175}
   - {fileID: 1635039975}
-  damagedSound: {fileID: 8300000, guid: 6e8a6a8d5581bd5429dc64cf5736c864, type: 3}
+  damagedSound: {fileID: 8300000, guid: 41ec51b289646ec4b9b1f4132dca5ba6, type: 3}
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 0}
