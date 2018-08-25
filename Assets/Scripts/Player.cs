@@ -33,6 +33,7 @@ public class Player : MonoBehaviour {
     private GameObject blowend;
     private Camera mainCamera;
     private bool hasReadySpoken = false;
+    private bool isSFXPlaying = false;
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -400,13 +401,12 @@ public class Player : MonoBehaviour {
                 invincibleTime = 3f;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
                 myShield.GetComponent<MeshRenderer>().enabled = true;
-                GetComponent<AudioSource>().clip = damagedSound;
-                GetComponent<AudioSource>().Play();
+                StartCoroutine("DamagedSFX");
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
         {
-            if (!GetComponent<AudioSource>().isPlaying)
+            if (!isSFXPlaying)
             {
                 GetComponent<AudioSource>().clip = guardSound;
                 GetComponent<AudioSource>().Play();
@@ -479,6 +479,15 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
         Destroy(mySpeech);
         mySpeech = null;
+    }
+
+    IEnumerator DamagedSFX()
+    {
+        GetComponent<AudioSource>().clip = damagedSound;
+        GetComponent<AudioSource>().Play();
+        isSFXPlaying = true;
+        yield return new WaitForSeconds(0.4f);
+        isSFXPlaying = false;
     }
 
     private bool GetKeyPageDown()
