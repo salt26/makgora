@@ -965,15 +965,6 @@ public class Enemy : MonoBehaviour {
         blowend = null;
     }
 
-    IEnumerator EndSpeech()
-    {
-        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
-        mySpeech.GetComponentInChildren<Text>().text = "이 세계에 파멸을...";
-        yield return new WaitForSeconds(3.0f);
-        Destroy(mySpeech);
-        mySpeech = null;
-    }
-
     #endregion
 
     #region 대사 재생 함수들
@@ -994,11 +985,28 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator ReadySpeech()
     {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
         GetComponent<AudioSource>().clip = readySound;
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "이 전투를 기다려왔다!";
         yield return new WaitForSeconds(2.2f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+    
+    IEnumerator EndSpeech()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "이 세계에 파멸을...";
+        yield return new WaitForSeconds(3.0f);
         Destroy(mySpeech);
         mySpeech = null;
     }

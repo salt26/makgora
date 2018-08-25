@@ -75,6 +75,11 @@ public class Manager : MonoBehaviour {
         get { return isPaused; }
     }
 
+    public bool IsGameStart
+    {
+        get { return !startPanel.activeInHierarchy; }
+    }
+
     public GameObject Canvas
     {
         get { return canvas; }
@@ -205,7 +210,7 @@ public class Manager : MonoBehaviour {
             instance.Level = GameLevel.None;
         }
         instance.isGameOver = false;
-        instance.isPaused = true;
+        Unpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -230,24 +235,21 @@ public class Manager : MonoBehaviour {
     {
         instance.WinPanel = null;
         instance.losePanel = null;
+        instance.pausePanel = null;
         instance.SkipTutorialButton = null;
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
         instance.isGameOver = false;
-        instance.isPaused = true;
+        Unpause();
         SceneManager.LoadScene("Menu");
     }
 
     public void StartButton()
     {
-        Time.timeScale = 1f;
         instance.startPanel.SetActive(false);
-        StartCoroutine("Unpause");
+        StartCoroutine("UnpauseInGame");
     }
-
-    /* TODO 
-     * Invoke this method when 'Esc' key is pressed.
-     */
+    
     public void PauseButton()
     {
         instance.pausePanel.SetActive(true);
@@ -255,19 +257,20 @@ public class Manager : MonoBehaviour {
         Pause();
     }
 
-    IEnumerator Unpause()
+    IEnumerator UnpauseInGame()
     {
         yield return null;
-        instance.isPaused = false;
+        Unpause();
         instance.pausePanel.SetActive(false);
         instance.buttonPause.SetActive(true);
 
-        string gameMode = Manager.instance.GetCurrentGame()[0];
+        string gameMode = instance.GetCurrentGame()[0];
         if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
         {
             EnemyObject.GetComponent<Enemy>().SpeakReady();
             yield return new WaitForSeconds(2.2f);
-            PlayerObject.GetComponent<Player>().SpeakReady();
+            if (PlayerObject != null)
+                PlayerObject.GetComponent<Player>().SpeakReady();
         }
     }
 
@@ -295,6 +298,7 @@ public class Manager : MonoBehaviour {
     {
         instance.skipTutorialButton.SetActive(false);
         instance.SetGameOver();
+        instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.0f);
         instance.winPanel.SetActive(true);
 
@@ -316,6 +320,12 @@ public class Manager : MonoBehaviour {
     {
         instance.isPaused = true;
         Time.timeScale = 0f;
+    }
+
+    public void Unpause()
+    {
+        instance.isPaused = false;
+        Time.timeScale = 1f;
     }
 
     /// <summary>
