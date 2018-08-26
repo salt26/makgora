@@ -298,6 +298,7 @@ public class Manager : MonoBehaviour {
         GetComponent<AudioSource>().clip = loseSound;
         GetComponent<AudioSource>().Play();
         instance.losePanel.SetActive(true);
+        instance.blindPanel.SetActive(true);
     }
 
     IEnumerator Win()
@@ -308,6 +309,7 @@ public class Manager : MonoBehaviour {
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
         instance.winPanel.SetActive(true);
+        instance.blindPanel.SetActive(true);
     }
 
     IEnumerator Graduate()
@@ -317,6 +319,7 @@ public class Manager : MonoBehaviour {
         instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.0f);
         instance.winPanel.SetActive(true);
+        instance.blindPanel.SetActive(true);
 
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
