@@ -3954,6 +3954,8 @@ MonoBehaviour:
   - {fileID: 441936576}
   - {fileID: 1273197700}
   - {fileID: 1770299361}
+  soundEffect: {fileID: 0}
+  soundEffectImage: []
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4129,8 +4131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialText: {fileID: 949258327}
-  destination: {fileID: 1065800346749770, guid: 09507b87119300c48af114ab6b1d555c,
-    type: 2}
+  mentor: {fileID: 1065800346749770, guid: 09507b87119300c48af114ab6b1d555c, type: 2}
   redPage: {fileID: 323775489}
   redText: {fileID: 284156447}
   greenPage: {fileID: 1549000444}

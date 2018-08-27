@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class TutorialManager : MonoBehaviour {
 
     public Text tutorialText;
-    public GameObject destination;
+    public GameObject mentor;
     public Image redPage;
     public Text redText;
     public Image greenPage;
@@ -23,6 +23,7 @@ public class TutorialManager : MonoBehaviour {
     private bool isProcessReady;    // 이것이 false가 되면 다음 프레임에 true가 되면서 새 설명이 나타납니다.
     private bool isEnterAvailable;  // 이것이 true인 동안 Enter키를 눌러 다음 설명으로 넘어갈 수 있습니다.
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
+    private GameObject myMentor;
     private Transform enemy;
 
     public int Phase
@@ -128,7 +129,7 @@ public class TutorialManager : MonoBehaviour {
                 "컷을 넘나들며 주인공을\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
                 "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
                 */
-            Instantiate(destination, new Vector3(-1.5f, 0.76f, 0f), Quaternion.identity);
+            myMentor = Instantiate(mentor, new Vector3(-1.5f, 0.76f, 0f), Quaternion.identity);
             redPage.enabled = false;
             redText.enabled = false;
             greenPage.enabled = false;
@@ -178,11 +179,10 @@ public class TutorialManager : MonoBehaviour {
                 "본인이 있는 페이지는 화면 뒤에 초록색 선으로,\n상대가 있는 페이지는 빨간색 선으로 표시됩니다.\n" +
                 "\"상대가 있는 페이지로 캐릭터를 움직이세요.\"";
                 */
+            /*
             redPage.enabled = true;
             redText.enabled = true;
-            greenPage.enabled = true;
-            greenBookText.enabled = true;
-            book.enabled = true;
+            */
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
             CreateBubble("눈치챘을수도 있겠지만,\n" +
@@ -193,10 +193,29 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 1))
         {
-            CreateBubble("물론 사람들이 이 책을 읽지 않는\n" +
-                "동안에만 몰래 움직일 수 있지만...\n" +
+            CreateBubble("물론 사람들이 이 책을 읽지\n" +
+                "않는 동안에만 그래야겠지만...\n" +
                 "걱정 말게.\n" +
-                "이 책은 1년 넘게 책장에 방치되어 있으니.\n" +
+                "이 책은 1년 넘게 방치되어 있었으니.\n" +
+                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(2, 2))
+        {
+            CreateBubble("내가 하는 것을 잘 보게.");
+            myMentor.GetComponent<TutorialDestination>().SetMoving(new Vector3(-1.5f, 0.76f, 2f));
+        }
+        else if (StateNotReady(2, 3))
+        {
+            // TODO 멘토의 위치를 책 UI에 표시
+            greenPage.enabled = true;
+            greenBookText.enabled = true;
+            book.enabled = true;
+            CreateBubble("갑자기 사라져서 당황했나?\n" +
+                "내가 어디에 있는지는 뒤에 있는\n" +
+                "책 그림을 보면 알 수 있다네.\n" +
+                "자네가 있는 페이지는 초록색으로,\n" +
+                "내가 있는 페이지는 파란색으로.\n" +
                 "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
             isEnterAvailable = true;
         }
@@ -215,9 +234,16 @@ public class TutorialManager : MonoBehaviour {
         }
         */
 
+        if (State(2, 2) && myMentor != null && myMentor.GetComponent<TutorialDestination>().EndMoving)
+        {
+            // 멘토가 정해진 위치로 이동을 완료했을 때 다음 과정으로 넘어감
+            NextProcess();
+        }
+
         if (phase == 2 && isPhaseStarted && 
             GetComponent<Transform>().position.z >= enemy.position.z)
         {
+            // 상대가 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
             NextPhase();
         }
 
