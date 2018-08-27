@@ -58,17 +58,6 @@ public class Knife : MonoBehaviour {
 
     // 매 프레임마다 자동으로 호출됩니다.
     void FixedUpdate() {
-        if (owner == 0)
-        {
-            if (sound != null)sound.GetComponent<SpriteRenderer>().color = ColorUtil.instance.AlphaColor(new Color(1f, 1f, 1f), 1f - Mathf.Pow(soundTime / 0.5f - 1f, 2));
-            if (soundTime > 0f) soundTime -= Time.fixedDeltaTime;
-            if (soundTime < 0f) soundTime = 0f;
-            if (soundTime <= 0f && sound != null)
-            {
-                Destroy(sound);
-                sound = null;
-            }
-        }
 
         float ownZ = 0f;
         float otherZ = 0f;
@@ -187,8 +176,8 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            soundTime = 0.5f;
-            this.soundNum = soundNum;
+            MakeSoundEffect();
+            StartCoroutine("SoundEffectMover");
         }
     }
 
@@ -281,27 +270,26 @@ public class Knife : MonoBehaviour {
         }
     }
 
-    private void SoundEffectMover()
+    private void MakeSoundEffect()
     {
-        if (owner != 0)
-        {
-            return;
-        }
-
+        soundTime = 0.5f;
         Vector3 d = direction.normalized;
         Vector3 o = new Vector3(d.y, -d.x, d.z);
+        soundVector = player.position + d * 0.3f + o * 0.18f;
+        sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
+        sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[soundNum];
+    }
 
-        if (sound != null)
+    IEnumerator SoundEffectMover()
+    {
+        for (int i = 0; i <= 30; i++)
         {
-            soundVector += d * 0.01f;
+            soundVector += direction.normalized * 0.01f;
             sound.GetComponent<Transform>().position = soundVector;
+            sound.GetComponent<SpriteRenderer>().color = ColorUtil.instance.AlphaColor(new Color(1f, 1f, 1f), 1f - Mathf.Pow((float)i / 30f, 2f));
+            yield return null;
         }
-        else if(!soundHasMade)
-        {
-            soundVector = player.position + d * 0.3f + o * 0.18f;
-            sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
-            sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[soundNum];
-            soundHasMade = true;
-        }
+        Destroy(sound);
+        sound = null;
     }
 }

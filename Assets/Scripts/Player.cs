@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
     public List<Tooltip> pausePanelButtons;
     public GameObject soundEffect;
     public Sprite[] soundEffectImage;
+    public Sprite[] divineSoundEffectImage;
     
 
     private float speed;
@@ -511,8 +512,11 @@ public class Player : MonoBehaviour {
         {
             Debug.LogWarning("Player hit!");
             health--;
-            MakeSoundEffect();
-            StartCoroutine("SoundEffectMover");
+            if (sound == null)
+            {
+                MakeSoundEffect();
+                StartCoroutine("SoundEffectMover");
+            }
             if (hearts.Count > Health)
             {
                 hearts[Health].SetActive(false);
@@ -531,6 +535,11 @@ public class Player : MonoBehaviour {
             {
                 GetComponent<AudioSource>().clip = guardSound;
                 GetComponent<AudioSource>().Play();
+                if (sound == null)
+                {
+                    MakeDivineSoundEffect();
+                    StartCoroutine("SoundEffectMover");
+                }
             }
         }
 
@@ -682,6 +691,16 @@ public class Player : MonoBehaviour {
         soundVector += soundDirection * 0.3f;
         sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
         sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[(int)Mathf.Floor(Random.value * 3.99f)];
+    }
+
+    private void MakeDivineSoundEffect()
+    {
+        soundTime = 0.5f;
+        soundVector = GetComponent<Transform>().position;
+        soundDirection = new Vector3(Random.value * 2f - 1f, Random.value * 2f - 1f, 0f).normalized;
+        soundVector += soundDirection * 0.3f;
+        sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
+        sound.GetComponent<SpriteRenderer>().sprite = divineSoundEffectImage[(int)Mathf.Floor(Random.value * 1.99f)];
     }
 
     private bool GetKeyPageDown()
