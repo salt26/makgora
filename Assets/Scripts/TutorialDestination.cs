@@ -8,7 +8,7 @@ public class TutorialDestination : MonoBehaviour {
     {
         if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 1)
         {
-            other.GetComponent<TutorialManager>().NextPhase();
+            other.GetComponent<TutorialManager>().NextProcess();
             Destroy(gameObject);
         }
     }
