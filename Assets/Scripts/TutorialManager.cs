@@ -162,12 +162,13 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(false);
             }
             CreateBubble("잘했네.\n" +
-                "이제 다음 단계로 넘어가지.\n" +
-                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
-            isEnterAvailable = true;    // Enter를 눌러 넘어갑니다.
+                "이제 다음 단계로 넘어가지.");
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 0f));
+            // 여기서는 Enter를 눌러 넘어갈 수 없고, 멘토가 움직임을 멈춘 후 자동으로 넘어갑니다.
         }
         else if (StateNotReady(1, 3))
         {
+            myMentor.GetComponent<TutorialMentor>().SetStop();
             NextPhase();
         }
         else if (phase == 2 && !isPhaseStarted)
@@ -194,16 +195,16 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(2, 1))
         {
             CreateBubble("물론 사람들이 이 책을 읽지\n" +
-                "않는 동안에만 그래야겠지만...\n" +
+                "않는 동안에만 움직일 수 있겠지만...\n" +
                 "걱정 말게.\n" +
                 "이 책은 1년 넘게 방치되어 있었으니.\n" +
                 "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(2, 2))
+        else if (StateNotReady(2, 2) && myMentor != null && !myMentor.GetComponent<TutorialMentor>().StartMoving)
         {
             CreateBubble("내가 하는 것을 잘 보게.");
-            myMentor.GetComponent<TutorialDestination>().SetMoving(new Vector3(-1.5f, 0.76f, 2f));
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 2f));
         }
         else if (StateNotReady(2, 3))
         {
@@ -234,7 +235,12 @@ public class TutorialManager : MonoBehaviour {
         }
         */
 
-        if (State(2, 2) && myMentor != null && myMentor.GetComponent<TutorialDestination>().EndMoving)
+        if (State(1, 2) && myMentor != null && myMentor.GetComponent<TutorialMentor>().EndMoving)
+        {
+            // 멘토가 정해진 위치로 이동을 완료했을 때 다음 과정으로 넘어감
+            NextProcess();
+        }
+        if (State(2, 2) && myMentor != null && myMentor.GetComponent<TutorialMentor>().EndMoving)
         {
             // 멘토가 정해진 위치로 이동을 완료했을 때 다음 과정으로 넘어감
             NextProcess();
@@ -251,6 +257,7 @@ public class TutorialManager : MonoBehaviour {
     
     public void NextPhase()
     {
+        Debug.Log("NextPhase");
         phase++;
         process = 0;
         isPhaseStarted = false;
@@ -258,6 +265,7 @@ public class TutorialManager : MonoBehaviour {
 
     public void NextProcess()
     {
+        Debug.Log("NextProcess");
         process++;
         isProcessReady = false;
     }
