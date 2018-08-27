@@ -4269,6 +4269,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2038dd3f05d027548b8c453f4206cc1e, type: 3}
   - {fileID: 21300000, guid: 69f93e06ac2a3b14ca55f6102d9866ca, type: 3}
   - {fileID: 21300000, guid: 029d0c67fe7148b4f8eeacc47242e413, type: 3}
+  divineSoundEffectImage:
+  - {fileID: 21300000, guid: c7dc014da77441f4fb4e5e3f469f98c6, type: 3}
+  - {fileID: 21300000, guid: 6f31d9f1aa5fc89459e30ec28ce36a86, type: 3}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0
