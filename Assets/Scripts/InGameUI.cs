@@ -16,8 +16,6 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private GameObject pauseButton;
     [SerializeField]
-    private GameObject skipTutorialButton;
-    [SerializeField]
     private Text modeText;
     [SerializeField]
     private GameObject sortingObject;   // 새로 생성될 ui 오브젝트들이 패널 뒤에 배치되도록 하는 오브젝트입니다.
@@ -40,8 +38,6 @@ public class InGameUI : MonoBehaviour {
         Manager.instance.PausePanel = pausePanel;
         Manager.instance.ButtonPause = pauseButton;
         Manager.instance.BlindPanel = blindPanel;
-        if (skipTutorialButton != null)
-            Manager.instance.SkipTutorialButton = skipTutorialButton;
 
         string gameMode = Manager.instance.GetCurrentGame()[0];
         string gameLevel = Manager.instance.GetCurrentGame()[1];
@@ -81,13 +77,6 @@ public class InGameUI : MonoBehaviour {
     {
         Manager.instance.QuitButton();
     }
-    
-    /*
-    public void MainGameButton()
-    {
-        Manager.instance.MainGameButton();
-    }
-    */
 
     public void RestartButton()
     {
