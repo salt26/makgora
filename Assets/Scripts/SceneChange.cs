@@ -123,6 +123,7 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadTutorialScene()
     {
+        Manager.instance.Unpause();
         yield return new WaitForSeconds(1f);
         asyncLoad = SceneManager.LoadSceneAsync("Tutorial");
         while (!asyncLoad.isDone)
@@ -135,26 +136,31 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadConcentrationEasyScene()
     {
+        Manager.instance.Unpause();
         yield return null;
     }
 
     IEnumerator LoadConcentrationHardScene()
     {
+        Manager.instance.Unpause();
         yield return null;
     }
 
     IEnumerator LoadSufferanceEasyScene()
     {
+        Manager.instance.Unpause();
         yield return null;
     }
 
     IEnumerator LoadSufferanceHardScene()
     {
+        Manager.instance.Unpause();
         yield return null;
     }
 
     IEnumerator LoadMainGameScene()
     {
+        Manager.instance.Unpause();
         yield return new WaitForSeconds(1f);
         asyncLoad = SceneManager.LoadSceneAsync("MainGame");
         while (!asyncLoad.isDone)
@@ -167,6 +173,7 @@ public class SceneChange : MonoBehaviour {
 
     IEnumerator LoadNetMakgoraScene()
     {
+        Manager.instance.Unpause();
         yield return null;
     }
 }

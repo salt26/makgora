@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class TutorialManager : MonoBehaviour {
+public class TutorialManager : MonoBehaviour, ISubmitHandler {
 
     public Text tutorialText;
     public GameObject destination;
@@ -13,7 +14,8 @@ public class TutorialManager : MonoBehaviour {
 
     private int phase;  // 1: XY평면 상 이동, 2: 페이지 이동, 3: 상대 투사체 맞기, 4: 공격
     private int process;    // 0부터 시작, 각 페이즈에서의 진행 정도를 나타냄.
-    private bool isStarted;   // phase 시작 전에 false
+    private bool isStarted;   // 이것이 false가 되면 다음 프레임에 페이즈가 넘어감.
+    private bool isEnterAvailable;  // 이것이 true인 동안 Enter키를 눌러 다음 설명으로 넘어갈 수 있음.
 
     public int Phase
     {
@@ -35,18 +37,27 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return Phase == 2;
+            return (Phase == 2 || Phase == 3);
+        }
+    }
+
+    public bool CanShoot
+    {
+        get
+        {
+            return Phase == 3;
         }
     }
 
 	// Use this for initialization
 	void Start () {
-        phase = 0;
+        phase = 1;
+        process = 0;
         isStarted = false;
 	}
 	
 	void FixedUpdate () {
-		if (phase == 0 && !isStarted)
+		if (phase == 1 && !isStarted)
         {
             isStarted = true;
             tutorialText.text = "당신은 만화 속의 주인공입니다!\n" +
@@ -56,7 +67,7 @@ public class TutorialManager : MonoBehaviour {
             redHand.enabled = false;
             redText.enabled = false;
         }
-        else if (phase == 1 && !isStarted)
+        else if (phase == 2 && !isStarted)
         {
             isStarted = true;
             tutorialText.text = "주인공은 페이지를 넘나들 수도 있습니다!\n" +
@@ -69,7 +80,7 @@ public class TutorialManager : MonoBehaviour {
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
         }
-        else if (phase == 2 && !isStarted)
+        else if (phase == 3 && !isStarted)
         {
             isStarted = true;
             tutorialText.text = "주인공은 페이지를 뚫고 다른 페이지로 칼을 던질 수 있습니다.\n" +
@@ -83,16 +94,28 @@ public class TutorialManager : MonoBehaviour {
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         }
 
-        if (phase == 1 && isStarted && 
+        if (phase == 2 && isStarted && 
             GetComponent<Transform>().position.z >= GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>().position.z)
         {
             NextPhase();
         }
 	}
+    
 
     public void NextPhase()
     {
         phase++;
+        process = 0;
         isStarted = false;
+    }
+
+    public void NextProcess()
+    {
+        process++;
+    }
+
+    public void OnSubmit(BaseEventData e)
+    {
+        Debug.Log("OnSubmit!");
     }
 }
