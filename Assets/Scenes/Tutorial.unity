@@ -746,7 +746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -90, y: 110}
+  m_AnchoredPosition: {x: 210, y: -190}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &271205442
@@ -1708,7 +1708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 300, y: -100}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572420748
@@ -3040,7 +3040,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ebcabeb81a7154c46be2d5ea150522d2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 49200b36ba9e6b6469815a3549fa7edf, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
@@ -3578,7 +3578,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 110}
+  m_AnchoredPosition: {x: 300, y: -190}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1291311782
@@ -4007,7 +4007,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1360910727}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.74, y: -0.2, z: 0}
+  m_LocalPosition: {x: 0.49, y: 0.44, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 741902806}
@@ -4131,8 +4131,18 @@ MonoBehaviour:
   tutorialText: {fileID: 949258327}
   destination: {fileID: 1065800346749770, guid: 09507b87119300c48af114ab6b1d555c,
     type: 2}
-  redHand: {fileID: 323775489}
+  redPage: {fileID: 323775489}
   redText: {fileID: 284156447}
+  greenPage: {fileID: 1549000444}
+  greenBookText: {fileID: 607149170}
+  book: {fileID: 1279553098}
+  tutorialBubble: {fileID: 1253939595321488, guid: f77de84be569e1946890a22047f0e3a5,
+    type: 2}
+  WASD:
+  - {fileID: 572420746}
+  - {fileID: 271205440}
+  - {fileID: 1291311780}
+  - {fileID: 1788010227}
 --- !u!1 &1370145635
 GameObject:
   m_ObjectHideFlags: 0
@@ -4855,7 +4865,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 49200b36ba9e6b6469815a3549fa7edf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a720e1c0e1759d947ab3dc38685f9838, type: 3}
   m_Color: {r: 0.10980392, g: 0.10980392, b: 0.10980392, a: 0.23529412}
   m_FlipX: 0
   m_FlipY: 0
@@ -5117,7 +5127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90, y: 110}
+  m_AnchoredPosition: {x: 390, y: -190}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1788010229
