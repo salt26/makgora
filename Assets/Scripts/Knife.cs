@@ -198,6 +198,7 @@ public class Knife : MonoBehaviour {
             }
             other.GetComponent<Enemy>().damaged();
             Destroy(text);
+            Destroy(sound);
             Destroy(gameObject);
         }
     }
@@ -284,6 +285,7 @@ public class Knife : MonoBehaviour {
     {
         for (int i = 0; i <= 30; i++)
         {
+            if (sound == null) break;
             soundVector += direction.normalized * 0.01f;
             sound.GetComponent<Transform>().position = soundVector;
             sound.GetComponent<SpriteRenderer>().color = ColorUtil.instance.AlphaColor(new Color(1f, 1f, 1f), 1f - Mathf.Pow((float)i / 30f, 2f));
