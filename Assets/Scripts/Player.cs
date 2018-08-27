@@ -22,6 +22,8 @@ public class Player : MonoBehaviour {
     public Text purpleText;
     public GameObject speechBubble;
     public List<Tooltip> pausePanelButtons;
+    public GameObject soundEffect;
+    public Sprite[] soundEffectImage;
     
 
     private float speed;
@@ -43,6 +45,10 @@ public class Player : MonoBehaviour {
     private Vector3 releasedMousePosition;
     private GameObject mySpeech;
     private Vector3 speechVector;
+    private GameObject sound;
+    private Vector3 soundVector;
+    private Vector3 soundDirection;
+    private float soundTime;
     private int soundNum;
 
     public int Health
@@ -504,6 +510,8 @@ public class Player : MonoBehaviour {
         {
             Debug.LogWarning("Player hit!");
             health--;
+            MakeSoundEffect();
+            StartCoroutine("SoundEffectMover");
             if (hearts.Count > Health)
             {
                 hearts[Health].SetActive(false);
@@ -650,6 +658,29 @@ public class Player : MonoBehaviour {
         isSFXPlaying = true;
         yield return new WaitForSeconds(0.4f);
         isSFXPlaying = false;
+    }
+
+    IEnumerator SoundEffectMover()
+    {
+        for(int i = 0; i <= 30; i++)
+        {
+            soundVector += soundDirection * 0.01f;
+            sound.GetComponent<Transform>().position = soundVector;
+            sound.GetComponent<SpriteRenderer>().color = ColorUtil.instance.AlphaColor(new Color(1f, 1f, 1f), 1f - Mathf.Pow((float)i / 30f, 2f));
+            yield return null;
+        }
+        Destroy(sound);
+        sound = null;
+    }
+
+    private void MakeSoundEffect()
+    {
+        soundTime = 0.5f;
+        soundVector = GetComponent<Transform>().position;
+        soundDirection = new Vector3(Random.value * 2f -1f, Random.value * 2f -1f, 0f).normalized;
+        soundVector += soundDirection * 0.3f;
+        sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
+        sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[(int)Mathf.Floor(Random.value * 3.99f)];
     }
 
     private bool GetKeyPageDown()
