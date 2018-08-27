@@ -161,7 +161,7 @@ public class Player : MonoBehaviour {
         // 키보드의 A, D, W, S, 좌Shift, Space 키로부터 입력을 받습니다.
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
-        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 0) &&
+        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && !GetComponent<TutorialManager>().CanMoveZ) &&
             !Manager.instance.GetGameOver())
         {
             if (GetKeyPageDown() && !GetKeyPageUp() && temporalMoveCoolTime <= 0f)
@@ -179,6 +179,12 @@ public class Player : MonoBehaviour {
                 moveHorizontal = 0f;
                 moveVertical = 0f;
             }
+        }
+
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial") && !GetComponent<TutorialManager>().CanMoveXY)
+        {
+            moveHorizontal = 0f;
+            moveVertical = 0f;
         }
 
         zLocation.GetComponentInChildren<Text>().text = "" + Boundary.ZToPage(r.position.z);
@@ -199,7 +205,7 @@ public class Player : MonoBehaviour {
 
         #region 던지는(shoot) 코드
 
-        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && GetComponent<TutorialManager>().Phase <= 1))
+        if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && !GetComponent<TutorialManager>().CanShoot))
         {
             if ((Input.GetMouseButton(0) || Input.GetMouseButton(1)) && prepareWeaponTime < 0f)
             {

@@ -6,7 +6,7 @@ public class TutorialDestination : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 0)
+        if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 1)
         {
             other.GetComponent<TutorialManager>().NextPhase();
             Destroy(gameObject);
