@@ -15,6 +15,7 @@ public class TutorialManager : MonoBehaviour {
     public Text greenBookText;
     public Image book;
     public GameObject tutorialBubble;
+    public List<GameObject> WASD;
 
     private int phase;  // 1: XY평면 상 이동, 2: 페이지 이동, 3: 상대 투사체 맞기, 4: 공격
     private int process;    // 0부터 시작, 각 페이즈에서의 진행 정도를 나타냅니다.
@@ -71,6 +72,51 @@ public class TutorialManager : MonoBehaviour {
             return;
         }
 
+        if (WASD.Count > 0 && WASD[0].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                WASD[0].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+            }
+            else
+            {
+                WASD[0].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+            }
+        }
+        if (WASD.Count > 1 && WASD[1].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.A))
+            {
+                WASD[1].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+            }
+            else
+            {
+                WASD[1].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+            }
+        }
+        if (WASD.Count > 2 && WASD[2].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.S))
+            {
+                WASD[2].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+            }
+            else
+            {
+                WASD[2].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+            }
+        }
+        if (WASD.Count > 3 && WASD[3].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                WASD[3].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+            }
+            else
+            {
+                WASD[3].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+            }
+        }
+
         if (StateNotReady(1, 0) && !isPhaseStarted)
         {
             // phase 1, process 0
@@ -80,7 +126,7 @@ public class TutorialManager : MonoBehaviour {
                 "컷을 넘나들며 주인공을\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
                 "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
                 */
-            Instantiate(destination, new Vector3(-1.5f, -0.26f, 0f), Quaternion.identity);
+            Instantiate(destination, new Vector3(-1.5f, 0.56f, 0f), Quaternion.identity);
             redPage.enabled = false;
             redText.enabled = false;
             greenPage.enabled = false;
@@ -94,6 +140,10 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(1, 1))
         {
+            foreach (GameObject g in WASD)
+            {
+                g.SetActive(true);
+            }
             CreateBubble("우선 간단하게 몸풀기부터 하지.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
                 "W, A, S, D키를 누르면 움직일 수 있다네.");
@@ -110,6 +160,10 @@ public class TutorialManager : MonoBehaviour {
             greenPage.enabled = true;
             greenBookText.enabled = true;
             book.enabled = true;
+            foreach (GameObject g in WASD)
+            {
+                g.SetActive(false);
+            }
             Transform enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
