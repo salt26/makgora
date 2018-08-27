@@ -148,6 +148,7 @@ public class Enemy : MonoBehaviour {
 
     void FixedUpdate ()
     {
+        #region 말풍선 위치&방향 조절하는 코드
         speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
         if (mySpeech != null)
         {
@@ -293,6 +294,8 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
+
+        #endregion
 
         whileInvincible();
 
@@ -838,7 +841,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
@@ -866,7 +869,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
@@ -894,7 +897,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
