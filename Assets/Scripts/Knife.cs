@@ -15,14 +15,21 @@ public class Knife : MonoBehaviour {
     private Transform player;
     private Transform enemy;
     private GameObject text;
+    private GameObject sound;
+    private Vector3 soundVector;
     private Camera mainCamera;
 
     private bool isCracked;
 
     private float speed;
+    private float soundTime;
+    private bool soundHasMade=false;
+    private int soundNum;
 
     public GameObject flare;
     public GameObject knifeText;
+    public GameObject soundEffect;
+    public Sprite[] soundEffectImage;
 
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
@@ -45,11 +52,24 @@ public class Knife : MonoBehaviour {
         else
         {
             TextMover();
+            SoundEffectMover();
         }
     }
 
     // 매 프레임마다 자동으로 호출됩니다.
-    void FixedUpdate () {
+    void FixedUpdate() {
+        if (owner == 0)
+        {
+            if (sound != null)sound.GetComponent<SpriteRenderer>().color = ColorUtil.instance.AlphaColor(new Color(1f, 1f, 1f), 1f - Mathf.Pow(soundTime / 0.5f - 1f, 2));
+            if (soundTime > 0f) soundTime -= Time.fixedDeltaTime;
+            if (soundTime < 0f) soundTime = 0f;
+            if (soundTime <= 0f && sound != null)
+            {
+                Destroy(sound);
+                sound = null;
+            }
+        }
+
         float ownZ = 0f;
         float otherZ = 0f;
 		if (owner != -1)
@@ -80,11 +100,16 @@ public class Knife : MonoBehaviour {
             {
                 mr.enabled = false;
             }
+            foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.enabled = false;
+            }
         }
         else
         {
             if (text != null) text.GetComponent<Text>().enabled = true;
             TextMover();
+            SoundEffectMover();
             foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
             {
                 mr.enabled = true;
@@ -106,7 +131,7 @@ public class Knife : MonoBehaviour {
 
             }
         }
-
+        
         if (owner == 0)
         {
             if (!isCracked && Mathf.Abs(otherZ - t.position.z) < 0.02f &&
@@ -152,13 +177,19 @@ public class Knife : MonoBehaviour {
     /// </summary>
     /// <param name="owner"></param>
     /// <param name="destination"></param>
-    public void Initialize(int owner, Vector3 destination)
+    public void Initialize(int owner, int soundNum, Vector3 destination)
     {
         dest = destination;
         if (owner == 0 || owner == 1)
             this.owner = owner;
         
         if (owner != -1) direction = (dest - start).normalized * speed;  // 속력은 항상 speed만큼입니다.
+
+        if (owner == 0)
+        {
+            soundTime = 0.5f;
+            this.soundNum = soundNum;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -247,6 +278,30 @@ public class Knife : MonoBehaviour {
             text.GetComponent<Text>().color =
                 ColorUtil.instance.AlphaColor(Color.Lerp(ColorUtil.instance.futureColor, ColorUtil.instance.futureFutureColor,
                 Mathf.Abs(player.position.z - t.position.z) - Boundary.OnePageToDeltaZ() * Boundary.approach), alpha);
+        }
+    }
+
+    private void SoundEffectMover()
+    {
+        if (owner != 0)
+        {
+            return;
+        }
+
+        Vector3 d = direction.normalized;
+        Vector3 o = new Vector3(d.y, -d.x, d.z);
+
+        if (sound != null)
+        {
+            soundVector += d * 0.01f;
+            sound.GetComponent<Transform>().position = soundVector;
+        }
+        else if(!soundHasMade)
+        {
+            soundVector = player.position + d * 0.3f + o * 0.18f;
+            sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
+            sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[soundNum];
+            soundHasMade = true;
         }
     }
 }

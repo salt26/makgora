@@ -210,6 +210,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flare: {fileID: 1598354684554190, guid: eb0d1e5dc992e0e4f81cddf94baff1a5, type: 2}
   knifeText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
+  soundEffect: {fileID: 1956576233542046, guid: d2be2dadeda16f14c8eb6aaa1df270d0,
+    type: 2}
+  soundEffectImage:
+  - {fileID: 21300000, guid: 08d5fcf759c91244b85b7400250655eb, type: 3}
+  - {fileID: 21300000, guid: a683341c3c7a5f340848d8d5a424babe, type: 3}
+  - {fileID: 21300000, guid: e4922f3bd39b0704092e9ce89f17cf20, type: 3}
 --- !u!136 &136065721229351076
 CapsuleCollider:
   m_ObjectHideFlags: 1

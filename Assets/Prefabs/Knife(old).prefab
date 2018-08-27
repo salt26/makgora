@@ -222,3 +222,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flare: {fileID: 1598354684554190, guid: eb0d1e5dc992e0e4f81cddf94baff1a5, type: 2}
   knifeText: {fileID: 1514147191191268, guid: 949ec085b6a864d4599805fe57f4b188, type: 2}
+  soundEffect: {fileID: 0}
+  soundEffectImage: []

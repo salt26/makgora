@@ -43,6 +43,7 @@ public class Player : MonoBehaviour {
     private Vector3 releasedMousePosition;
     private GameObject mySpeech;
     private Vector3 speechVector;
+    private int soundNum;
 
     public int Health
     {
@@ -247,7 +248,7 @@ public class Player : MonoBehaviour {
                 Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
                 GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                k.GetComponent<Knife>().Initialize(0, new Vector3(
+                k.GetComponent<Knife>().Initialize(0, soundNum, new Vector3(
                     ray.origin.x + ray.direction.x *
                     (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                     ray.origin.y + ray.direction.y *
@@ -260,6 +261,7 @@ public class Player : MonoBehaviour {
                 weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
                 chargedZ = 0f;
                 prepareWeaponTime = -1f;
+                soundNum = (soundNum + 1) % 3;
             }
 
             /*
@@ -293,6 +295,7 @@ public class Player : MonoBehaviour {
             myShield = null;
         }
 
+        #region 말풍선 위치&방향 조절하는 코드
         speechVector = mainCamera.WorldToScreenPoint(GetComponent<Transform>().position);
         if(mySpeech != null)
         {
@@ -438,6 +441,7 @@ public class Player : MonoBehaviour {
                 }
             }
         }
+        #endregion
 
         if (Manager.instance.GetGameOver()) return;
 
