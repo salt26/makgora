@@ -11,7 +11,8 @@ public class TutorialManager : MonoBehaviour {
     public Image redHand;
     public Text redText;
 
-    private int phase;  // 0: XY평면 상 이동, 1: 시간축 상 이동, 2: 멈춘 적 맞추기
+    private int phase;  // 1: XY평면 상 이동, 2: 페이지 이동, 3: 상대 투사체 맞기, 4: 공격
+    private int process;    // 0부터 시작, 각 페이즈에서의 진행 정도를 나타냄.
     private bool isStarted;   // phase 시작 전에 false
 
     public int Phase
@@ -19,6 +20,22 @@ public class TutorialManager : MonoBehaviour {
         get
         {
             return phase;
+        }
+    }
+
+    public bool CanMoveXY
+    {
+        get
+        {
+            return Phase == 1;
+        }
+    }
+
+    public bool CanMoveZ
+    {
+        get
+        {
+            return Phase == 2;
         }
     }
 
