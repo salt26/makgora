@@ -56,6 +56,12 @@ public class ChargeClockUI : MonoBehaviour {
             purpleText.text = Boundary.ZToPage(player.position.z + Boundary.RoundZ(chargedZ)).ToString();
             background.position = GetComponent<RectTransform>().position;
         }
+        else
+        {
+            purpleHand.GetComponent<Image>().enabled = false;
+            purpleText.enabled = false;
+        }
+
         if (enemy.GetComponent<Enemy>().Health > 0)
         {
             float deg = Mathf.Lerp(150f, -150f, (enemy.position.z - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
@@ -67,6 +73,10 @@ public class ChargeClockUI : MonoBehaviour {
                 GetComponent<Image>().color = c;
                 isColored = true;
             }
+        }
+        else
+        {
+            redHand.GetComponent<Image>().enabled = false;
         }
 
         if (prepareTime < Manager.instance.PrepareChargeTime)

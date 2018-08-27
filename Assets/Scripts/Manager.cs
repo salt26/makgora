@@ -223,7 +223,7 @@ public class Manager : MonoBehaviour {
             instance.Level = GameLevel.None;
         }
         instance.isGameOver = false;
-        Unpause();
+        SpecialUnpause();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -253,7 +253,7 @@ public class Manager : MonoBehaviour {
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
         instance.isGameOver = false;
-        Unpause();
+        SpecialUnpause();
         SceneManager.LoadScene("Menu");
     }
 
@@ -344,6 +344,15 @@ public class Manager : MonoBehaviour {
     public void Unpause()
     {
         instance.isPaused = false;
+        Time.timeScale = 1f;
+    }
+
+    /// <summary>
+    /// 게임이 끝날 때, 물리적으로는 일시정지를 해제하지만 코드 상으로는 일시정지 상태를 유지합니다.
+    /// </summary>
+    private void SpecialUnpause()
+    {
+        instance.isPaused = true;
         Time.timeScale = 1f;
     }
 
