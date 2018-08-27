@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialDestination : MonoBehaviour {
+public class TutorialMentor : MonoBehaviour {
 
     private Vector3 startPosition, destPosition;
     private float moveTime = 0f, temporalMoveCoolTime = 0f;
     private bool startMoving = false, endMoving = false;
+    private bool isArrived = false; // 1페이즈에서 플레이어가 멘토에게 닿으면 true가 됩니다.
+
+    public bool StartMoving
+    {
+        get
+        {
+            return startMoving;
+        }
+    }
 
     public bool EndMoving
     {
@@ -25,6 +34,7 @@ public class TutorialDestination : MonoBehaviour {
         {
             // 목적지에 도착했습니다.
             endMoving = true;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         else if (startMoving && !endMoving && temporalMoveCoolTime > 0f)
         {
@@ -48,6 +58,22 @@ public class TutorialDestination : MonoBehaviour {
                 Mathf.Clamp(r.position.z + deltaZ, Boundary.zMin, Boundary.zMax)
             );
         }
+        else if (startMoving && !endMoving)
+        {
+            // 목적지를 향해 XY평면을 따라 이동합니다.
+            Rigidbody r = GetComponent<Rigidbody>();
+            Vector3 movement = destPosition - GetComponent<Transform>().position;
+            movement.z = 0f;
+            r.velocity = movement.normalized * Manager.instance.MovingSpeed * 1.5f;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
+
         /*
         if (moveTime > 0f)
         {
@@ -69,8 +95,9 @@ public class TutorialDestination : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 1)
+        if (other.tag.Equals("Player") && other.GetComponent<TutorialManager>().Phase == 1 && !isArrived)
         {
+            isArrived = true;
             other.GetComponent<TutorialManager>().NextProcess();
             //Destroy(gameObject);
         }
@@ -81,5 +108,15 @@ public class TutorialDestination : MonoBehaviour {
         startPosition = GetComponent<Transform>().position;
         destPosition = dest;
         startMoving = true;
+        endMoving = false;
+    }
+
+    public void SetStop()
+    {
+        if (startMoving && endMoving)
+        {
+            startMoving = false;
+            endMoving = false;
+        }
     }
 }
