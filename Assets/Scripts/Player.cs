@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
     private Camera mainCamera;
     private bool hasReadySpoken = false;
     private bool isSFXPlaying = false;
+    private bool isPageVisible = true;  // 튜토리얼에서 자신의 페이지 번호를 보여주지 않을 동안 false가 됩니다.
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -485,7 +486,7 @@ public class Player : MonoBehaviour {
     /// </summary>
     private void TextMover()
     {
-        if (Manager.instance.GetCurrentGame()[1].Equals("Hard"))
+        if (Manager.instance.GetCurrentGame()[1].Equals("Hard") || !isPageVisible)
         {
             return;
         }
@@ -502,6 +503,11 @@ public class Player : MonoBehaviour {
         myText.GetComponent<Text>().text = Boundary.ZToPage(GetComponent<Transform>().position.z).ToString();
 
         myText.GetComponent<Text>().color = GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color;
+    }
+
+    public void SetPageVisibleInTutorial(bool b)
+    {
+        isPageVisible = b;
     }
 
     public void Damaged()
