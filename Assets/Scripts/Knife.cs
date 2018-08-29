@@ -22,9 +22,6 @@ public class Knife : MonoBehaviour {
     private bool isCracked;
 
     private float speed;
-    private float soundTime;
-    private bool soundHasMade=false;
-    private int soundNum;
 
     public GameObject flare;
     public GameObject knifeText;
@@ -176,7 +173,7 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            MakeSoundEffect();
+            MakeSoundEffect(soundNum);
             StartCoroutine("SoundEffectMover");
         }
     }
@@ -271,9 +268,8 @@ public class Knife : MonoBehaviour {
         }
     }
 
-    private void MakeSoundEffect()
+    private void MakeSoundEffect(int soundNum)
     {
-        soundTime = 0.5f;
         Vector3 d = direction.normalized;
         Vector3 o = new Vector3(d.y, -d.x, d.z);
         soundVector = player.position + d * 0.3f + o * 0.18f;
