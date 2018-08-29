@@ -13,6 +13,7 @@ public class ColorUtil : MonoBehaviour {
     public Color futureColor;
     public Color futureFutureColor;
     public Color presentPlayerColor;
+    public Color presentMentorColor;
 
     private void Awake()
     {

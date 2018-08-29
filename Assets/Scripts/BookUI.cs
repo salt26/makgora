@@ -7,11 +7,14 @@ public class BookUI : MonoBehaviour {
 
     public Transform player;
     public Transform enemy;
+    public Transform mentor;
 
     public RectTransform greenPage;
     public Text greenText;
     public RectTransform redPage;
     public Text redText;
+    public RectTransform bluePage;
+    public Text blueText;
 
 	void FixedUpdate () {
         /*
@@ -47,6 +50,12 @@ public class BookUI : MonoBehaviour {
             redPage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
                 ((Boundary.ZToPage(enemy.position.z) - Boundary.pageBase) / (float)Boundary.pageNum)), redPage.anchoredPosition.y);
             redText.text = Boundary.ZToPage(enemy.position.z).ToString();
+        }
+        if (mentor != null && bluePage != null && blueText != null)
+        {
+            bluePage.anchoredPosition = new Vector2(Mathf.Lerp(-240f, 240f,
+                ((Boundary.ZToPage(mentor.position.z) - Boundary.pageBase) / (float)Boundary.pageNum)), bluePage.anchoredPosition.y);
+            blueText.text = Boundary.ZToPage(mentor.position.z).ToString();
         }
     }
 }

@@ -9,11 +9,7 @@ public class TutorialManager : MonoBehaviour {
 
     public Text tutorialText;
     public GameObject mentor;
-    public Image redPage;
-    public Text redText;
-    public Image greenPage;
-    public Text greenBookText;
-    public Image book;
+    public BookUI book;
     public GameObject tutorialBubble;
     public List<GameObject> WASD;
 
@@ -25,6 +21,7 @@ public class TutorialManager : MonoBehaviour {
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
     private Transform enemy;
+    private Player player;
 
     public int Phase
     {
@@ -65,6 +62,8 @@ public class TutorialManager : MonoBehaviour {
         isPhaseStarted = false;
         isProcessReady = false;
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player.SetPageVisibleInTutorial(false);
     }
 	
 	void FixedUpdate () {
@@ -130,11 +129,12 @@ public class TutorialManager : MonoBehaviour {
                 "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
                 */
             myMentor = Instantiate(mentor, new Vector3(-1.5f, 0.76f, 0f), Quaternion.identity);
-            redPage.enabled = false;
-            redText.enabled = false;
-            greenPage.enabled = false;
-            greenBookText.enabled = false;
-            book.enabled = false;
+
+            book.redPage.GetComponent<Image>().enabled = false;
+            book.redText.GetComponent<Text>().enabled = false;
+            book.greenPage.GetComponent<Image>().enabled = false;
+            book.greenText.GetComponent<Text>().enabled = false;
+            book.GetComponent<Image>().enabled = false;
             CreateBubble("『Mak'Gora』의 세계에 온 것을\n" +
                 "환영하네, 젊은이여!\n" +
                 "내가 그대를 강인한 전사의 길로\n" +
@@ -186,6 +186,14 @@ public class TutorialManager : MonoBehaviour {
             */
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
+            myMentor.GetComponent<TutorialMentor>().SetPageVisible();
+            book.greenPage.GetComponent<Image>().enabled = true;
+            book.greenText.GetComponent<Text>().enabled = true;
+            book.bluePage.GetComponent<Image>().enabled = true;
+            book.blueText.GetComponent<Text>().enabled = true;
+            book.GetComponent<Image>().enabled = true;
+            player.SetPageVisibleInTutorial(true);
+            book.mentor = myMentor.GetComponent<Transform>();
             CreateBubble("눈치챘을수도 있겠지만,\n" +
                 "우리는 만화책 속 주인공이라네.\n" +
                 "다른 페이지를 오가는 것도 가능하지!\n" +
@@ -194,29 +202,26 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 1))
         {
-            CreateBubble("물론 사람들이 이 책을 읽지\n" +
-                "않는 동안에만 움직일 수 있겠지만...\n" +
-                "걱정 말게.\n" +
-                "이 책은 1년 넘게 방치되어 있었으니.\n" +
+            CreateBubble("물론 사람들이 이 책을 펼치면\n" +
+                "제자리로 돌아가야겠지만...\n" +
+                "걱정 말게. 이 책은 1년 넘게\n" +
+                "아무도 읽지 않았으니.\n" +
                 "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 2) && myMentor != null && !myMentor.GetComponent<TutorialMentor>().StartMoving)
         {
             CreateBubble("내가 하는 것을 잘 보게.");
-            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 2f));
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 2.5f));
         }
         else if (StateNotReady(2, 3))
         {
             // TODO 멘토의 위치를 책 UI에 표시
-            greenPage.enabled = true;
-            greenBookText.enabled = true;
-            book.enabled = true;
             CreateBubble("갑자기 사라져서 당황했나?\n" +
                 "내가 어디에 있는지는 뒤에 있는\n" +
                 "책 그림을 보면 알 수 있다네.\n" +
                 "자네가 있는 페이지는 초록색으로,\n" +
-                "내가 있는 페이지는 파란색으로.\n" +
+                "내가 있는 페이지는 파란색으로 보이지.\n" +
                 "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
             isEnterAvailable = true;
         }

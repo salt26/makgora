@@ -1663,6 +1663,7 @@ MonoBehaviour:
   futureColor: {r: 0.40784314, g: 0.8117647, b: 0.972549, a: 0}
   futureFutureColor: {r: 0.028835887, g: 0.09037697, b: 0.2264151, a: 0}
   presentPlayerColor: {r: 0.12941177, g: 0.83137256, b: 0.05882353, a: 0}
+  presentMentorColor: {r: 0.44313726, g: 0.654902, b: 0.83137256, a: 0}
 --- !u!1 &540484131
 GameObject:
   m_ObjectHideFlags: 0
