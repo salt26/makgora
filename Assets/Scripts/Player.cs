@@ -50,7 +50,6 @@ public class Player : MonoBehaviour {
     private GameObject sound;
     private Vector3 soundVector;
     private Vector3 soundDirection;
-    private float soundTime;
     private int soundNum;
 
     public int Health
@@ -691,7 +690,6 @@ public class Player : MonoBehaviour {
 
     private void MakeSoundEffect()
     {
-        soundTime = 0.5f;
         soundVector = GetComponent<Transform>().position;
         soundDirection = new Vector3(Random.value * 2f -1f, Random.value * 2f -1f, 0f).normalized;
         soundVector += soundDirection * 0.3f;
@@ -701,7 +699,6 @@ public class Player : MonoBehaviour {
 
     private void MakeDivineSoundEffect()
     {
-        soundTime = 0.5f;
         soundVector = GetComponent<Transform>().position;
         soundDirection = new Vector3(Random.value * 2f - 1f, Random.value * 2f - 1f, 0f).normalized;
         soundVector += soundDirection * 0.3f;

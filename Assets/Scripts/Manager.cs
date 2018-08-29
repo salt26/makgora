@@ -36,7 +36,6 @@ public class Manager : MonoBehaviour {
     private GameObject winPanel;
     private GameObject losePanel;
     private GameObject blindPanel;
-    private GameObject skipTutorialButton;
     private GameObject player;
     private GameObject enemy;
 
@@ -134,11 +133,6 @@ public class Manager : MonoBehaviour {
     {
         get { return enemy; }
         set { enemy = value; }
-    }
-
-    public GameObject SkipTutorialButton
-    {
-        set { skipTutorialButton = value; }
     }
 
     public float EasyChargeSpeed
@@ -249,7 +243,6 @@ public class Manager : MonoBehaviour {
         instance.WinPanel = null;
         instance.losePanel = null;
         instance.pausePanel = null;
-        instance.SkipTutorialButton = null;
         instance.Mode = GameMode.None;
         instance.Level = GameLevel.None;
         instance.isGameOver = false;
@@ -314,7 +307,6 @@ public class Manager : MonoBehaviour {
 
     IEnumerator Graduate()
     {
-        instance.skipTutorialButton.SetActive(false);
         instance.SetGameOver();
         instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.0f);
