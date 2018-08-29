@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
 
     public GameObject tooltipPanel;
     private GameObject tooltipPanelClone;
@@ -18,12 +18,18 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Manager.instance.ButtonOverSound();
         CreateTooltip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         DestroyTooltip();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Manager.instance.ButtonSound();
     }
 
     public void DestroyTooltip()

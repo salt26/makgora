@@ -378,7 +378,7 @@ public class TutorialManager : MonoBehaviour {
         k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position + error);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
         NextProcess();
     }
 

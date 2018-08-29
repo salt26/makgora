@@ -1532,6 +1532,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loseSound: {fileID: 8300000, guid: c5a1c8f28f1dabf4490917a8a5e1239a, type: 3}
   winSound: {fileID: 8300000, guid: 62e6626dd277b0f419353a02df40e1b0, type: 3}
+  buttonSound: {fileID: 8300000, guid: db2eb22e8b663ca4f88aeeae673b7da4, type: 3}
+  buttonOverSound: {fileID: 8300000, guid: 5d9cfed19f87a604186ee04d99c35a4e, type: 3}
   easyChargeSpeed: 1
   hardChargeSpeed: 1.5
   prepareChargeDistance: 0.7

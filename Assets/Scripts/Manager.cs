@@ -27,6 +27,7 @@ public class Manager : MonoBehaviour {
     private GameLevel level;
     private bool isGameOver;
     private bool isPaused;
+    private bool canPlayButtonOverSound = true;
 
     // TODO 아래 게임오브젝트들 설정하기
     private GameObject canvas;
@@ -43,6 +44,10 @@ public class Manager : MonoBehaviour {
     private AudioClip loseSound;
     [SerializeField]
     private AudioClip winSound;
+    [SerializeField]
+    private AudioClip buttonSound;
+    [SerializeField]
+    private AudioClip buttonOverSound;
 
     [SerializeField]
     private float easyChargeSpeed;          // 쉬움 모드에서 한쪽 방향으로 조준 중에 초당 충전되는 Z좌표 거리
@@ -292,6 +297,10 @@ public class Manager : MonoBehaviour {
         GetComponent<AudioSource>().Play();
         instance.losePanel.SetActive(true);
         instance.blindPanel.SetActive(true);
+
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(4f);
+        canPlayButtonOverSound = true;
     }
 
     IEnumerator Win()
@@ -303,6 +312,10 @@ public class Manager : MonoBehaviour {
         GetComponent<AudioSource>().Play();
         instance.winPanel.SetActive(true);
         instance.blindPanel.SetActive(true);
+
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(5f);
+        canPlayButtonOverSound = true;
     }
 
     IEnumerator Graduate()
@@ -315,6 +328,10 @@ public class Manager : MonoBehaviour {
 
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
+
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(5f);
+        canPlayButtonOverSound = true;
     }
 
     public void SetGameOver()
@@ -326,7 +343,30 @@ public class Manager : MonoBehaviour {
     {
         return isGameOver;
     }
-    
+
+    public void ButtonSound()
+    {
+        StartCoroutine(PlayButtonSound());
+    }
+
+    IEnumerator PlayButtonSound()
+    {
+        GetComponent<AudioSource>().clip = buttonSound;
+        GetComponent<AudioSource>().Play();
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(2f);
+        canPlayButtonOverSound = true;
+    }
+
+    public void ButtonOverSound()
+    {
+        if (canPlayButtonOverSound)
+        {
+            GetComponent<AudioSource>().clip = buttonOverSound;
+            GetComponent<AudioSource>().Play();
+        }
+    }
+
     public void Pause()
     {
         instance.isPaused = true;
