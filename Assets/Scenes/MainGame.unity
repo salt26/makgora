@@ -267,9 +267,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.8
-  b: 0.4
+  r: 0.5
+  g: 0.9
+  b: 0.5
   fontSize: 0
 --- !u!1 &82032282
 GameObject:
@@ -1364,9 +1364,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &420047001
 GameObject:
@@ -1653,9 +1653,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.8
-  b: 0.4
+  r: 0.5
+  g: 0.9
+  b: 0.5
   fontSize: 0
 --- !u!1 &646863707
 GameObject:
@@ -1780,7 +1780,6 @@ MonoBehaviour:
   losePanel: {fileID: 1343005077}
   pausePanel: {fileID: 1324627234}
   pauseButton: {fileID: 1396723158}
-  skipTutorialButton: {fileID: 0}
   modeText: {fileID: 1669354944}
   sortingObject: {fileID: 1254685928}
   blindPanel: {fileID: 1151078844}
@@ -2163,9 +2162,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.8
-  b: 0.4
+  r: 0.5
+  g: 0.9
+  b: 0.5
   fontSize: 0
 --- !u!1 &831476500
 GameObject:
@@ -2321,9 +2320,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.4
+  r: 0.9
+  g: 0.5
+  b: 0.5
   fontSize: 0
 --- !u!1 &883908720
 GameObject:
@@ -3139,10 +3138,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1360910733}
   enemy: {fileID: 82032287}
+  mentor: {fileID: 0}
   greenPage: {fileID: 1602214671}
   greenText: {fileID: 1072569734}
   redPage: {fileID: 1009181832}
   redText: {fileID: 1793133101}
+  bluePage: {fileID: 0}
+  blueText: {fileID: 0}
 --- !u!114 &1026368155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4202,9 +4204,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &1360910727
 GameObject:
@@ -4654,9 +4656,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &1481232819
 GameObject:
@@ -5677,9 +5679,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &1864137290
 GameObject:
@@ -6105,9 +6107,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &1996745151
 GameObject:

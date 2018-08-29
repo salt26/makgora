@@ -443,9 +443,9 @@ MonoBehaviour:
   y: 264
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
 --- !u!1 &226463313
 GameObject:
@@ -1025,9 +1025,9 @@ MonoBehaviour:
   y: 264
   width: 460
   height: 150
-  r: 0.4
-  g: 0.8
-  b: 0.8
+  r: 0.5
+  g: 0.9
+  b: 0.9
   fontSize: 28
 --- !u!1 &410974323
 GameObject:
@@ -1208,9 +1208,9 @@ MonoBehaviour:
   y: 424
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
 --- !u!1 &424707122
 GameObject:
@@ -1843,9 +1843,9 @@ MonoBehaviour:
   y: 424
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
 --- !u!1 &545167007
 GameObject:
@@ -2534,9 +2534,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.4
+  r: 0.9
+  g: 0.5
+  b: 0.5
   fontSize: 0
 --- !u!1 &626123936
 GameObject:
@@ -2703,9 +2703,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.4
+  r: 0.9
+  g: 0.5
+  b: 0.5
   fontSize: 0
 --- !u!1 &661933087
 GameObject:
@@ -3098,9 +3098,9 @@ MonoBehaviour:
   y: 0
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.4
+  r: 0.9
+  g: 0.5
+  b: 0.5
   fontSize: 0
 --- !u!1 &802649661
 GameObject:
@@ -3427,9 +3427,9 @@ MonoBehaviour:
   y: 424
   width: 460
   height: 150
-  r: 0.4
-  g: 0.8
-  b: 0.8
+  r: 0.5
+  g: 0.9
+  b: 0.9
   fontSize: 28
 --- !u!1 &934256347
 GameObject:
@@ -3830,9 +3830,9 @@ MonoBehaviour:
   y: 264
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
 --- !u!1 &1027638029
 GameObject:
@@ -4351,9 +4351,9 @@ MonoBehaviour:
   y: 437
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.4
+  r: 0.9
+  g: 0.5
+  b: 0.5
   fontSize: 0
 --- !u!1 &1225170208
 GameObject:
@@ -4612,9 +4612,9 @@ MonoBehaviour:
   y: 454
   width: 280
   height: 130
-  r: 0.4
-  g: 0.8
-  b: 0.4
+  r: 0.5
+  g: 0.9
+  b: 0.5
   fontSize: 32
 --- !u!1 &1264609721
 GameObject:
@@ -4781,9 +4781,9 @@ MonoBehaviour:
   y: 437
   width: 0
   height: 0
-  r: 0.8
-  g: 0.4
-  b: 0.8
+  r: 0.9
+  g: 0.5
+  b: 0.9
   fontSize: 0
 --- !u!1 &1271122943
 GameObject:
@@ -5033,9 +5033,9 @@ MonoBehaviour:
   y: 264
   width: 460
   height: 150
-  r: 0.4
-  g: 0.8
-  b: 0.8
+  r: 0.5
+  g: 0.9
+  b: 0.9
   fontSize: 28
 --- !u!1 &1345186579
 GameObject:
@@ -5204,9 +5204,9 @@ MonoBehaviour:
   y: 454
   width: 280
   height: 130
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 32
 --- !u!1 &1384023135
 GameObject:
@@ -5625,9 +5625,9 @@ MonoBehaviour:
   y: 264
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
 --- !u!1 &1558558642
 GameObject:
@@ -6313,9 +6313,9 @@ MonoBehaviour:
   y: 424
   width: 460
   height: 150
-  r: 0.4
-  g: 0.8
-  b: 0.8
+  r: 0.5
+  g: 0.9
+  b: 0.9
   fontSize: 28
 --- !u!1 &1832480016
 GameObject:
@@ -6483,9 +6483,9 @@ MonoBehaviour:
   y: 454
   width: 280
   height: 130
-  r: 0.4
-  g: 0.8
-  b: 0.8
+  r: 0.5
+  g: 0.9
+  b: 0.9
   fontSize: 32
 --- !u!1 &1860117953
 GameObject:
@@ -7161,7 +7161,7 @@ MonoBehaviour:
   y: 424
   width: 300
   height: 150
-  r: 0.4
-  g: 0.4
-  b: 0.8
+  r: 0.5
+  g: 0.5
+  b: 0.9
   fontSize: 24
