@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour {
     private bool isCharging = false;
     private bool hasReadySpoken = false;
     private bool isSFXPlaying = false;
+    private bool isModelVisible = true;
     private float chargedZ;
     private float approxZ;                  // 플레이어 캐릭터 근처의, 투사체를 발사할 지점의 Z좌표
     private float prepareWeaponTime;        // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
@@ -387,7 +388,8 @@ public class Enemy : MonoBehaviour {
         }
         else if (!Manager.instance.IsPaused)
         {
-            if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0)
+            if (1 - (Mathf.Abs(player.GetComponent<Transform>().position.z - t.position.z) / Boundary.sight) < 0 || 
+                !isModelVisible)
             {
                 foreach (SpriteRenderer mr in GetComponentsInChildren<SpriteRenderer>())
                 {
@@ -1211,6 +1213,11 @@ public class Enemy : MonoBehaviour {
         isSFXPlaying = true;
         yield return new WaitForSeconds(0.5f);
         isSFXPlaying = false;
+    }
+
+    public void SetModelVisibleInTutorial(bool b)
+    {
+        isModelVisible = b;
     }
 
     /// <summary>

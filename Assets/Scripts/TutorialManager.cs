@@ -43,7 +43,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return (Phase == 2 || Phase == 3);
+            return State(2, 4);
         }
     }
 
@@ -64,6 +64,7 @@ public class TutorialManager : MonoBehaviour {
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.SetPageVisibleInTutorial(false);
+        enemy.GetComponent<Enemy>().SetModelVisibleInTutorial(false);
     }
 	
 	void FixedUpdate () {
@@ -135,11 +136,11 @@ public class TutorialManager : MonoBehaviour {
             book.greenPage.GetComponent<Image>().enabled = false;
             book.greenText.GetComponent<Text>().enabled = false;
             book.GetComponent<Image>().enabled = false;
-            CreateBubble("『Mak'Gora』의 세계에 온 것을\n" +
-                "환영하네, 젊은이여!\n" +
-                "내가 그대를 강인한 전사의 길로\n" +
-                "인도할 것이다.\n" +
-                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
+            CreateBubble("『Mak'Gora』의 세계에 온\n" +
+                "것을 환영하네, 젊은이여!\n" +
+                "내가 그대를 강인한\n" +
+                "전사의 길로 인도할 것이다.\n" +
+                "<color=#666699>(Enter키를 입력하면 넘어갑니다.)</color>");
             isEnterAvailable = true;    // Enter를 눌러 넘어갑니다.
         }
         else if (StateNotReady(1, 1))
@@ -197,32 +198,127 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("눈치챘을수도 있겠지만,\n" +
                 "우리는 만화책 속 주인공이라네.\n" +
                 "다른 페이지를 오가는 것도 가능하지!\n" +
-                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
+                "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 1))
         {
             CreateBubble("물론 사람들이 이 책을 펼치면\n" +
-                "제자리로 돌아가야겠지만...\n" +
+                "제자리로 돌아가 있어야겠지만...\n" +
                 "걱정 말게. 이 책은 1년 넘게\n" +
                 "아무도 읽지 않았으니.\n" +
-                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
+                "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 2) && myMentor != null && !myMentor.GetComponent<TutorialMentor>().StartMoving)
         {
-            CreateBubble("내가 하는 것을 잘 보게.");
-            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 2.5f));
+            CreateBubble("페이지를 이동할 테니\n" +
+                "내가 하는 것을 잘 보게.");
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, -2.5f));
         }
         else if (StateNotReady(2, 3))
         {
-            // TODO 멘토의 위치를 책 UI에 표시
             CreateBubble("갑자기 사라져서 당황했나?\n" +
                 "내가 어디에 있는지는 뒤에 있는\n" +
                 "책 그림을 보면 알 수 있다네.\n" +
-                "자네가 있는 페이지는 초록색으로,\n" +
-                "내가 있는 페이지는 파란색으로 보이지.\n" +
-                "<color=#666699>(Enter키를 누르면 넘어갑니다.)</color>");
+                "자네가 있는 페이지는 <color=#24DD00>초록색</color>으로,\n" +
+                "내가 있는 페이지는 <color=#007ADD>하늘색</color>으로 보이지.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(2, 4))
+        {
+            CreateBubble("<color=#EE1111>이제 내가 있는 페이지까지 와보게.</color>\n" +
+                "왼쪽 Shift키 또는 Q키를 누르면\n" +
+                "앞쪽 페이지로, Space키 또는 E키를\n" +
+                "누르면 뒤쪽 페이지로 이동할 수 있다네.\n" +
+                "가까이 오면 내 모습이 보일거야.");
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+            // TODO 키보드 이미지 보여주기
+        }
+        else if (StateNotReady(2, 5))
+        {
+            CreateBubble("역시, 기대했던 대로야.\n" +
+                "그럼 이제...\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(2, 6))
+        {
+            NextPhase();
+        }
+        else if (Phase == 3 && !isPhaseStarted)
+        {
+            isPhaseStarted = true;
+            /*
+            book.redPage.GetComponent<Image>().enabled = true;
+            book.redText.GetComponent<Text>().enabled = true;
+            */
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            enemy.GetComponent<Enemy>().SetModelVisibleInTutorial(true);
+            StartCoroutine(ShootAndMiss(new Vector3(0.3f, 0.1f, 0f)));
+        }
+        else if (StateNotReady(3, 1))
+        {
+            CreateBubble("앗!\n" +
+                "어디 다치진 않았나?\n" +
+                "아무래도 어딘가 적이 있는 것 같군.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 2))
+        {
+            CreateBubble("방금 본 무기는 다른 페이지에서\n" +
+                "페이지들을 뚫고 날아온 것이라네.\n" +
+                "어디서 던졌는지\n" +
+                "아직은 알 길이 없군.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 3))
+        {
+            CreateBubble("아까 봤는지 모르겠지만,\n" +
+                "상대가 던진 무기는 자네와 같은\n" +
+                "페이지에 있을 때 <color=#E71B50>빨간색</color>으로\n" +
+                "보인다네. 맞으면 위험하다는 뜻이지.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 4))
+        {
+            CreateBubble("자네와의 페이지 상 거리가 멀수록\n" +
+                   "더 희미하게 보이고, 자네와 다른\n" +
+                   "페이지에서는 빨간색이 아닌 색을 띠지.\n" +
+                   "무기에 자네와의 페이지\n" +
+                   "차이가 표시되어 있을 걸세.\n" +
+                   "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 5))
+        {
+            CreateBubble("조심하게!");
+            StartCoroutine(ShootAndMiss(new Vector3(0.3f, -0.3f, 0f)));
+            StartCoroutine(ShootAndHit());
+        }
+        else if (StateNotReady(3, 6))
+        {
+            isProcessReady = true;
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            // Do nothing (Automatically skipped)
+        }
+        else if (StateNotReady(3, 7))
+        {
+            CreateBubble("이런! 결국에는 맞았군.\n" +
+                "적을 어서 처리해야겠어.\n" +
+                "하지만 그 전에 몇 가지\n" +
+                "알아야 할 것들이 있다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
         /*
@@ -251,11 +347,11 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
         }
 
-        if (phase == 2 && isPhaseStarted && 
-            GetComponent<Transform>().position.z >= enemy.position.z)
+        if (State(2, 4) && isProcessReady && 
+            GetComponent<Transform>().position.z <= myMentor.GetComponent<Transform>().position.z)
         {
-            // 상대가 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
-            NextPhase();
+            // 멘토가 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
+            NextProcess();
         }
 
     }
@@ -273,6 +369,29 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("NextProcess");
         process++;
         isProcessReady = false;
+    }
+
+    IEnumerator ShootAndMiss(Vector3 error)
+    {
+        GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
+        k.GetComponent<MeshRenderer>().enabled = false;
+        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position + error);
+        yield return null;
+        k.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(4f);
+        NextProcess();
+    }
+
+    IEnumerator ShootAndHit()
+    {
+        yield return new WaitForSeconds(0.8f);
+        GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
+        k.GetComponent<MeshRenderer>().enabled = false;
+        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
+        yield return null;
+        k.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(4f);
+        NextProcess();
     }
 
     private bool State(int phase, int process)
