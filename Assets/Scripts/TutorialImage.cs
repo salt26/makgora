@@ -29,6 +29,6 @@ public class TutorialImage : MonoBehaviour {
         }
         if (alpha < 0.3f) alpha = 0.3f;
         if (alpha > 1f) alpha = 1f;
-        GetComponent<Image>().color = new Color(1f, 1f, 1f, alpha);
+        GetComponent<Image>().color = ColorUtil.instance.AlphaColor(GetComponent<Image>().color, alpha);
 ;    }
 }
