@@ -65,7 +65,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return Phase == 4;
+            return State(4, 8);
         }
     }
 
@@ -90,50 +90,49 @@ public class TutorialManager : MonoBehaviour {
         }
 
         #region 키보드 이미지 관련 코드
-        float alpha = 1f;
 
         if (WASD.Count > 0 && WASD[0].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[0].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[0].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 1 && WASD[1].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.A))
             {
-                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[1].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[1].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 2 && WASD[2].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.S))
             {
-                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[2].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[2].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 3 && WASD[3].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.D))
             {
-                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[3].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[3].GetComponent<Image>().color.a);
             }
         }
 
@@ -141,44 +140,44 @@ public class TutorialManager : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[0].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[0].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 1 && leftShiftQSpaceE[1].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.Q))
             {
-                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[1].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[1].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 2 && leftShiftQSpaceE[2].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[2].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[2].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 3 && leftShiftQSpaceE[3].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.E))
             {
-                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[3].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[3].GetComponent<Image>().color.a);
             }
         }
         #endregion
@@ -499,6 +498,22 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
+        else if (StateNotReady(4, 7))
+        {
+            CreateBubble("자네와 같은 페이지에 있는\n" +
+                "적에게 망치를 던질 때에는\n" +
+                "마우스의 양쪽 버튼을\n" +
+                "모두 누르면 된다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 8))
+        {
+            // TODO 적 위치에 화살표 생성
+            CreateBubble("<color=#EE1111>마우스의 양쪽 버튼을 모두 누른\n" +
+                "상태에서, 저 오크를 마우스로\n" +
+                "조준하고 버튼을 떼 보게나.</color>");
+        }
         #endregion
         /*
         else if (phase == 3 && !isPhaseStarted)
@@ -607,6 +622,7 @@ public class TutorialManager : MonoBehaviour {
     IEnumerator SilenceEnemy()
     {
         // TODO 마법진 소리 재생
+        yield return new WaitForSeconds(1f);
         GetComponent<AudioSource>().clip = magicSound;
         GetComponent<AudioSource>().Play();
         myMagic = Instantiate(magic, myMentor.GetComponent<Transform>());
@@ -634,9 +650,9 @@ public class TutorialManager : MonoBehaviour {
         GetComponent<AudioSource>().clip = silenceSound;
         GetComponent<AudioSource>().Play();
         mySilence = Instantiate(silence, enemy);
-        yield return new WaitForSeconds(0.3f);
-        enemy.GetComponent<Enemy>().SpeakTutorial(1);
         yield return new WaitForSeconds(0.7f);
+        enemy.GetComponent<Enemy>().SpeakTutorial(1);
+        yield return new WaitForSeconds(0.3f);
         if (myBubble != null)
         {
             Destroy(myBubble);
