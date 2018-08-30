@@ -90,50 +90,49 @@ public class TutorialManager : MonoBehaviour {
         }
 
         #region 키보드 이미지 관련 코드
-        float alpha = 1f;
 
         if (WASD.Count > 0 && WASD[0].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[0].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[0].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 1 && WASD[1].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.A))
             {
-                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[1].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[1].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 2 && WASD[2].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.S))
             {
-                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[2].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[2].GetComponent<Image>().color.a);
             }
         }
         if (WASD.Count > 3 && WASD[3].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.D))
             {
-                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, WASD[3].GetComponent<Image>().color.a);
             }
             else
             {
-                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, WASD[3].GetComponent<Image>().color.a);
             }
         }
 
@@ -141,44 +140,44 @@ public class TutorialManager : MonoBehaviour {
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[0].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[0].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 1 && leftShiftQSpaceE[1].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.Q))
             {
-                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[1].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[1].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 2 && leftShiftQSpaceE[2].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.Space))
             {
-                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[2].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[2].GetComponent<Image>().color.a);
             }
         }
         if (leftShiftQSpaceE.Count > 3 && leftShiftQSpaceE[3].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.E))
             {
-                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, leftShiftQSpaceE[3].GetComponent<Image>().color.a);
             }
             else
             {
-                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[3].GetComponent<Image>().color.a);
             }
         }
         #endregion
