@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4193,6 +4193,7 @@ MonoBehaviour:
   - {fileID: 933394778}
   - {fileID: 1427132201}
   pressedColor: {r: 0.40784314, g: 0.8392157, b: 0.9647059, a: 1}
+  knifeSound: {fileID: 8300000, guid: 19e95ee5ba05b324097242c0a83724a3, type: 3}
 --- !u!1 &1370145635
 GameObject:
   m_ObjectHideFlags: 0

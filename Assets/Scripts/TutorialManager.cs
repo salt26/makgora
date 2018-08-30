@@ -12,7 +12,6 @@ public class TutorialManager : MonoBehaviour {
     public BookUI book;
     public GameObject tutorialBubble;
     public GameObject arrow;
-    public GameObject silence;
     public List<GameObject> WASD;
     public List<GameObject> leftShiftQSpaceE;
     public Color pressedColor;
@@ -26,7 +25,6 @@ public class TutorialManager : MonoBehaviour {
     private GameObject myMentor;
     private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
     private GameObject myArrow2;
-    private GameObject mySilence;   // 현재 적에게 걸려 있는 침묵 이펙트를 가지고 있습니다.
     private Transform enemy;
     private Player player;
 
@@ -459,38 +457,10 @@ public class TutorialManager : MonoBehaviour {
             }
             CreateBubble("여기 있었군!\n" +
                 "얌전히 있거라...");
-            StartCoroutine(SilenceEnemy());
             // TODO 침묵 거는 이펙트 + 사운드 발동
             // 침묵은 무기 소환을 하지 못하는 상태 이상입니다.
             // TODO 적의 말풍선 대화 구현
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
-        }
-        else if (StateNotReady(4, 4))
-        {
-            CreateBubble("이놈이 무기를 소환하지\n" +
-                "못하게 막았네.\n" +
-                "자네의 망치로 저놈을 공격하게나!\n" +
-                "<color=#666699>(Enter키 입력)</color>");
-            isEnterAvailable = true;
-        }
-        else if (StateNotReady(4, 5))
-        {
-            isProcessReady = true;
-            if (myBubble != null)
-            {
-                Destroy(myBubble);
-            }
-            StartCoroutine(Wait(1f));
-            // 시간이 지나면 자동으로 넘어갑니다.
-        }
-        else if (StateNotReady(4, 6))
-        {
-            CreateBubble("아차, 망치를 소환하는 법을\n" +
-                "내가 안 알려줬던가?\n" +
-                "중요한 걸 깜박하는 걸 보니\n" +
-                "나도 이제 늙었나 보군...\n" +
-                "<color=#666699>(Enter키 입력)</color>");
-            isEnterAvailable = true;
         }
         #endregion
         /*
@@ -568,7 +538,10 @@ public class TutorialManager : MonoBehaviour {
         k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position + error);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
+        k.GetComponent<AudioSource>().spatialBlend=0.1f;
+        k.GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1f);
         NextProcess();
     }
 
@@ -589,35 +562,9 @@ public class TutorialManager : MonoBehaviour {
         yield return new WaitForSeconds(1.6f);
         GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
         k.GetComponent<MeshRenderer>().enabled = false;
-        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position + new Vector3(0f, 0.05f, 0f));
+        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
-    }
-
-    IEnumerator SilenceEnemy()
-    {
-        for (int i = 0; i < 48; i++)
-        {
-            // TODO 침묵 소환 이펙트
-            yield return null;
-        }
-        // TODO 침묵 소환 이펙트 사라짐
-        mySilence = Instantiate(silence, enemy);
-        yield return new WaitForSeconds(0.3f);
-        enemy.GetComponent<Enemy>().SpeakTutorial(1);
-        yield return new WaitForSeconds(0.7f);
-        if (myBubble != null)
-        {
-            Destroy(myBubble);
-        }
-        yield return new WaitForSeconds(1.6f);
-        NextProcess();
-    }
-
-    IEnumerator Wait(float time)
-    {
-        yield return new WaitForSeconds(time);
-        NextProcess();
     }
 
     private bool State(int phase, int process)
