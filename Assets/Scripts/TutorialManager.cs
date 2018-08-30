@@ -47,7 +47,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return State(2, 4) || State(4, 1);
+            return State(2, 4) || State(4, 2);
         }
     }
 
@@ -419,8 +419,13 @@ public class TutorialManager : MonoBehaviour {
             }
             enemy.GetComponent<Enemy>().SetModelVisibleInTutorial(true);
             StartCoroutine(ShootAndMiss(new Vector3(-0.4f, -0.1f, 0f)));
+            StartCoroutine(ShootAndHit());
         }
         else if (StateNotReady(4, 1))
+        {
+
+        }
+        else if (StateNotReady(4, 2))
         {
             // TODO 페이지 이동 키보드 이미지 띄우기
             foreach (GameObject g in leftShiftQSpaceE)
@@ -437,7 +442,7 @@ public class TutorialManager : MonoBehaviour {
 
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
         }
-        else if (StateNotReady(4, 2))
+        else if (StateNotReady(4, 3))
         {
             foreach (GameObject g in leftShiftQSpaceE)
             {
@@ -485,7 +490,7 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
         }
 
-        if (State(4, 1) && isProcessReady &&
+        if (State(4, 2) && isProcessReady &&
             Boundary.ZToPage(GetComponent<Transform>().position.z) > 
             Boundary.ZToPage(myMentor.GetComponent<Transform>().position.z) &&
             myMentor.GetComponent<TutorialMentor>().EndMoving)
@@ -494,7 +499,7 @@ public class TutorialManager : MonoBehaviour {
             myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, Boundary.RoundZ(GetComponent<Transform>().position.z)));
         }
 
-        if (State(4, 1) && isProcessReady &&
+        if (State(4, 2) && isProcessReady &&
             GetComponent<Transform>().position.z >= enemy.position.z)
         {
             // 적이 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
