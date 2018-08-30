@@ -262,7 +262,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 82032282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.61, y: -0.03, z: 3.25}
+  m_LocalPosition: {x: 1.61, y: -0.03, z: 2}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 1316858368}
@@ -3675,17 +3675,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: MenuButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 646863712}
         m_MethodName: MenuButton
         m_Mode: 1
@@ -3791,9 +3780,16 @@ MonoBehaviour:
   - {fileID: 441936576}
   - {fileID: 1273197700}
   - {fileID: 1770299361}
-  soundEffect: {fileID: 0}
-  soundEffectImage: []
-  divineSoundEffectImage: []
+  soundEffect: {fileID: 1956576233542046, guid: d2be2dadeda16f14c8eb6aaa1df270d0,
+    type: 2}
+  soundEffectImage:
+  - {fileID: 21300000, guid: 3d484d1d894322c4da315910f907ba5e, type: 3}
+  - {fileID: 21300000, guid: 2038dd3f05d027548b8c453f4206cc1e, type: 3}
+  - {fileID: 21300000, guid: 69f93e06ac2a3b14ca55f6102d9866ca, type: 3}
+  - {fileID: 21300000, guid: 029d0c67fe7148b4f8eeacc47242e413, type: 3}
+  divineSoundEffectImage:
+  - {fileID: 21300000, guid: c7dc014da77441f4fb4e5e3f469f98c6, type: 3}
+  - {fileID: 21300000, guid: 6f31d9f1aa5fc89459e30ec28ce36a86, type: 3}
 --- !u!54 &1360910729
 Rigidbody:
   m_ObjectHideFlags: 0
