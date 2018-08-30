@@ -12,9 +12,15 @@ public class TutorialManager : MonoBehaviour {
     public BookUI book;
     public GameObject tutorialBubble;
     public GameObject arrow;
+    public GameObject silence;
+    public GameObject magic;
     public List<GameObject> WASD;
     public List<GameObject> leftShiftQSpaceE;
     public Color pressedColor;
+    public Color magicBeforeColor;
+    public Color magicAfterColor;
+    public AudioClip silenceSound;
+    public AudioClip magicSound;
 
     private int phase;  // 1: XY평면 상 이동, 2: 페이지 이동, 3: 상대 투사체 맞기, 4: 공격
     private int process;    // 0부터 시작, 각 페이즈에서의 진행 정도를 나타냅니다.
@@ -25,6 +31,9 @@ public class TutorialManager : MonoBehaviour {
     private GameObject myMentor;
     private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
     private GameObject myArrow2;
+    private GameObject mySilence;   // 현재 적에게 걸려 있는 침묵 이펙트를 가지고 있습니다.
+    private GameObject myMagic;     // 현재 멘토가 사용하는 마법진 이펙트를 가지고 있습니다.
+    private GameObject myMagic2;    // 현재 적에게 뜨는 마법진 이펙트를 가지고 있습니다.
     private Transform enemy;
     private Player player;
 
@@ -566,7 +575,54 @@ public class TutorialManager : MonoBehaviour {
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
     }
+    
+    IEnumerator SilenceEnemy()
+    {
+        // TODO 마법진 소리 재생
+        GetComponent<AudioSource>().clip = magicSound;
+        GetComponent<AudioSource>().Play();
+        myMagic = Instantiate(magic, myMentor.GetComponent<Transform>());
+        myMagic2 = Instantiate(magic, enemy);
+        int frame = 120;
+        for (int i = 0; i < frame; i++)
+        {
+            myMagic.GetComponent<SpriteRenderer>().color = Color.Lerp(magicBeforeColor, magicAfterColor, i / (float)frame);
+            myMagic.GetComponent<Transform>().localScale = Vector3.Lerp(Vector3.zero, new Vector3(1.5f, 1.5f, 1.5f), i / (float)frame);
+            myMagic2.GetComponent<SpriteRenderer>().color = Color.Lerp(magicBeforeColor, magicAfterColor, i / (float)frame);
+            myMagic2.GetComponent<Transform>().localScale = Vector3.Lerp(Vector3.zero, new Vector3(0.5f, 0.5f, 0.5f), i / (float)frame);
+            myMagic2.GetComponent<Transform>().localRotation = Quaternion.Slerp(Quaternion.identity, Quaternion.Euler(0f, 0f, 180f), i / (float)frame);
+            yield return null;
+        }
+        frame = 30;
+        for (int i = 0; i < frame; i++)
+        {
+            myMagic2.GetComponent<Transform>().localScale = Vector3.Lerp(new Vector3(0.5f, 0.5f, 0.5f), Vector3.zero, i / (float)frame);
+            myMagic2.GetComponent<Transform>().localRotation = Quaternion.Slerp(Quaternion.Euler(0f, 0f, 180f), Quaternion.identity, i / (float)frame);
+            yield return null;
+        }
+        Destroy(myMagic);
+        Destroy(myMagic2);
+        // TODO 침묵 소리 재생
+        GetComponent<AudioSource>().clip = silenceSound;
+        GetComponent<AudioSource>().Play();
+        mySilence = Instantiate(silence, enemy);
+        yield return new WaitForSeconds(0.3f);
+        enemy.GetComponent<Enemy>().SpeakTutorial(1);
+        yield return new WaitForSeconds(0.7f);
+        if (myBubble != null)
+        {
+            Destroy(myBubble);
+        }
+        yield return new WaitForSeconds(1.6f);
+        NextProcess();
+    }
 
+    IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+        NextProcess();
+    }
+    
     private bool State(int phase, int process)
     {
         return (phase == this.phase && process == this.process);

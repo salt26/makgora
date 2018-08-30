@@ -4182,6 +4182,7 @@ MonoBehaviour:
     type: 2}
   arrow: {fileID: 1218380288359342, guid: 1a62ef73bc687d74685c7ba2f9dd791a, type: 2}
   silence: {fileID: 1743882151355628, guid: e24a55254a8291c479c1427b6c347e45, type: 2}
+  magic: {fileID: 1866738918088528, guid: 50df2de15416fd44498ad0d0300b6305, type: 2}
   WASD:
   - {fileID: 572420746}
   - {fileID: 271205440}
@@ -4193,6 +4194,10 @@ MonoBehaviour:
   - {fileID: 933394778}
   - {fileID: 1427132201}
   pressedColor: {r: 0.40784314, g: 0.8392157, b: 0.9647059, a: 1}
+  magicBeforeColor: {r: 0.154, g: 0.03992592, b: 0.14449386, a: 0}
+  magicAfterColor: {r: 0.9529412, g: 0.24705882, b: 0.89411765, a: 1}
+  silenceSound: {fileID: 8300000, guid: 295af6eecc024c346a1755aa1dc47efe, type: 3}
+  magicSound: {fileID: 8300000, guid: dac085ff309a98440ba3099130565328, type: 3}
   knifeSound: {fileID: 8300000, guid: 19e95ee5ba05b324097242c0a83724a3, type: 3}
 --- !u!1 &1370145635
 GameObject:
