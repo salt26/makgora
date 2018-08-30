@@ -24,6 +24,7 @@ public class TutorialManager : MonoBehaviour {
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
     private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
+    private GameObject myArrow2;
     private Transform enemy;
     private Player player;
 
@@ -78,6 +79,8 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
             return;
         }
+
+        #region 키보드 이미지 관련 코드
         float alpha = 1f;
 
         if (WASD.Count > 0 && WASD[0].activeInHierarchy)
@@ -169,6 +172,7 @@ public class TutorialManager : MonoBehaviour {
                 leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
+        #endregion
 
         #region Phase 1: 상하좌우 이동
         if (StateNotReady(1, 0) && !isPhaseStarted)
@@ -201,6 +205,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(true);
             }
             myArrow = Instantiate(arrow, new Vector3(-1.5f, 1.36f, 0f), Quaternion.identity);
+            myArrow2 = Instantiate(arrow);
             CreateBubble("자네는 컷 사이를 마음대로\n" +
                 "넘어다닐 수 있다네.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
@@ -215,6 +220,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(false);
             }
             Destroy(myArrow);
+            Destroy(myArrow2);
             CreateBubble("잘했네.\n" +
                 "이제 다음 단계로 넘어가지.");
             myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 0f));
@@ -355,6 +361,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("조심하게!");
             StartCoroutine(ShootAndMiss(new Vector3(0.3f, -0.3f, 0f)));
             StartCoroutine(ShootAndHit());
+            StartCoroutine(ShootAndHit2());
         }
         else if (StateNotReady(3, 6))
         {
@@ -545,6 +552,16 @@ public class TutorialManager : MonoBehaviour {
         k.GetComponent<MeshRenderer>().enabled = true;
         yield return new WaitForSeconds(5f);
         NextProcess();
+    }
+
+    IEnumerator ShootAndHit2()
+    {
+        yield return new WaitForSeconds(1.6f);
+        GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
+        k.GetComponent<MeshRenderer>().enabled = false;
+        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
+        yield return null;
+        k.GetComponent<MeshRenderer>().enabled = true;
     }
 
     private bool State(int phase, int process)
