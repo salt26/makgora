@@ -200,7 +200,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
-            myArrow = Instantiate(arrow, myMentor.GetComponent<Transform>());
+            myArrow = Instantiate(arrow, new Vector3(-1.5f, 1.36f, 0f), Quaternion.identity);
             CreateBubble("자네는 컷 사이를 마음대로\n" +
                 "넘어다닐 수 있다네.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
@@ -264,6 +264,7 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 3))
         {
+            myArrow = Instantiate(arrow, new Vector3(0f, 1f, 0f), Quaternion.identity);
             CreateBubble("갑자기 사라져서 당황했나?\n" +
                 "내가 어디에 있는지는 뒤에 있는\n" +
                 "책 그림을 보면 알 수 있다네.\n" +
@@ -274,6 +275,7 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 4))
         {
+            Destroy(myArrow);
             foreach (GameObject g in leftShiftQSpaceE)
             {
                 g.SetActive(true);
@@ -383,6 +385,7 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(3, 9))
         {
+            myArrow = Instantiate(arrow, new Vector3(-0.3f, -1.2f, -2.5f), Quaternion.identity);
             CreateBubble("이제 책 아래를 보게.\n" +
                 "초록색, 빨간색 하트가 있을 거야.\n" +
                 "<color=#00FF00>초록색</color>은 자네의 체력이고\n" +
@@ -401,6 +404,7 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(3, 11))
         {
+            Destroy(myArrow);
             NextPhase();
         }
         #endregion
@@ -419,6 +423,10 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(4, 1))
         {
             // TODO 페이지 이동 키보드 이미지 띄우기
+            foreach (GameObject g in leftShiftQSpaceE)
+            {
+                g.SetActive(true);
+            }
             book.redPage.GetComponent<Image>().enabled = true;
             book.redText.GetComponent<Text>().enabled = true;
             CreateBubble("자네를 공격한 적의\n" +
@@ -431,6 +439,10 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 2))
         {
+            foreach (GameObject g in leftShiftQSpaceE)
+            {
+                g.SetActive(false);
+            }
             CreateBubble("여기 있었군!\n" +
                 "얌전히 있거라...");
             // TODO 침묵 거는 이펙트 + 사운드 발동
@@ -526,7 +538,7 @@ public class TutorialManager : MonoBehaviour {
         k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         NextProcess();
     }
 
