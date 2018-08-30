@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -293,6 +293,8 @@ MonoBehaviour:
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 0}
+  tutorialSound1: {fileID: 8300000, guid: 5327ae102389584438574ec6f1e36a5d, type: 3}
+  tutorialSound2: {fileID: 8300000, guid: 069d270fee9cc2a4ebe62ee780b51799, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   weaponToSummon: {fileID: 1697472681}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
@@ -352,7 +354,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.8
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -4198,7 +4200,6 @@ MonoBehaviour:
   magicAfterColor: {r: 0.9529412, g: 0.24705882, b: 0.89411765, a: 1}
   silenceSound: {fileID: 8300000, guid: 295af6eecc024c346a1755aa1dc47efe, type: 3}
   magicSound: {fileID: 8300000, guid: dac085ff309a98440ba3099130565328, type: 3}
-  knifeSound: {fileID: 8300000, guid: 19e95ee5ba05b324097242c0a83724a3, type: 3}
 --- !u!1 &1370145635
 GameObject:
   m_ObjectHideFlags: 0

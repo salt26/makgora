@@ -65,7 +65,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return Phase == 4;
+            return State(4, 8);
         }
     }
 
@@ -499,6 +499,22 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
+        else if (StateNotReady(4, 7))
+        {
+            CreateBubble("자네와 같은 페이지에 있는\n" +
+                "적에게 망치를 던질 때에는\n" +
+                "마우스의 양쪽 버튼을\n" +
+                "모두 누르면 된다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 8))
+        {
+            // TODO 적 위치에 화살표 생성
+            CreateBubble("<color=#EE1111>마우스의 양쪽 버튼을 모두 누른\n" +
+                "상태에서, 저 오크를 마우스로\n" +
+                "조준하고 버튼을 떼 보게나.</color>");
+        }
         #endregion
         /*
         else if (phase == 3 && !isPhaseStarted)
@@ -607,6 +623,7 @@ public class TutorialManager : MonoBehaviour {
     IEnumerator SilenceEnemy()
     {
         // TODO 마법진 소리 재생
+        yield return new WaitForSeconds(1f);
         GetComponent<AudioSource>().clip = magicSound;
         GetComponent<AudioSource>().Play();
         myMagic = Instantiate(magic, myMentor.GetComponent<Transform>());
@@ -634,9 +651,9 @@ public class TutorialManager : MonoBehaviour {
         GetComponent<AudioSource>().clip = silenceSound;
         GetComponent<AudioSource>().Play();
         mySilence = Instantiate(silence, enemy);
-        yield return new WaitForSeconds(0.3f);
-        enemy.GetComponent<Enemy>().SpeakTutorial(1);
         yield return new WaitForSeconds(0.7f);
+        enemy.GetComponent<Enemy>().SpeakTutorial(1);
+        yield return new WaitForSeconds(0.3f);
         if (myBubble != null)
         {
             Destroy(myBubble);

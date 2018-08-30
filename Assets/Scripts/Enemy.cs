@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour {
     public AudioClip guardSound;
     public AudioClip killedSound;
     public AudioClip readySound;
+    public AudioClip tutorialSound1;
+    public AudioClip tutorialSound2;
     public GameObject blow;
     public GameObject weaponToSummon;
     public delegate void Damaged();
@@ -1221,7 +1223,7 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
-        GetComponent<AudioSource>().clip = readySound;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSound1;  // TODO
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "으읍, 이게 뭐냐!";
@@ -1250,7 +1252,10 @@ public class Enemy : MonoBehaviour {
         Transform child = mySpeech.transform.Find("SpeechText");
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.9f);
+        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1.4f);
         Destroy(mySpeech);
         mySpeech = null;
     }
