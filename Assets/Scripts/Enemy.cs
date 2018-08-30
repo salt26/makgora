@@ -1204,6 +1204,72 @@ public class Enemy : MonoBehaviour {
         mySpeech = null;
     }
 
+    /// <summary>
+    /// 튜토리얼에 사용될 대사를 재생합니다.
+    /// num은 1 이상 4 이하여야 합니다.
+    /// </summary>
+    /// <param name="num"></param>
+    public void SpeakTutorial(int num)
+    {
+        if (num < 1 || num > 4) return;
+        StartCoroutine("TutorialSpeech" + num.ToString());
+    }
+
+    IEnumerator TutorialSpeech1()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = readySound;  // TODO
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "으읍, 이게 뭐냐!";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(2.0f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
+    IEnumerator TutorialSpeech2()
+    {
+        yield return null;
+    }
+
+    IEnumerator TutorialSpeech3()
+    {
+        yield return null;
+    }
+
+    IEnumerator TutorialSpeech4()
+    {
+        yield return null;
+    }
+
     #endregion
 
     IEnumerator DamagedSFX()

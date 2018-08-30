@@ -4181,6 +4181,7 @@ MonoBehaviour:
   tutorialBubble: {fileID: 1253939595321488, guid: f77de84be569e1946890a22047f0e3a5,
     type: 2}
   arrow: {fileID: 1218380288359342, guid: 1a62ef73bc687d74685c7ba2f9dd791a, type: 2}
+  silence: {fileID: 1743882151355628, guid: e24a55254a8291c479c1427b6c347e45, type: 2}
   WASD:
   - {fileID: 572420746}
   - {fileID: 271205440}
