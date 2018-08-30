@@ -24,6 +24,7 @@ public class TutorialManager : MonoBehaviour {
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
     private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
+    private GameObject myArrow2;
     private Transform enemy;
     private Player player;
 
@@ -47,7 +48,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return State(2, 4) || State(4, 1);
+            return State(2, 4) || State(4, 2);
         }
     }
 
@@ -78,6 +79,8 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
             return;
         }
+
+        #region 키보드 이미지 관련 코드
         float alpha = 1f;
 
         if (WASD.Count > 0 && WASD[0].activeInHierarchy)
@@ -169,6 +172,7 @@ public class TutorialManager : MonoBehaviour {
                 leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
+        #endregion
 
         #region Phase 1: 상하좌우 이동
         if (StateNotReady(1, 0) && !isPhaseStarted)
@@ -201,6 +205,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(true);
             }
             myArrow = Instantiate(arrow, new Vector3(-1.5f, 1.36f, 0f), Quaternion.identity);
+            myArrow2 = Instantiate(arrow);
             CreateBubble("자네는 컷 사이를 마음대로\n" +
                 "넘어다닐 수 있다네.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
@@ -215,6 +220,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(false);
             }
             Destroy(myArrow);
+            Destroy(myArrow2);
             CreateBubble("잘했네.\n" +
                 "이제 다음 단계로 넘어가지.");
             myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 0f));
@@ -355,6 +361,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("조심하게!");
             StartCoroutine(ShootAndMiss(new Vector3(0.3f, -0.3f, 0f)));
             StartCoroutine(ShootAndHit());
+            StartCoroutine(ShootAndHit2());
         }
         else if (StateNotReady(3, 6))
         {
@@ -419,8 +426,13 @@ public class TutorialManager : MonoBehaviour {
             }
             enemy.GetComponent<Enemy>().SetModelVisibleInTutorial(true);
             StartCoroutine(ShootAndMiss(new Vector3(-0.4f, -0.1f, 0f)));
+            StartCoroutine(ShootAndHit());
         }
         else if (StateNotReady(4, 1))
+        {
+
+        }
+        else if (StateNotReady(4, 2))
         {
             // TODO 페이지 이동 키보드 이미지 띄우기
             foreach (GameObject g in leftShiftQSpaceE)
@@ -437,7 +449,7 @@ public class TutorialManager : MonoBehaviour {
 
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
         }
-        else if (StateNotReady(4, 2))
+        else if (StateNotReady(4, 3))
         {
             foreach (GameObject g in leftShiftQSpaceE)
             {
@@ -485,7 +497,7 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
         }
 
-        if (State(4, 1) && isProcessReady &&
+        if (State(4, 2) && isProcessReady &&
             Boundary.ZToPage(GetComponent<Transform>().position.z) > 
             Boundary.ZToPage(myMentor.GetComponent<Transform>().position.z) &&
             myMentor.GetComponent<TutorialMentor>().EndMoving)
@@ -494,7 +506,7 @@ public class TutorialManager : MonoBehaviour {
             myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, Boundary.RoundZ(GetComponent<Transform>().position.z)));
         }
 
-        if (State(4, 1) && isProcessReady &&
+        if (State(4, 2) && isProcessReady &&
             GetComponent<Transform>().position.z >= enemy.position.z)
         {
             // 적이 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
@@ -540,6 +552,16 @@ public class TutorialManager : MonoBehaviour {
         k.GetComponent<MeshRenderer>().enabled = true;
         yield return new WaitForSeconds(5f);
         NextProcess();
+    }
+
+    IEnumerator ShootAndHit2()
+    {
+        yield return new WaitForSeconds(1.6f);
+        GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
+        k.GetComponent<MeshRenderer>().enabled = false;
+        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
+        yield return null;
+        k.GetComponent<MeshRenderer>().enabled = true;
     }
 
     private bool State(int phase, int process)
