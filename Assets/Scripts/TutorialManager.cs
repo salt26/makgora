@@ -11,7 +11,10 @@ public class TutorialManager : MonoBehaviour {
     public GameObject mentor;
     public BookUI book;
     public GameObject tutorialBubble;
+    public GameObject arrow;
     public List<GameObject> WASD;
+    public List<GameObject> leftShiftQSpaceE;
+    public Color pressedColor;
 
     private int phase;  // 1: XY평면 상 이동, 2: 페이지 이동, 3: 상대 투사체 맞기, 4: 공격
     private int process;    // 0부터 시작, 각 페이즈에서의 진행 정도를 나타냅니다.
@@ -20,6 +23,7 @@ public class TutorialManager : MonoBehaviour {
     private bool isEnterAvailable;  // 이것이 true인 동안 Enter키를 눌러 다음 설명으로 넘어갈 수 있습니다.
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
+    private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
     private Transform enemy;
     private Player player;
 
@@ -43,7 +47,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return State(2, 4);
+            return State(2, 4) || State(4, 1);
         }
     }
 
@@ -51,7 +55,7 @@ public class TutorialManager : MonoBehaviour {
     {
         get
         {
-            return Phase == 3;
+            return Phase == 4;
         }
     }
 
@@ -74,52 +78,99 @@ public class TutorialManager : MonoBehaviour {
             NextProcess();
             return;
         }
+        float alpha = 1f;
 
         if (WASD.Count > 0 && WASD[0].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                WASD[0].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
             }
             else
             {
-                WASD[0].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+                WASD[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
         if (WASD.Count > 1 && WASD[1].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.A))
             {
-                WASD[1].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
             }
             else
             {
-                WASD[1].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+                WASD[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
         if (WASD.Count > 2 && WASD[2].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.S))
             {
-                WASD[2].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
             }
             else
             {
-                WASD[2].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+                WASD[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
         if (WASD.Count > 3 && WASD[3].activeInHierarchy)
         {
             if (Input.GetKey(KeyCode.D))
             {
-                WASD[3].GetComponent<Image>().color = new Color(0.9f, 0.1f, 0.1f);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
             }
             else
             {
-                WASD[3].GetComponent<Image>().color = new Color(1f, 1f, 1f);
+                WASD[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
             }
         }
 
+        if (leftShiftQSpaceE.Count > 0 && leftShiftQSpaceE[0].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+            }
+            else
+            {
+                leftShiftQSpaceE[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+            }
+        }
+        if (leftShiftQSpaceE.Count > 1 && leftShiftQSpaceE[1].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+            }
+            else
+            {
+                leftShiftQSpaceE[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+            }
+        }
+        if (leftShiftQSpaceE.Count > 2 && leftShiftQSpaceE[2].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+            }
+            else
+            {
+                leftShiftQSpaceE[2].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+            }
+        }
+        if (leftShiftQSpaceE.Count > 3 && leftShiftQSpaceE[3].activeInHierarchy)
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, alpha);
+            }
+            else
+            {
+                leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+            }
+        }
+
+        #region Phase 1: 상하좌우 이동
         if (StateNotReady(1, 0) && !isPhaseStarted)
         {
             // phase 1, process 0
@@ -139,7 +190,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("『Mak'Gora』의 세계에 온\n" +
                 "것을 환영하네, 젊은이여!\n" +
                 "내가 그대를 강인한\n" +
-                "전사의 길로 인도할 것이다.\n" +
+                "전사의 길로 인도할 걸세.\n" +
                 "<color=#666699>(Enter키를 입력하면 넘어갑니다.)</color>");
             isEnterAvailable = true;    // Enter를 눌러 넘어갑니다.
         }
@@ -149,6 +200,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
+            myArrow = Instantiate(arrow, myMentor.GetComponent<Transform>());
             CreateBubble("자네는 컷 사이를 마음대로\n" +
                 "넘어다닐 수 있다네.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
@@ -162,6 +214,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(false);
             }
+            Destroy(myArrow);
             CreateBubble("잘했네.\n" +
                 "이제 다음 단계로 넘어가지.");
             myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, 0f));
@@ -172,19 +225,12 @@ public class TutorialManager : MonoBehaviour {
             myMentor.GetComponent<TutorialMentor>().SetStop();
             NextPhase();
         }
+        #endregion
+        #region Phase 2: 페이지 이동
         else if (phase == 2 && !isPhaseStarted)
         {
             isPhaseStarted = true;  // 새 페이즈가 시작될 때에 true로 설정합니다.
-            /*
-            tutorialText.text = "주인공은 페이지를 넘나들 수도 있습니다!\n" +
-                "왼쪽 Shift를 눌러 이전 페이지로 가거나,\n스페이스 바를 눌러 다음 페이지로 갈 수 있습니다.\n" +
-                "본인이 있는 페이지는 화면 뒤에 초록색 선으로,\n상대가 있는 페이지는 빨간색 선으로 표시됩니다.\n" +
-                "\"상대가 있는 페이지로 캐릭터를 움직이세요.\"";
-                */
-            /*
-            redPage.enabled = true;
-            redText.enabled = true;
-            */
+            
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
             myMentor.GetComponent<TutorialMentor>().SetPageVisible();
@@ -228,16 +274,23 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 4))
         {
+            foreach (GameObject g in leftShiftQSpaceE)
+            {
+                g.SetActive(true);
+            }
             CreateBubble("<color=#EE1111>이제 내가 있는 페이지까지 와보게.</color>\n" +
                 "왼쪽 Shift키 또는 Q키를 누르면\n" +
                 "앞쪽 페이지로, Space키 또는 E키를\n" +
                 "누르면 뒤쪽 페이지로 이동할 수 있다네.\n" +
                 "가까이 오면 내 모습이 보일거야.");
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
-            // TODO 키보드 이미지 보여주기
         }
         else if (StateNotReady(2, 5))
         {
+            foreach (GameObject g in leftShiftQSpaceE)
+            {
+                g.SetActive(false);
+            }
             CreateBubble("역시, 기대했던 대로야.\n" +
                 "그럼 이제...\n" +
                 "<color=#666699>(Enter키 입력)</color>");
@@ -247,13 +300,11 @@ public class TutorialManager : MonoBehaviour {
         {
             NextPhase();
         }
+        #endregion
+        #region Phase 3: 피격
         else if (Phase == 3 && !isPhaseStarted)
         {
             isPhaseStarted = true;
-            /*
-            book.redPage.GetComponent<Image>().enabled = true;
-            book.redText.GetComponent<Text>().enabled = true;
-            */
             if (myBubble != null)
             {
                 Destroy(myBubble);
@@ -271,9 +322,9 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(3, 2))
         {
-            CreateBubble("방금 본 무기는 다른 페이지에서\n" +
+            CreateBubble("방금 본 무기는 다른 페이지에서,\n" +
                 "페이지들을 뚫고 날아온 것이라네.\n" +
-                "어디서 던졌는지\n" +
+                "누가 어디서 던졌는지\n" +
                 "아직은 알 길이 없군.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
@@ -281,9 +332,9 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(3, 3))
         {
             CreateBubble("아까 봤는지 모르겠지만,\n" +
-                "상대가 던진 무기는 자네와 같은\n" +
+                "적이 던진 무기는 자네와 같은\n" +
                 "페이지에 있을 때 <color=#E71B50>빨간색</color>으로\n" +
-                "보인다네. 맞으면 위험하다는 뜻이지.\n" +
+                "보인다네. 닿으면 위험하겠지?\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
@@ -291,7 +342,7 @@ public class TutorialManager : MonoBehaviour {
         {
             CreateBubble("자네와의 페이지 상 거리가 멀수록\n" +
                    "더 희미하게 보이고, 자네와 다른\n" +
-                   "페이지에서는 빨간색이 아닌 색을 띠지.\n" +
+                   "페이지에서는 <color=#387399>빨간색이 아닌 색</color>을 띠지.\n" +
                    "무기에 자네와의 페이지\n" +
                    "차이가 표시되어 있을 걸세.\n" +
                    "<color=#666699>(Enter키 입력)</color>");
@@ -321,6 +372,73 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
+        else if (StateNotReady(3, 8))
+        {
+            CreateBubble("방금 자네에게 생긴 보호막을 보았나?\n" +
+                "적에게 공격받으면 3초 동안\n" +
+                "<color=#DDD180>보호막</color>이 생기고, 이 동안에는\n" +
+                "어떤 공격에도 피해를 받지 않는다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 9))
+        {
+            CreateBubble("이제 책 아래를 보게.\n" +
+                "초록색, 빨간색 하트가 있을 거야.\n" +
+                "<color=#00FF00>초록색</color>은 자네의 체력이고\n" +
+                "<color=#FF0000>빨간색</color>은 적의 체력이라네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 10))
+        {
+            CreateBubble("체력은 3에서 시작하고,\n" +
+                "자네는 아까 맞았으니 2가 되었군.\n" +
+                "조심하게. 체력이 0이 되면\n" +
+                "전투에서 패배한다고.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 11))
+        {
+            NextPhase();
+        }
+        #endregion
+        #region Phase 4: 공격
+        else if (Phase == 4 && !isPhaseStarted)
+        {
+            isPhaseStarted = true;
+
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            enemy.GetComponent<Enemy>().SetModelVisibleInTutorial(true);
+            StartCoroutine(ShootAndMiss(new Vector3(-0.4f, -0.1f, 0f)));
+        }
+        else if (StateNotReady(4, 1))
+        {
+            // TODO 페이지 이동 키보드 이미지 띄우기
+            book.redPage.GetComponent<Image>().enabled = true;
+            book.redText.GetComponent<Text>().enabled = true;
+            CreateBubble("자네를 공격한 적의\n" +
+                "위치를 알아냈다네!\n" +
+                "책 그림에서 <color=#DD0015>빨간색</color>으로 표시된\n" +
+                "페이지가 적이 있는 페이지일세.\n" +
+                "<color=#EE1111>적이 있는 페이지로 가보자고.</color>");
+
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+        }
+        else if (StateNotReady(4, 2))
+        {
+            CreateBubble("여기 있었군!\n" +
+                "얌전히 있거라...");
+            // TODO 침묵 거는 이펙트 + 사운드 발동
+            // 침묵은 무기 소환을 하지 못하는 상태 이상입니다.
+            // TODO 적의 말풍선 대화 구현
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+        }
+        #endregion
         /*
         else if (phase == 3 && !isPhaseStarted)
         {
@@ -341,6 +459,7 @@ public class TutorialManager : MonoBehaviour {
             // 멘토가 정해진 위치로 이동을 완료했을 때 다음 과정으로 넘어감
             NextProcess();
         }
+
         if (State(2, 2) && myMentor != null && myMentor.GetComponent<TutorialMentor>().EndMoving)
         {
             // 멘토가 정해진 위치로 이동을 완료했을 때 다음 과정으로 넘어감
@@ -351,6 +470,23 @@ public class TutorialManager : MonoBehaviour {
             GetComponent<Transform>().position.z <= myMentor.GetComponent<Transform>().position.z)
         {
             // 멘토가 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
+            NextProcess();
+        }
+
+        if (State(4, 1) && isProcessReady &&
+            Boundary.ZToPage(GetComponent<Transform>().position.z) > 
+            Boundary.ZToPage(myMentor.GetComponent<Transform>().position.z) &&
+            myMentor.GetComponent<TutorialMentor>().EndMoving)
+        {
+            // 멘토가 내 페이지를 따라서 페이지 이동을 함
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, Boundary.RoundZ(GetComponent<Transform>().position.z)));
+        }
+
+        if (State(4, 1) && isProcessReady &&
+            GetComponent<Transform>().position.z >= enemy.position.z)
+        {
+            // 적이 있는 페이지와 같은 페이지에 도달했을 때 3페이즈로 넘어감
+            myMentor.GetComponent<TutorialMentor>().SetMoving(new Vector3(1.7f, 0.46f, Boundary.RoundZ(enemy.position.z)));
             NextProcess();
         }
 
@@ -411,6 +547,10 @@ public class TutorialManager : MonoBehaviour {
             Destroy(myBubble);
         }
         myBubble = Instantiate(tutorialBubble, Manager.instance.Canvas.GetComponent<Transform>());
+        if (Phase >= 2)
+        {
+            myBubble.GetComponent<RectTransform>().anchoredPosition = new Vector2(220f, -140f);
+        }
         myBubble.GetComponentInChildren<Text>().text = explanation;
         isProcessReady = true;
     }
