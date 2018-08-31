@@ -588,6 +588,15 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 12))
         {
+            CreateBubble("소환이 완료되기 전에\n" +
+                "마우스 버튼을 모두 떼면\n" +
+                "소환이 끝나자마자 무기가\n" +
+                "조준점을 향해 날아갈 걸세.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 13))
+        {
             stopAutoShooting = true;
             foreach (GameObject g in mouseButtons)
             {
@@ -600,7 +609,7 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 13))
+        else if (StateNotReady(4, 14))
         {
             foreach (GameObject g in mouseButtons)
             {
@@ -611,7 +620,7 @@ public class TutorialManager : MonoBehaviour {
                 "조준점에 놓인 시계를 잘 보게.");
             StartCoroutine(AutoShoot2());
         }
-        else if (StateNotReady(4, 14))
+        else if (StateNotReady(4, 15))
         {
             isProcessReady = true;
             if (myBubble != null)
@@ -624,7 +633,7 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 15))
+        else if (StateNotReady(4, 16))
         {
             stopAutoShooting = true;
             foreach (GameObject g in mouseButtons)
@@ -632,7 +641,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(false);
             }
             CreateBubble("아까 상대가 다른 페이지에서\n" +
-                "무기를 던진 것을 기억하나?\n" +
+                "무기를 던졌던 것을 기억하나?\n" +
                 "자네도 다른 페이지로\n" +
                 "무기를 던질 수 있다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
@@ -810,7 +819,7 @@ public class TutorialManager : MonoBehaviour {
         AutoRight(false);
         yield return new WaitForSeconds(1.8f);
         NextProcess();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             if (stopAutoShooting) break;
             player.SetAutoShootInTutorial(new Vector3(1.3f, 1.3f, 2f));
