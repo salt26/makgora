@@ -72,6 +72,14 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public float TemporalMoveCoolTime
+    {
+        get
+        {
+            return temporalMoveCoolTime;
+        }
+    }
+
     public bool AutoLeftInTutorial
     {
         set
@@ -374,6 +382,8 @@ public class Player : MonoBehaviour {
     {
         if (invincibleTime > 0f)
         {
+            GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color =
+                ColorUtil.instance.AlphaColor(GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color, 0.7f);
             invincibleTime -= Time.fixedDeltaTime;
         }
         if (invincibleTime < 0f)
@@ -384,6 +394,8 @@ public class Player : MonoBehaviour {
         {
             Destroy(myShield);
             myShield = null;
+            GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color =
+                 ColorUtil.instance.AlphaColor(GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color, 1f);
         }
 
         #region 말풍선 위치&방향 조절하는 코드

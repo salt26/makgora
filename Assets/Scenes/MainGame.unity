@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -368,6 +368,8 @@ MonoBehaviour:
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 8300000, guid: 35e4ada88b7362944b278f745d51c80a, type: 3}
+  tutorialSound1: {fileID: 0}
+  tutorialSound2: {fileID: 0}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   weaponToSummon: {fileID: 1050851794}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
@@ -976,10 +978,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 282840810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1641aa574316c8646b751f23f012d71f, type: 3}
+  m_Script: {fileID: 11500000, guid: e7e71f3c5de77ff44bdb8f69b73890c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1360910727}
+  player: {fileID: 1360910728}
 --- !u!54 &282840812
 Rigidbody:
   m_ObjectHideFlags: 0
