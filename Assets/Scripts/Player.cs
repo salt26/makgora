@@ -348,7 +348,7 @@ public class Player : MonoBehaviour {
                     speechVector.y -= 80f;
                     mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
                 }
-                if (speechVector.y < 270f)
+                else if (speechVector.y < 270f)
                 {
                     speechVector.y += 80f;
                     mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
