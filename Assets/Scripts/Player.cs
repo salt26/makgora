@@ -383,7 +383,7 @@ public class Player : MonoBehaviour {
         if (invincibleTime > 0f)
         {
             GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color =
-                ColorUtil.instance.AlphaColor(GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color, 0.7f);
+                ColorUtil.instance.AlphaColor(GetComponentInChildren<CharacterModel>().GetComponent<SpriteRenderer>().color, 0.6f);
             invincibleTime -= Time.fixedDeltaTime;
         }
         if (invincibleTime < 0f)
