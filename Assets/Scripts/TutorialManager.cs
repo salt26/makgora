@@ -270,7 +270,7 @@ public class TutorialManager : MonoBehaviour {
         else if (phase == 2 && !isPhaseStarted)
         {
             isPhaseStarted = true;  // 새 페이즈가 시작될 때에 true로 설정합니다.
-            
+
             enemy.SetPositionAndRotation(
                 new Vector3(enemy.position.x, enemy.position.y, Boundary.RoundZ(enemy.position.z)), enemy.rotation);
             myMentor.GetComponent<TutorialMentor>().SetPageVisible();
@@ -369,36 +369,54 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("방금 본 무기는 다른 페이지에서,\n" +
                 "페이지들을 뚫고 날아온 것이라네.\n" +
                 "누가 어디서 던졌는지\n" +
-                "아직은 알 길이 없군.\n" +
+                "아직은 감이 오지 않는군.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(3, 3))
         {
             CreateBubble("아까 봤는지 모르겠지만,\n" +
-                "적이 던진 무기는 자네와 같은\n" +
-                "페이지에 있을 때 <color=#E71B50>빨간색</color>으로\n" +
-                "보인다네. 닿으면 위험하겠지?\n" +
+                "적이 던진 무기는 자네와\n" +
+                "같은 페이지에 있을 때\n" +
+                "<color=#E71B50>빨간색</color>으로 보인다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(3, 4))
         {
-            CreateBubble("어떤 대상이 자네와 다른 페이지에\n" +
+            CreateBubble("<color=#E71B50>빨간색</color>으로 보이는 무기는\n" +
+                "잘못하다가는 맞을 수 있어서\n" +
+                "위험하지. 그러나 무기가 항상\n" +
+                "빨간색을 띠지는 않는다네.");
+            StartCoroutine(ShootAndMiss(new Vector3(-0.2f, 0.55f, 0f)));
+        }
+        else if (StateNotReady(3, 5))
+        {
+            CreateBubble("<color=#E71B50>빨간색</color>으로 보이는 무기는\n" +
+                "잘못하다가는 맞을 수 있어서\n" +
+                "위험하지. 그러나 무기가 항상\n" +
+                "빨간색을 띠지는 않는다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(3, 6))
+        {
+            CreateBubble("적 무기가 자네와 다른 페이지에\n" +
                    "있으면 <color=#387399>빨간색이 아닌 색</color>을\n" +
-                   "띠지. 무기에는 자네와의 페이지\n" +
+                   "띠지. 미리 보고 피하게.\n" +
+                   "무기에는 자네와의 페이지\n" +
                    "차이가 표시되어 있을 걸세.\n" +
                    "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(3, 5))
+        else if (StateNotReady(3, 7))
         {
             CreateBubble("조심하게!");
             StartCoroutine(ShootAndMiss(new Vector3(0.3f, -0.3f, 0f)));
             StartCoroutine(ShootAndHit());
             StartCoroutine(ShootAndHit2());
         }
-        else if (StateNotReady(3, 6))
+        else if (StateNotReady(3, 8))
         {
             isProcessReady = true;
             if (myBubble != null)
@@ -407,7 +425,7 @@ public class TutorialManager : MonoBehaviour {
             }
             // Do nothing (Automatically skipped)
         }
-        else if (StateNotReady(3, 7))
+        else if (StateNotReady(3, 9))
         {
             CreateBubble("이런! 아프겠군.\n" +
                 "얼른 혼을 내줘야겠어.\n" +
@@ -416,7 +434,7 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(3, 8))
+        else if (StateNotReady(3, 10))
         {
             CreateBubble("방금 자네에게 생긴 보호막을 보았나?\n" +
                 "적에게 공격받으면 3초 동안\n" +
@@ -425,17 +443,17 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(3, 9))
+        else if (StateNotReady(3, 11))
         {
             myArrow = Instantiate(arrow, new Vector3(-0.3f, -1.2f, -2.5f), Quaternion.identity);
-            CreateBubble("이제 책 아래를 보게.\n" +
+            CreateBubble("이번엔 책 아래를 보게.\n" +
                 "초록색, 빨간색 하트가 있을 거야.\n" +
                 "<color=#00FF00>초록색</color>은 자네의 체력이고\n" +
                 "<color=#FF0000>빨간색</color>은 적의 체력이라네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(3, 10))
+        else if (StateNotReady(3, 12))
         {
             CreateBubble("체력은 3에서 시작하고,\n" +
                 "자네는 아까 맞았으니 2가 되었군.\n" +
@@ -444,7 +462,7 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(3, 11))
+        else if (StateNotReady(3, 13))
         {
             Destroy(myArrow);
             NextPhase();
@@ -569,6 +587,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
+            myArrow = Instantiate(arrow, new Vector3(-1.5f, 1f, 2f), Quaternion.identity);
             CreateBubble("어떤가? 아직 어렵나?\n" +
                 "무기를 던지려면 먼저 소환해야 하네.\n" +
                 "무기가 다 소환될 때까지는\n" +
@@ -602,6 +621,10 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(false);
             }
+            if (myArrow != null)
+            {
+                Destroy(myArrow);
+            }
             CreateBubble("물론 소환이 끝나도 바로\n" +
                 "던지지 않고 계속 조준을 할\n" +
                 "수 있다네. 조준을 오래 해도\n" +
@@ -626,7 +649,7 @@ public class TutorialManager : MonoBehaviour {
         {
             CreateBubble("이렇게 말일세.\n" +
                 "마우스 버튼 그림과\n" +
-                "조준점에 놓인 시계를 잘 보게.\n"+
+                "조준점에 놓인 시계를 잘 보게.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
@@ -649,32 +672,45 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("아까 상대가 다른 페이지에서\n" +
                 "무기를 던졌던 것을 기억하나?\n" +
                 "자네도 다른 페이지로\n" +
+                "무기를 던질 수 있다네.");
+            StartCoroutine(Wait(2.7f));
+            // 시간이 지나면 자동으로 넘어갑니다.
+        }
+        else if (StateNotReady(4, 18))
+        {
+            CreateBubble("아까 상대가 다른 페이지에서\n" +
+                "무기를 던졌던 것을 기억하나?\n" +
+                "자네도 다른 페이지로\n" +
                 "무기를 던질 수 있다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 18))
+        else if (StateNotReady(4, 19))
         {
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(true);
+            }
             CreateBubble("마우스 왼쪽 버튼을 누르고\n" +
                 "있으면 앞 페이지를 조준하고,\n" +
                 "마우스 오른쪽 버튼을 누르고\n" +
                 "있으면 뒤 페이지를 조준하지.\n" +
-                "오래 누르면 먼 곳을 조준한다네.");
+                "오래 누를수록 먼 곳을 조준한다네.");
             stopAutoShooting = false;
             StartCoroutine(AutoShoot3());
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
         }
-        else if (StateNotReady(4, 19))
+        else if (StateNotReady(4, 20))
         {
             CreateBubble("마우스 왼쪽 버튼을 누르고\n" +
                 "있으면 앞 페이지를 조준하고,\n" +
                 "마우스 오른쪽 버튼을 누르고\n" +
                 "있으면 뒤 페이지를 조준하지.\n" +
-                "오래 누르면 먼 곳을 조준한다네.\n" +
+                "오래 누를수록 먼 곳을 조준한다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 20))
+        else if (StateNotReady(4, 21))
         {
             CreateBubble("시계의 <color=#B400B4>보라색 침</color>이 자네가\n" +
                 "조준하는 페이지를 가리킨다네.\n" +
@@ -683,30 +719,73 @@ public class TutorialManager : MonoBehaviour {
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 21))
+        else if (StateNotReady(4, 22))
         {
             stopAutoShooting = true;
             foreach (GameObject g in mouseButtons)
             {
                 g.SetActive(false);
             }
-            CreateBubble("여기까지 따라왔다면\n" +
+            CreateBubble("여기까지 잘 따라왔다면\n" +
                 "적을 맞추기 위해\n" +
                 "어떻게 조준해야 하는지\n" +
-                "알 거라 믿는다.");
-            StartCoroutine(Wait(2.3f));
+                "알 거라 믿는다만...");
+            StartCoroutine(Wait(2.5f));
             // 시간이 지나면 자동으로 넘어갑니다.
         }
-        else if (StateNotReady(4, 22))
+        else if (StateNotReady(4, 23))
         {
-            CreateBubble("여기까지 따라왔다면\n" +
+            CreateBubble("여기까지 잘 따라왔다면\n" +
                 "적을 맞추기 위해\n" +
                 "어떻게 조준해야 하는지\n" +
-                "알 거라 믿는다.\n" +
+                "알 거라 믿는다만...\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 23))
+        else if (StateNotReady(4, 24))
+        {
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(true);
+            }
+            CreateBubble("특별히 꿀팁 하나 알려주지.\n" +
+                "자네가 던진 망치가\n" +
+                "적이 있는 페이지를 지나면\n" +
+                "그 지점에 균열이 발생한다네.");
+            stopAutoShooting = false;
+            StartCoroutine(AutoShoot4());
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+        }
+        else if (StateNotReady(4, 25))
+        {
+            CreateBubble("특별히 꿀팁 하나 알려주지.\n" +
+                "자네가 던진 망치가\n" +
+                "적이 있는 페이지를 지나면\n" +
+                "그 지점에 균열이 발생한다네.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 26))
+        {
+            CreateBubble("망치가 원하는 곳으로 잘\n" +
+                "날아갔는지 확인하고 싶을 때\n" +
+                "균열의 위치를 보면 된다고.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 27))
+        {
+            stopAutoShooting = true;
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(false);
+            }
+            CreateBubble("과연 내 도움 없이\n" +
+                "무기를 다룰 수 있을까...");
+            StartCoroutine(Wait(3f));
+            // 시간이 지나면 자동으로 넘어갑니다.
+        }
+        else if (StateNotReady(4, 28))
         {
             NextPhase();
         }
@@ -720,7 +799,7 @@ public class TutorialManager : MonoBehaviour {
                 g.SetActive(true);
             }
             myArrow = Instantiate(arrow, new Vector3(-1f, 0.6f, Boundary.RoundZ(3f)), Quaternion.identity);
-            CreateBubble("<color=#EE1111>적을 직접 공격해 보게.</color>\n" +
+            CreateBubble("<color=#EE1111>드디어 적을 공격할 시간이네.</color>\n" +
                 "적이 지금 자네보다 뒤 페이지에\n" +
                 "있으니 마우스 오른쪽 버튼으로\n" +
                 "적을 조준하고 시계의 두 침이\n" +
@@ -1015,20 +1094,16 @@ public class TutorialManager : MonoBehaviour {
     {
         AutoLeft(false);
         AutoRight(false);
-        yield return new WaitForSeconds(2.7f);
-        foreach (GameObject g in mouseButtons)
-        {
-            g.SetActive(true);
-        }
+        yield return new WaitForSeconds(1f);
         player.SetAutoShootInTutorial(new Vector3(-0.4f, 1f, 2f));
         AutoLeft(true);
         AutoRight(false);
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.5f);
         AutoLeft(false);
         yield return new WaitForSeconds(1f);
         player.SetAutoShootInTutorial(new Vector3(-0.4f, 1f, 2f));
         AutoRight(true);
-        yield return new WaitForSeconds(1.3f);
+        yield return new WaitForSeconds(1.5f);
         AutoRight(false);
         yield return new WaitForSeconds(1f);
         NextProcess();
@@ -1036,36 +1111,85 @@ public class TutorialManager : MonoBehaviour {
         {
             if (stopAutoShooting) break;
             player.SetAutoShootInTutorial(new Vector3(0f, 0.8f, 2f));
-            AutoLeft(true);
-            yield return new WaitForSeconds(0.8f);
             AutoRight(true);
+            yield return new WaitForSeconds(0.8f);
+            AutoLeft(true);
             yield return new WaitForSeconds(0.7f);
-            AutoLeft(false);
+            AutoRight(false);
             if (stopAutoShooting)
             {
-                AutoRight(false);
-                yield return new WaitForSeconds(0.8f);
+                AutoLeft(false);
+                yield return new WaitForSeconds(1f);
                 break;
             }
-            yield return new WaitForSeconds(1.1f);
-            AutoRight(false);
-            yield return new WaitForSeconds(1f);
-            if (stopAutoShooting) break;
-            player.SetAutoShootInTutorial(new Vector3(-0.4f, 1f, 2f));
-            AutoLeft(true);
             yield return new WaitForSeconds(1.3f);
             AutoLeft(false);
             yield return new WaitForSeconds(1f);
             if (stopAutoShooting) break;
             player.SetAutoShootInTutorial(new Vector3(-0.4f, 1f, 2f));
+            AutoLeft(true);
+            yield return new WaitForSeconds(1.5f);
+            AutoLeft(false);
+            yield return new WaitForSeconds(1f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-0.4f, 1f, 2f));
             AutoRight(true);
-            yield return new WaitForSeconds(1.3f);
+            yield return new WaitForSeconds(1.5f);
             AutoRight(false);
             yield return new WaitForSeconds(1f);
         }
         stopAutoShooting = false;
     }
-    
+
+    IEnumerator AutoShoot4()
+    {
+        AutoLeft(false);
+        AutoRight(false);
+        yield return new WaitForSeconds(1f);
+        player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
+        AutoRight(true);
+        yield return new WaitForSeconds(1f);
+        AutoLeft(true);
+        yield return new WaitForSeconds(0.5f);
+        AutoLeft(false);
+        AutoRight(false);
+        yield return new WaitForSeconds(1f);
+        player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
+        AutoRight(true);
+        yield return new WaitForSeconds(2f);
+        AutoRight(false);
+        yield return new WaitForSeconds(1f);
+        NextProcess();
+        for (int i = 0; i < 20; i++)
+        {
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
+            AutoRight(true);
+            yield return new WaitForSeconds(0.5f);
+            AutoLeft(true);
+            yield return new WaitForSeconds(1f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
+            AutoRight(true);
+            yield return new WaitForSeconds(1f);
+            AutoLeft(true);
+            yield return new WaitForSeconds(0.5f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
+            AutoRight(true);
+            yield return new WaitForSeconds(2f);
+            AutoRight(false);
+            yield return new WaitForSeconds(1f);
+        }
+        stopAutoShooting = false;
+    }
+
     private bool State(int phase, int process)
     {
         return (phase == this.phase && process == this.process);

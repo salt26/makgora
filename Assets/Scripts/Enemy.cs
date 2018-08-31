@@ -1295,7 +1295,7 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
-        GetComponent<AudioSource>().clip = tutorialSounds[1];  // TODO
+        GetComponent<AudioSource>().clip = damagedSound;
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "으윽!";
@@ -1325,12 +1325,9 @@ public class Enemy : MonoBehaviour {
         Transform child = mySpeech.transform.Find("SpeechText");
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
-        yield return new WaitForSeconds(0.6f);
-        GetComponent<AudioSource>().clip = tutorialSounds[0];  // TODO
-        GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.5f);
         isSFXPlaying = false;
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(1.5f);
         Destroy(mySpeech);
         mySpeech = null;
     }
@@ -1341,11 +1338,14 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
+        isSFXPlaying = true;
+        GetComponent<AudioSource>().clip = damagedSound;  // TODO
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(0.5f);
         GetComponent<AudioSource>().clip = tutorialSounds[2];  // TODO
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "차라리 죽여라!";
-        isSFXPlaying = true;
         if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
         {
             if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
@@ -1373,7 +1373,7 @@ public class Enemy : MonoBehaviour {
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(1f);
         isSFXPlaying = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(mySpeech);
         mySpeech = null;
     }
