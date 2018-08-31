@@ -117,10 +117,12 @@ public class Player : MonoBehaviour {
         // Esc키와 일시정지 관련 코드
         if (Input.GetKeyUp(KeyCode.Escape) && !Manager.instance.IsPaused)
         {
+            Manager.instance.ButtonSound();
             Manager.instance.PauseButton();
         }
         else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart)
         {
+            Manager.instance.ButtonSound();
             foreach (Tooltip t in pausePanelButtons)
             {
                 t.DestroyTooltip();
