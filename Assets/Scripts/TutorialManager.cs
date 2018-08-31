@@ -28,6 +28,7 @@ public class TutorialManager : MonoBehaviour {
     private bool isPhaseStarted;    // 이것이 false가 되면 다음 프레임에 페이즈가 넘어갑니다.
     private bool isProcessReady;    // 이것이 false가 되면 다음 프레임에 true가 되면서 새 설명이 나타납니다.
     private bool isEnterAvailable;  // 이것이 true인 동안 Enter키를 눌러 다음 설명으로 넘어갈 수 있습니다.
+    private bool stopAutoShooting;  // 이것이 true가 되면 자동 발사를 멈춥니다.
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
     private GameObject myArrow;     // 현재 떠 있는 화살표를 가지고 있습니다.
@@ -76,6 +77,7 @@ public class TutorialManager : MonoBehaviour {
         process = 0;
         isPhaseStarted = false;
         isProcessReady = false;
+        stopAutoShooting = false;
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.SetPageVisibleInTutorial(false);
@@ -179,6 +181,29 @@ public class TutorialManager : MonoBehaviour {
             else
             {
                 leftShiftQSpaceE[3].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, leftShiftQSpaceE[3].GetComponent<Image>().color.a);
+            }
+        }
+
+        if (mouseButtons.Count > 0 && mouseButtons[0].activeInHierarchy && CanShoot)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                mouseButtons[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, mouseButtons[0].GetComponent<Image>().color.a);
+            }
+            else
+            {
+                mouseButtons[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, mouseButtons[0].GetComponent<Image>().color.a);
+            }
+        }
+        if (mouseButtons.Count > 1 && mouseButtons[1].activeInHierarchy && CanShoot)
+        {
+            if (Input.GetMouseButton(1))
+            {
+                mouseButtons[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, mouseButtons[1].GetComponent<Image>().color.a);
+            }
+            else
+            {
+                mouseButtons[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, mouseButtons[1].GetComponent<Image>().color.a);
             }
         }
         #endregion
@@ -511,6 +536,10 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 8))
         {
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(true);
+            }
             myArrow = Instantiate(arrow, new Vector3(0.39f, 1.57f, 2f), Quaternion.identity);
             CreateBubble("<color=#EE1111>마우스의 양쪽 버튼을 모두\n" +
                 "누른 상태에서, 저 오크를\n" +
@@ -521,6 +550,10 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(4, 9))
         {
             isProcessReady = true;
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(false);
+            }
             if (myArrow != null)
             {
                 Destroy(myArrow);
@@ -533,6 +566,10 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 10))
         {
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(true);
+            }
             CreateBubble("어떤가? 아직 어렵나?\n" +
                 "무기를 던지려면 먼저 소환해야 하네.\n" +
                 "무기가 다 소환될 때까지는\n" +
@@ -551,10 +588,53 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 12))
         {
-            StopCoroutine(AutoShoot1());
+            stopAutoShooting = true;
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(false);
+            }
             CreateBubble("물론 소환이 끝나도\n" +
                 "바로 던지지 않고\n" +
                 "계속 조준을 할 수 있다네.\n" +
+                "그리고 원할 때 던질 수 있지.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 13))
+        {
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(true);
+            }
+            CreateBubble("이렇게 말이야.\n" +
+                "마우스 버튼과\n" +
+                "조준점에 놓인 시계를 잘 보게.");
+            StartCoroutine(AutoShoot2());
+        }
+        else if (StateNotReady(4, 14))
+        {
+            isProcessReady = true;
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            CreateBubble("이렇게 말이야.\n" +
+                "마우스 버튼과\n" +
+                "조준점에 놓인 시계를 잘 보게.\n"+
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 15))
+        {
+            stopAutoShooting = true;
+            foreach (GameObject g in mouseButtons)
+            {
+                g.SetActive(false);
+            }
+            CreateBubble("아까 상대가 다른 페이지에서\n" +
+                "무기를 던진 것을 기억하나?\n" +
+                "자네도 다른 페이지로\n" +
+                "무기를 던질 수 있다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
@@ -715,44 +795,80 @@ public class TutorialManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(1f);
         // TODO 마우스 버튼 보이기
-        player.SetAutoShootInTutorial(new Vector3(0f, 0.2f, 2f));
+        player.SetAutoShootInTutorial(new Vector3(-0.7f, -0.6f, 2f));
         AutoLeft(true);
         AutoRight(true);
         yield return new WaitForSeconds(0.4f);
         AutoLeft(false);
         AutoRight(false);
         yield return new WaitForSeconds(1.6f);
-        player.SetAutoShootInTutorial(new Vector3(-0.2f, 1f, 2f));
+        player.SetAutoShootInTutorial(new Vector3(-0.4f, 1.2f, 2f));
         AutoLeft(true);
         AutoRight(true);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         AutoLeft(false);
         AutoRight(false);
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(1.8f);
         NextProcess();
         for (int i = 0; i < 10; i++)
         {
-            player.SetAutoShootInTutorial(new Vector3(0f, 0.2f, 2f));
-            AutoLeft(true);
-            AutoRight(true);
-            yield return new WaitForSeconds(0.4f);
-            AutoLeft(false);
-            AutoRight(false);
-            yield return new WaitForSeconds(1.6f);
-            player.SetAutoShootInTutorial(new Vector3(-0.2f, 1f, 2f));
-            AutoLeft(true);
-            AutoRight(true);
-            yield return new WaitForSeconds(0.4f);
-            AutoLeft(false);
-            AutoRight(false);
-            yield return new WaitForSeconds(1.6f);
+            if (stopAutoShooting) break;
             player.SetAutoShootInTutorial(new Vector3(1.3f, 1.3f, 2f));
             AutoLeft(true);
             AutoRight(true);
+            yield return new WaitForSeconds(0.5f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.5f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-0.7f, -0.6f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
             yield return new WaitForSeconds(0.4f);
             AutoLeft(false);
             AutoRight(false);
             yield return new WaitForSeconds(1.6f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-0.4f, 1.2f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(0.2f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.8f);
+        }
+        stopAutoShooting = false;
+    }
+
+    IEnumerator AutoShoot2()
+    {
+        yield return new WaitForSeconds(2f);
+        player.SetAutoShootInTutorial(new Vector3(-0.4f, 1.2f, 2f));
+        AutoLeft(true);
+        AutoRight(true);
+        yield return new WaitForSeconds(Random.Range(1f, 1.7f));
+        AutoLeft(false);
+        AutoRight(false);
+        yield return new WaitForSeconds(1f);
+        NextProcess();
+        for (int i = 0; i < 10; i++)
+        {
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-0.3f, 1.3f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(0.2f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.8f);
+            if (stopAutoShooting) break;
+            player.SetAutoShootInTutorial(new Vector3(-0.4f, 1.2f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(Random.Range(1f, 1.7f));
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1f);
         }
     }
     
@@ -784,7 +900,7 @@ public class TutorialManager : MonoBehaviour {
     private void AutoLeft(bool isClicked)
     {
         player.AutoLeftInTutorial = isClicked;
-        if (mouseButtons.Count > 1 && mouseButtons[0] != null)
+        if (mouseButtons.Count > 0 && mouseButtons[0] != null)
         {
             if (isClicked)
             {
@@ -800,7 +916,7 @@ public class TutorialManager : MonoBehaviour {
     private void AutoRight(bool isClicked)
     {
         player.AutoRightInTutorial = isClicked;
-        if (mouseButtons.Count > 2 && mouseButtons[1] != null)
+        if (mouseButtons.Count > 1 && mouseButtons[1] != null)
         {
             if (isClicked)
             {
