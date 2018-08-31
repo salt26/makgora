@@ -588,6 +588,7 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("NextPhase");
         phase++;
         process = 0;
+        Manager.instance.Canvas.GetComponentInParent<InGameUI>().UpdatePhase(phase);
         isPhaseStarted = false;
     }
 

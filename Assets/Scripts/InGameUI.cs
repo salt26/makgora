@@ -43,7 +43,7 @@ public class InGameUI : MonoBehaviour {
         string gameLevel = Manager.instance.GetCurrentGame()[1];
         if (gameMode.Equals("Tutorial"))
         {
-            modeText.text = "튜토리얼";
+            modeText.text = "튜토리얼 - 1/4";
             // TODO 현재 페이즈에 따라 다른 텍스트 표시
         }
         else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Easy"))
@@ -96,5 +96,10 @@ public class InGameUI : MonoBehaviour {
     public void PauseButton()
     {
         Manager.instance.PauseButton();
+    }
+
+    public void UpdatePhase(int phase)
+    {
+        modeText.text = "튜토리얼 - " + phase + "/4";
     }
 }
