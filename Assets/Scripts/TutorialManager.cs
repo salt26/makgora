@@ -307,6 +307,8 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(false);
             }
+            book.bluePage.GetComponent<Image>().enabled = false;
+            book.blueText.GetComponent<Text>().enabled = false;
             CreateBubble("역시, 기대했던 대로야.\n" +
                 "그럼 이제...\n" +
                 "<color=#666699>(Enter키 입력)</color>");
@@ -466,9 +468,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("여기 있었군!\n" +
                 "얌전히 있거라...");
             StartCoroutine(SilenceEnemy());
-            // TODO 침묵 거는 이펙트 + 사운드 발동
             // 침묵은 무기 소환을 하지 못하는 상태 이상입니다.
-            // TODO 적의 말풍선 대화 구현
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
         }
         else if (StateNotReady(4, 4))
@@ -486,7 +486,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 Destroy(myBubble);
             }
-            StartCoroutine(Wait(1f));
+            StartCoroutine(Wait(2f));
             // 시간이 지나면 자동으로 넘어갑니다.
         }
         else if (StateNotReady(4, 6))
@@ -500,7 +500,7 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 7))
         {
-            CreateBubble("자네와 같은 페이지에 있는\n" +
+            CreateBubble("자네와 <color=#337755>같은 페이지</color>에 있는\n" +
                 "적에게 망치를 던질 때에는\n" +
                 "마우스의 양쪽 버튼을\n" +
                 "모두 누르면 된다네.\n" +
@@ -509,10 +509,25 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 8))
         {
-            // TODO 적 위치에 화살표 생성
-            CreateBubble("<color=#EE1111>마우스의 양쪽 버튼을 모두 누른\n" +
-                "상태에서, 저 오크를 마우스로\n" +
-                "조준하고 버튼을 떼 보게나.</color>");
+            myArrow = Instantiate(arrow, new Vector3(0.39f, 1.57f, 2f), Quaternion.identity);
+            CreateBubble("<color=#EE1111>마우스의 양쪽 버튼을 모두\n" +
+                "누른 상태에서, 저 오크를\n" +
+                "마우스로 정확히 조준하고\n" +
+                "버튼을 떼 보게나.</color>");
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+        }
+        else if (StateNotReady(4, 9))
+        {
+            if (myArrow != null)
+            {
+                Destroy(myArrow);
+            }
+            CreateBubble("어떤가? 아직 어렵나?\n" +
+                "무기를 던지려면 먼저 소환해야 하네.\n" +
+                "무기가 다 소환될 때까지는\n" +
+                "조준만 할 수 있지.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
         }
         #endregion
         /*
@@ -663,6 +678,7 @@ public class TutorialManager : MonoBehaviour {
 
     IEnumerator Wait(float time)
     {
+        enemy.GetComponent<Enemy>().SpeakTutorial(2);
         yield return new WaitForSeconds(time);
         NextProcess();
     }

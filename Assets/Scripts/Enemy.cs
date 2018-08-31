@@ -1047,15 +1047,9 @@ public class Enemy : MonoBehaviour {
                 startPosition = GetComponent<Transform>().position;
                 if (Health == 2)
                 {
-                    destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(4f));
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
-                        "주인공은 페이지를 뚫고 다른 페이지로 칼을 던질 수 있습니다.\n" +
-                        "마우스 왼쪽을 눌렀다 떼면 앞 페이지로, 오른쪽을 눌렀다 떼면 뒤 페이지로 칼이 날아갑니다.\n" +
-                        "마우스를 누르고 있으면 조준점에 작은 시계가 나타납니다.\n" +
-                        "이 시계의 보라색 침은 칼이 향할 페이지를, 빨간색 침은 상대가 있는 페이지를 가리킵니다.\n" +
-                        "마우스를 오래 누를수록 더 먼 페이지로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
-                        "<color=#ff00bf>마우스로 상대를 조준하고, 보라색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.</color>\n" +
-                        "\"움직이지 않는 상대를 향해 칼을 던져서 2번 더 맞추세요.\"";
+                    destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(3f));
+                    SpeakTutorial(3);
+                    GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().NextProcess();
                 }
                 else if (Health == 1)
                 {
@@ -1262,12 +1256,88 @@ public class Enemy : MonoBehaviour {
 
     IEnumerator TutorialSpeech2()
     {
-        yield return null;
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "비겁하다!";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(0.9f);
+        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1.4f);
+        Destroy(mySpeech);
+        mySpeech = null;
     }
 
     IEnumerator TutorialSpeech3()
     {
-        yield return null;
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "으윽!";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(0.6f);
+        GetComponent<AudioSource>().clip = tutorialSound1;  // TODO
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(1.4f);
+        Destroy(mySpeech);
+        mySpeech = null;
     }
 
     IEnumerator TutorialSpeech4()
