@@ -39,12 +39,17 @@ public class Player : MonoBehaviour {
     private bool hasReadySpoken = false;
     private bool isSFXPlaying = false;
     private bool isPageVisible = true;  // 튜토리얼에서 자신의 페이지 번호를 보여주지 않을 동안 false가 됩니다.
+    private bool autoShoot = false;     // 튜토리얼에서 마우스와 무관하게 자동으로 발사하는 모습을 보여줄 때 사용됩니다.
+    private bool isAutoShooting = false;// 튜토리얼에서 자동 발사 중에 true가 됩니다.
+    private bool isAutoLeft = false;    // 튜토리얼에서 자동 발사 중에, 이것이 true이면 왼쪽 클릭을 하고 있는 것처럼 동작합니다.
+    private bool isAutoRight = false;   // 튜토리얼에서 자동 발사 중에, 이것이 true이면 오른쪽 클릭을 하고 있는 것처럼 동작합니다.
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
     private float temporalMoveCoolTime; // 시간 축을 따라 한 칸 이동하고 다음 한 칸을 이동하기까지 대기하는 시간입니다.
     private Rigidbody r;
     private Vector3 releasedMousePosition;
+    private Vector3 virtualMousePosition;   // 튜토리얼에서 autoShoot할 때 발사할 지점을 저장합니다.
     private GameObject mySpeech;
     private Vector3 speechVector;
     private GameObject sound;
@@ -65,6 +70,22 @@ public class Player : MonoBehaviour {
         get
         {
             return invincibleTime > 0f;
+        }
+    }
+
+    public bool AutoLeftInTutorial
+    {
+        set
+        {
+            isAutoLeft = value;
+        }
+    }
+
+    public bool AutoRightInTutorial
+    {
+        set
+        {
+            isAutoRight = value;
         }
     }
 
@@ -278,18 +299,76 @@ public class Player : MonoBehaviour {
                 prepareWeaponTime = -1f;
                 soundNum = (soundNum + 1) % 3;
             }
+        }
+        #endregion
 
-            /*
-            if (!hasMouseReleased && ((Input.GetMouseButtonUp(0) && !Input.GetMouseButton(1)) || (Input.GetMouseButtonUp(1) && !Input.GetMouseButton(0))))
+        #region 튜토리얼에서 자동으로 던지는(autoShoot) 코드
+
+        if (autoShoot)
+        {
+            isAutoShooting = true;
+            autoShoot = false;
+        }
+
+        if (SceneManager.GetActiveScene().name.Equals("Tutorial") && isAutoShooting)
+        {
+            if (prepareWeaponTime < 0f)
             {
-                Ray ray = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                Ray ray = mainCamera.ScreenPointToRay(virtualMousePosition);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 9) && hit.collider.gameObject.tag.Equals("Present"))
                 {
-                    hasMouseReleased = true;
+                    prepareWeaponTime = 0f;
                 }
             }
-            */
+            else if (prepareWeaponTime >= 0f)
+            {
+                prepareWeaponTime += Time.deltaTime;
+                if (targetObject != null)
+                {
+                    targetObject.GetComponentInChildren<ChargeClockUI>().PrepareTime = prepareWeaponTime;
+                }
+            }
+
+            bool isMouseClickedAndInGameArea = false;
+            if (!isAutoRight && isAutoLeft)
+            {
+                isMouseClickedAndInGameArea = Charging(-1f, virtualMousePosition);
+            }
+            else if (!isAutoLeft && isAutoRight)
+            {
+                isMouseClickedAndInGameArea = Charging(1f, virtualMousePosition);
+            }
+            else if (isAutoLeft && isAutoRight)
+            {
+                isMouseClickedAndInGameArea = Charging(0f, virtualMousePosition);
+            }
+            else if (prepareWeaponTime >= 0f && prepareWeaponTime < Manager.instance.PrepareChargeTime)
+            {
+                Charging(0f, virtualMousePosition);
+            }
+
+            if (!isMouseClickedAndInGameArea && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(virtualMousePosition);
+
+                GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
+                k.GetComponent<Knife>().Initialize(0, soundNum, new Vector3(
+                    ray.origin.x + ray.direction.x *
+                    (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                    ray.origin.y + ray.direction.y *
+                    (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
+                    GetComponent<Transform>().position.z + Boundary.RoundZ(chargedZ)));
+                Destroy(targetObject);
+                targetObject = null;
+                purplePage.GetComponent<Image>().enabled = false;
+                purpleText.enabled = false;
+                weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
+                chargedZ = 0f;
+                prepareWeaponTime = -1f;
+                soundNum = (soundNum + 1) % 3;
+                isAutoShooting = false;
+            }
         }
         #endregion
     }
@@ -509,6 +588,13 @@ public class Player : MonoBehaviour {
     public void SetPageVisibleInTutorial(bool b)
     {
         isPageVisible = b;
+    }
+
+    public void SetAutoShootInTutorial(Vector3 dest)
+    {
+        virtualMousePosition = mainCamera.WorldToScreenPoint(dest);
+        virtualMousePosition.z = dest.z;
+        autoShoot = true;
     }
 
     public void Damaged()

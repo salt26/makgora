@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour {
     public GameObject magic;
     public List<GameObject> WASD;
     public List<GameObject> leftShiftQSpaceE;
+    public List<GameObject> mouseButtons;
     public Color pressedColor;
     public Color magicBeforeColor;
     public Color magicAfterColor;
@@ -384,8 +385,8 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(3, 7))
         {
-            CreateBubble("이런! 결국에는 맞았군.\n" +
-                "적을 어서 처리해야겠어.\n" +
+            CreateBubble("이런! 아프겠군.\n" +
+                "저 놈을 어서 처리해야겠어.\n" +
                 "하지만 그 전에 몇 가지\n" +
                 "알아야 할 것들이 있다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
@@ -473,9 +474,9 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 4))
         {
-            CreateBubble("이놈이 무기를 소환하지\n" +
+            CreateBubble("이 놈이 무기를 소환하지\n" +
                 "못하게 막았네.\n" +
-                "자네의 망치로 저놈을 공격하게나!\n" +
+                "자네의 망치로 저 놈을 공격하게나!\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
@@ -486,6 +487,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 Destroy(myBubble);
             }
+            enemy.GetComponent<Enemy>().SpeakTutorial(2);
             StartCoroutine(Wait(2f));
             // 시간이 지나면 자동으로 넘어갑니다.
         }
@@ -518,14 +520,41 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 9))
         {
+            isProcessReady = true;
             if (myArrow != null)
             {
                 Destroy(myArrow);
             }
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            StartCoroutine(Wait(3f));
+        }
+        else if (StateNotReady(4, 10))
+        {
+            CreateBubble("어떤가? 아직 어렵나?\n" +
+                "무기를 던지려면 먼저 소환해야 하네.\n" +
+                "무기가 다 소환될 때까지는\n" +
+                "조준만 할 수 있지.");
+            StartCoroutine(AutoShoot1());
+            // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+        }
+        else if (StateNotReady(4, 11))
+        {
             CreateBubble("어떤가? 아직 어렵나?\n" +
                 "무기를 던지려면 먼저 소환해야 하네.\n" +
                 "무기가 다 소환될 때까지는\n" +
                 "조준만 할 수 있지.\n" +
+                "<color=#666699>(Enter키 입력)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 12))
+        {
+            StopCoroutine(AutoShoot1());
+            CreateBubble("물론 소환이 끝나도\n" +
+                "바로 던지지 않고\n" +
+                "계속 조준을 할 수 있다네.\n" +
                 "<color=#666699>(Enter키 입력)</color>");
             isEnterAvailable = true;
         }
@@ -678,9 +707,53 @@ public class TutorialManager : MonoBehaviour {
 
     IEnumerator Wait(float time)
     {
-        enemy.GetComponent<Enemy>().SpeakTutorial(2);
         yield return new WaitForSeconds(time);
         NextProcess();
+    }
+
+    IEnumerator AutoShoot1()
+    {
+        yield return new WaitForSeconds(1f);
+        // TODO 마우스 버튼 보이기
+        player.SetAutoShootInTutorial(new Vector3(0f, 0.2f, 2f));
+        AutoLeft(true);
+        AutoRight(true);
+        yield return new WaitForSeconds(0.4f);
+        AutoLeft(false);
+        AutoRight(false);
+        yield return new WaitForSeconds(1.6f);
+        player.SetAutoShootInTutorial(new Vector3(-0.2f, 1f, 2f));
+        AutoLeft(true);
+        AutoRight(true);
+        yield return new WaitForSeconds(0.4f);
+        AutoLeft(false);
+        AutoRight(false);
+        yield return new WaitForSeconds(1.6f);
+        NextProcess();
+        for (int i = 0; i < 10; i++)
+        {
+            player.SetAutoShootInTutorial(new Vector3(0f, 0.2f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(0.4f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.6f);
+            player.SetAutoShootInTutorial(new Vector3(-0.2f, 1f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(0.4f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.6f);
+            player.SetAutoShootInTutorial(new Vector3(1.3f, 1.3f, 2f));
+            AutoLeft(true);
+            AutoRight(true);
+            yield return new WaitForSeconds(0.4f);
+            AutoLeft(false);
+            AutoRight(false);
+            yield return new WaitForSeconds(1.6f);
+        }
     }
     
     private bool State(int phase, int process)
@@ -706,5 +779,37 @@ public class TutorialManager : MonoBehaviour {
         }
         myBubble.GetComponentInChildren<Text>().text = explanation;
         isProcessReady = true;
+    }
+
+    private void AutoLeft(bool isClicked)
+    {
+        player.AutoLeftInTutorial = isClicked;
+        if (mouseButtons.Count > 1 && mouseButtons[0] != null)
+        {
+            if (isClicked)
+            {
+                mouseButtons[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, mouseButtons[0].GetComponent<Image>().color.a);
+            }
+            else
+            {
+                mouseButtons[0].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, mouseButtons[0].GetComponent<Image>().color.a);
+            }
+        }
+    }
+
+    private void AutoRight(bool isClicked)
+    {
+        player.AutoRightInTutorial = isClicked;
+        if (mouseButtons.Count > 2 && mouseButtons[1] != null)
+        {
+            if (isClicked)
+            {
+                mouseButtons[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(pressedColor, mouseButtons[1].GetComponent<Image>().color.a);
+            }
+            else
+            {
+                mouseButtons[1].GetComponent<Image>().color = ColorUtil.instance.AlphaColor(Color.white, mouseButtons[1].GetComponent<Image>().color.a);
+            }
+        }
     }
 }

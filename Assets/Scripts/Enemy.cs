@@ -1289,7 +1289,7 @@ public class Enemy : MonoBehaviour {
         Transform child = mySpeech.transform.Find("SpeechText");
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(0.7f);
         GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1.4f);
