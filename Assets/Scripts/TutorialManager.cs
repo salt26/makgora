@@ -721,7 +721,7 @@ public class TutorialManager : MonoBehaviour {
     {
         GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
         k.GetComponent<MeshRenderer>().enabled = false;
-        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position + error);
+        k.GetComponent<Knife>().Initialize(1, player.GetComponent<Transform>().position + error);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
         yield return new WaitForSeconds(2f);
@@ -736,7 +736,7 @@ public class TutorialManager : MonoBehaviour {
         yield return new WaitForSeconds(0.8f);
         GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
         k.GetComponent<MeshRenderer>().enabled = false;
-        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
+        k.GetComponent<Knife>().Initialize(1, player.GetComponent<Transform>().position);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
         yield return new WaitForSeconds(5f);
@@ -748,7 +748,7 @@ public class TutorialManager : MonoBehaviour {
         yield return new WaitForSeconds(1.6f);
         GameObject k = Instantiate(enemy.GetComponent<Enemy>().knife, enemy.position, Quaternion.identity);
         k.GetComponent<MeshRenderer>().enabled = false;
-        k.GetComponent<Knife>().Initialize(1, 0, player.GetComponent<Transform>().position);
+        k.GetComponent<Knife>().Initialize(1, player.GetComponent<Transform>().position);
         yield return null;
         k.GetComponent<MeshRenderer>().enabled = true;
     }

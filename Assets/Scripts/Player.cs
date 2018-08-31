@@ -55,7 +55,6 @@ public class Player : MonoBehaviour {
     private GameObject sound;
     private Vector3 soundVector;
     private Vector3 soundDirection;
-    private int soundNum;
 
     public int Health
     {
@@ -284,7 +283,7 @@ public class Player : MonoBehaviour {
                 Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
                 GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                k.GetComponent<Knife>().Initialize(0, soundNum, new Vector3(
+                k.GetComponent<Knife>().Initialize(0, new Vector3(
                     ray.origin.x + ray.direction.x *
                     (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                     ray.origin.y + ray.direction.y *
@@ -297,7 +296,6 @@ public class Player : MonoBehaviour {
                 weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
                 chargedZ = 0f;
                 prepareWeaponTime = -1f;
-                soundNum = (soundNum + 1) % 3;
             }
         }
         #endregion
@@ -353,7 +351,7 @@ public class Player : MonoBehaviour {
                 Ray ray = mainCamera.ScreenPointToRay(virtualMousePosition);
 
                 GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-                k.GetComponent<Knife>().Initialize(0, soundNum, new Vector3(
+                k.GetComponent<Knife>().Initialize(0, new Vector3(
                     ray.origin.x + ray.direction.x *
                     (chargedZ + GetComponent<Transform>().position.z - ray.origin.z) / ray.direction.z,
                     ray.origin.y + ray.direction.y *
@@ -366,7 +364,6 @@ public class Player : MonoBehaviour {
                 weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
                 chargedZ = 0f;
                 prepareWeaponTime = -1f;
-                soundNum = (soundNum + 1) % 3;
                 isAutoShooting = false;
             }
         }

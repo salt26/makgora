@@ -846,7 +846,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
@@ -874,7 +874,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.5f, GaussianRandom() * 0.5f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }
@@ -902,7 +902,7 @@ public class Enemy : MonoBehaviour {
         else if (isCharging && chargedZ >= Mathf.Abs(approxZ) && prepareWeaponTime >= Manager.instance.PrepareChargeTime)
         {
             GameObject k = Instantiate(knife, GetComponent<Transform>().position, Quaternion.identity);
-            k.GetComponent<Knife>().Initialize(1, 0, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
+            k.GetComponent<Knife>().Initialize(1, exactTarget + new Vector3(GaussianRandom() * 0.8f, GaussianRandom() * 0.8f, Boundary.RoundZ(approxZ)));
             isCharging = false;
             weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
         }

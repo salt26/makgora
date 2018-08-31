@@ -163,7 +163,7 @@ public class Knife : MonoBehaviour {
     /// </summary>
     /// <param name="owner"></param>
     /// <param name="destination"></param>
-    public void Initialize(int owner, int soundNum, Vector3 destination)
+    public void Initialize(int owner, Vector3 destination)
     {
         dest = destination;
         if (owner == 0 || owner == 1)
@@ -173,7 +173,7 @@ public class Knife : MonoBehaviour {
 
         if (owner == 0)
         {
-            MakeSoundEffect(soundNum);
+            MakeSoundEffect();
             StartCoroutine("SoundEffectMover");
         }
     }
@@ -268,13 +268,13 @@ public class Knife : MonoBehaviour {
         }
     }
 
-    private void MakeSoundEffect(int soundNum)
+    private void MakeSoundEffect()
     {
         Vector3 d = direction.normalized;
         Vector3 o = new Vector3(d.y, -d.x, d.z);
         soundVector = player.position + d * 0.3f + o * 0.18f;
         sound = Instantiate(soundEffect, soundVector, Quaternion.identity);
-        sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[soundNum];
+        sound.GetComponent<SpriteRenderer>().sprite = soundEffectImage[(int)Mathf.Floor(Random.value * 2.99f)];
     }
 
     IEnumerator SoundEffectMover()
