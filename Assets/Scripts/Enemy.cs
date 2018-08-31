@@ -13,8 +13,7 @@ public class Enemy : MonoBehaviour {
     public AudioClip guardSound;
     public AudioClip killedSound;
     public AudioClip readySound;
-    public AudioClip tutorialSound1;
-    public AudioClip tutorialSound2;
+    public List<AudioClip> tutorialSounds;
     public GameObject blow;
     public GameObject weaponToSummon;
     public delegate void Damaged();
@@ -1049,23 +1048,16 @@ public class Enemy : MonoBehaviour {
                 {
                     destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(3f));
                     SpeakTutorial(3);
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().NextProcess();
+                    player.GetComponent<TutorialManager>().NextProcess();
                 }
                 else if (Health == 1)
                 {
-                    destPosition = new Vector3(0.1f, 0.3f, Boundary.RoundZ(-3.5f));
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<TutorialManager>().tutorialText.text =
-                        "주인공은 페이지를 뚫고 다른 페이지로 칼을 던질 수 있습니다.\n" +
-                        "마우스 왼쪽을 눌렀다 떼면 앞 페이지로, 오른쪽을 눌렀다 떼면 뒤 페이지로 칼이 날아갑니다.\n" +
-                        "마우스를 누르고 있으면 조준점에 작은 시계가 나타납니다.\n" +
-                        "이 시계의 보라색 침은 칼이 향할 페이지를, 빨간색 침은 상대가 있는 페이지를 가리킵니다.\n" +
-                        "마우스를 오래 누를수록 더 먼 페이지로 칼을 던집니다. 칼의 속력은 일정합니다.\n" +
-                        "<color=#ff00bf>마우스로 상대를 조준하고, 보라색 침과 빨간색 침이 겹칠 때까지 눌렀다가 떼세요.</color>\n" +
-                        "\"움직이지 않는 상대를 향해 칼을 던져서 1번 더 맞추세요.\"";
+                    destPosition = new Vector3(0.1f, 0.3f, Boundary.RoundZ(-1.5f));
+                    SpeakTutorial(4);
+                    player.GetComponent<TutorialManager>().NextProcess();
                 }
                 invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
-                StartCoroutine("DamagedSFX");
             }
         }
         else if (Health > 0 && invincibleTime > 0f)
@@ -1083,14 +1075,14 @@ public class Enemy : MonoBehaviour {
             GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
             weaponToSummon.SetActive(false);
             r.velocity = Vector3.zero;
-            GetComponent<AudioSource>().clip = killedSound;
-            GetComponent<AudioSource>().Play();
 
             blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
 
             StartCoroutine("Blow");
-            Manager.instance.GraduateTutorial();
+            SpeakTutorial(5);
+            player.GetComponent<TutorialManager>().NextProcess();
 
+            //Manager.instance.GraduateTutorial();
         }
     }
 
@@ -1202,12 +1194,12 @@ public class Enemy : MonoBehaviour {
 
     /// <summary>
     /// 튜토리얼에 사용될 대사를 재생합니다.
-    /// num은 1 이상 4 이하여야 합니다.
+    /// num은 1 이상 5 이하여야 합니다.
     /// </summary>
     /// <param name="num"></param>
     public void SpeakTutorial(int num)
     {
-        if (num < 1 || num > 4) return;
+        if (num < 1 || num > 5) return;
         StartCoroutine("TutorialSpeech" + num.ToString());
     }
 
@@ -1217,7 +1209,7 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
-        GetComponent<AudioSource>().clip = tutorialSound1;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[0];  // TODO
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "으읍, 이게 뭐냐!";
@@ -1247,7 +1239,7 @@ public class Enemy : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(0.9f);
-        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[1];  // TODO
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1.4f);
         Destroy(mySpeech);
@@ -1260,7 +1252,7 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
-        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[1];  // TODO
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "비겁하다!";
@@ -1290,7 +1282,7 @@ public class Enemy : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(0.7f);
-        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[1];  // TODO
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(1.4f);
         Destroy(mySpeech);
@@ -1303,10 +1295,11 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
-        GetComponent<AudioSource>().clip = tutorialSound2;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[1];  // TODO
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "으윽!";
+        isSFXPlaying = true;
         if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
         {
             if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
@@ -1333,16 +1326,96 @@ public class Enemy : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(0.6f);
-        GetComponent<AudioSource>().clip = tutorialSound1;  // TODO
+        GetComponent<AudioSource>().clip = tutorialSounds[0];  // TODO
         GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(0.6f);
+        isSFXPlaying = false;
+        yield return new WaitForSeconds(0.8f);
         Destroy(mySpeech);
         mySpeech = null;
     }
 
     IEnumerator TutorialSpeech4()
     {
-        yield return null;
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = tutorialSounds[2];  // TODO
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "차라리 죽여라!";
+        isSFXPlaying = true;
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(1f);
+        isSFXPlaying = false;
+        yield return new WaitForSeconds(1f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
+    IEnumerator TutorialSpeech5()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = tutorialSounds[3];  // TODO
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "명예가 나를 이끈다...";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(2.3f);  // TODO
+        Destroy(mySpeech);
+        mySpeech = null;
     }
 
     #endregion

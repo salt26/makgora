@@ -306,6 +306,16 @@ public class Player : MonoBehaviour {
                 prepareWeaponTime = -1f;
             }
         }
+        else if (!isAutoShooting && targetObject != null)
+        {
+            Destroy(targetObject);
+            targetObject = null;
+            purplePage.GetComponent<Image>().enabled = false;
+            purpleText.enabled = false;
+            weaponToSummon.GetComponent<MeshRenderer>().enabled = false;
+            chargedZ = 0f;
+            prepareWeaponTime = -1f;
+        }
         #endregion
 
         #region 튜토리얼에서 자동으로 던지는(autoShoot) 코드

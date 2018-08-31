@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -374,8 +374,11 @@ MonoBehaviour:
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 0}
-  tutorialSound1: {fileID: 8300000, guid: 5327ae102389584438574ec6f1e36a5d, type: 3}
-  tutorialSound2: {fileID: 8300000, guid: 069d270fee9cc2a4ebe62ee780b51799, type: 3}
+  tutorialSounds:
+  - {fileID: 8300000, guid: 5327ae102389584438574ec6f1e36a5d, type: 3}
+  - {fileID: 8300000, guid: 069d270fee9cc2a4ebe62ee780b51799, type: 3}
+  - {fileID: 8300000, guid: 42eef6b78abf5274b9bb6ab6dc391fb7, type: 3}
+  - {fileID: 8300000, guid: 4f7e8bc04bba75840ac827a76441d350, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   weaponToSummon: {fileID: 1697472681}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
