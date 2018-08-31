@@ -21,11 +21,11 @@ public class TutorialImage : MonoBehaviour {
         Vector3 v = mainCamera.WorldToScreenPoint(player.position);
         if (Mathf.Abs(t.position.x - v.x) < GetComponent<RectTransform>().rect.width / 2 + 30f && Mathf.Abs(t.position.y - v.y) < GetComponent<RectTransform>().rect.height / 2 + 55f)
         {
-            alpha -= Time.fixedDeltaTime * 1.5f;
+            alpha -= Time.fixedDeltaTime * 2f;
         }
         else
         {
-            alpha += Time.fixedDeltaTime * 1.5f;
+            alpha += Time.fixedDeltaTime * 2f;
         }
         if (alpha < 0.3f) alpha = 0.3f;
         if (alpha > 1f) alpha = 1f;

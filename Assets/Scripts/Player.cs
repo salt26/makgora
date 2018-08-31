@@ -117,10 +117,12 @@ public class Player : MonoBehaviour {
         // Esc키와 일시정지 관련 코드
         if (Input.GetKeyUp(KeyCode.Escape) && !Manager.instance.IsPaused)
         {
+            Manager.instance.ButtonSound();
             Manager.instance.PauseButton();
         }
         else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart)
         {
+            Manager.instance.ButtonSound();
             foreach (Tooltip t in pausePanelButtons)
             {
                 t.DestroyTooltip();
@@ -348,7 +350,7 @@ public class Player : MonoBehaviour {
                     speechVector.y -= 80f;
                     mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
                 }
-                if (speechVector.y < 270f)
+                else if (speechVector.y < 270f)
                 {
                     speechVector.y += 80f;
                     mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
