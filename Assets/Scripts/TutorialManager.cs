@@ -1006,7 +1006,7 @@ public class TutorialManager : MonoBehaviour {
         {
             Destroy(myBubble);
         }
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(2.1f);
         NextProcess();
     }
 
