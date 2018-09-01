@@ -30,6 +30,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        DestroyTooltip();
         if (GetComponent<Button>() != null && GetComponent<Button>().interactable)
             Manager.instance.ButtonSound();
     }
