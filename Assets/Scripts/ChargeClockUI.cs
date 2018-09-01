@@ -62,7 +62,8 @@ public class ChargeClockUI : MonoBehaviour {
             purpleText.enabled = false;
         }
 
-        if (enemy.GetComponent<Enemy>().Health > 0)
+        if (enemy.GetComponent<Enemy>().Health > 0 &&
+            !(Manager.instance.GetCurrentGame()[0].Equals("Sniping") && enemy.GetComponent<Enemy>().Health == 1))
         {
             float deg = Mathf.Lerp(150f, -150f, (enemy.position.z - Boundary.zMin) / (Boundary.zMax - Boundary.zMin));
             redHand.SetPositionAndRotation(GetComponent<RectTransform>().position, Quaternion.Euler(0f, 0f, deg));

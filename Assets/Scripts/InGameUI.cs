@@ -70,6 +70,14 @@ public class InGameUI : MonoBehaviour {
         {
             modeText.text = "추적자(어려움)";
         }
+        else if (gameMode.Equals("Sniping") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "저격 미션";
+        }
+        else if (gameMode.Equals("Boss") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "보스 미션";
+        }
         // TODO 모드 추가 시 추가바람
     }
 

@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour {
     public delegate void Damaged();
     public Damaged damaged;
     public GameObject speechBubble;
+    public BookUI book;
 
     private float speed;
     private float temporalSpeed;         // 시간 축을 따라 초당 움직이는 칸 수입니다.
@@ -117,6 +118,14 @@ public class Enemy : MonoBehaviour {
             move += MoveNever;
             damaged += DamagedGuardian;
             MoveGuardian();
+        }
+        else if (gameMode.Equals("Sniping"))
+        {
+            whileInvincible += WIMove;
+            vanish += VanishNormal;
+            move += MoveNever;
+            damaged += DamagedSniping;
+            MoveSniping();
         }
 
         if (gameLevel.Equals("Hard") && gameMode.Equals("Guardian"))
@@ -811,6 +820,18 @@ public class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// 저격 미션 인공지능의 이동 함수이지만, move의 이벤트로 사용되지 않는 함수입니다.
+    /// </summary>
+    private void MoveSniping()
+    {
+        startPosition = GetComponent<Transform>().position;
+        destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
+            Random.Range(Boundary.yMin, Boundary.yMax), Boundary.RoundZ(3f));
+        invincibleTime = maxInvincibleTime;
+        myShield = Instantiate(divineShield, GetComponent<Transform>());
+    }
+
+    /// <summary>
     /// 이동하지 않는 함수입니다.
     /// 튜토리얼과 수호자 인공지능에 사용됩니다.
     /// </summary>
@@ -1083,6 +1104,76 @@ public class Enemy : MonoBehaviour {
             player.GetComponent<TutorialManager>().NextProcess();
 
             //Manager.instance.GraduateTutorial();
+        }
+    }
+
+    /// <summary>
+    /// 공격받았을 때 실행될 함수입니다.
+    /// 저격 미션의 인공지능에 사용됩니다.
+    /// </summary>
+    public void DamagedSniping()
+    {
+        if (Manager.instance.GetGameOver()) return;
+
+        if (Health > 0 && invincibleTime <= 0f)
+        {
+            Debug.LogWarning("Enemy hit!");
+            health--;
+            if (hearts.Count > Health)
+            {
+                StartCoroutine("RemoveHeart");
+            }
+            if (Health > 0)
+            {
+                startPosition = GetComponent<Transform>().position;
+                if (Health == 2)
+                {
+                    float x = 0f, y = 0f;
+                    while (Mathf.Abs(x) < 1.1f || Mathf.Abs(y) < 1f)
+                    {
+                        x = Random.Range(Boundary.xMin, Boundary.xMax);
+                        y = Random.Range(Boundary.yMin, Boundary.yMax);
+                    }
+                    destPosition = new Vector3(x, y, Boundary.RoundZ(-4f));
+                }
+                else if (Health == 1)
+                {
+                    book.redPage.GetComponent<Image>().enabled = false;
+                    book.redText.GetComponent<Text>().enabled = false;
+                    destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
+                    Random.Range(Boundary.yMin, Boundary.yMax),
+                    Boundary.RoundZ(Random.Range(2.5f, Boundary.zMax)));
+                }
+                invincibleTime = maxInvincibleTime;
+                myShield = Instantiate(divineShield, GetComponent<Transform>());
+                StartCoroutine("DamagedSFX");
+            }
+        }
+        else if (Health > 0 && invincibleTime > 0f)
+        {
+            Debug.Log("Enemy guarded!");
+            if (!isSFXPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
+        }
+
+        if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
+        {
+            invincibleTime = 0f;
+            GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
+            r.velocity = Vector3.zero;
+            GetComponent<AudioSource>().clip = killedSound;
+            GetComponent<AudioSource>().Play();
+
+            blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+
+            StartCoroutine("Blow");
+            StartCoroutine("EndSpeech");
+            Manager.instance.WinGame();
+
         }
     }
 

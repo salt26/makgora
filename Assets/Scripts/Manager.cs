@@ -416,6 +416,12 @@ public class Manager : MonoBehaviour {
             l.Add(instance.Level.ToString());
             return l;
         }
+        else if (SceneManager.GetActiveScene().name.Equals("Boss"))
+        {
+            l.Add(instance.Mode.ToString());
+            l.Add(instance.Level.ToString());
+            return l;
+        }
         else
         {
             l.Add("?");

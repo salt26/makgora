@@ -199,6 +199,7 @@ public class Player : MonoBehaviour {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");
         if (!(SceneManager.GetActiveScene().name.Equals("Tutorial") && !GetComponent<TutorialManager>().CanMoveZ) &&
+            !Manager.instance.GetCurrentGame()[0].Equals("Sniping") &&
             !Manager.instance.GetGameOver())
         {
             if (GetKeyPageDown() && !GetKeyPageUp() && temporalMoveCoolTime <= 0f)
