@@ -631,7 +631,7 @@ public class Player : MonoBehaviour {
             }
             if (hearts.Count > Health)
             {
-                hearts[Health].SetActive(false);
+                StartCoroutine("RemoveHeart");
             }
             if (Health > 0)
             {
@@ -780,6 +780,18 @@ public class Player : MonoBehaviour {
         isSFXPlaying = true;
         yield return new WaitForSeconds(0.4f);
         isSFXPlaying = false;
+    }
+
+    IEnumerator RemoveHeart()
+    {
+        GameObject x = hearts[Health];
+        for(int i=1 ; i<=20 ; i++)
+        {
+            x.GetComponent<RectTransform>().localScale = new Vector3(1f + (float)i / 10f, 1f + (float)i / 10f, 1f + (float)i / 10f);
+            x.GetComponent<Image>().color = ColorUtil.instance.AlphaColor(x.GetComponent<Image>().color, 1f - (float)i / 20f);
+            yield return new WaitForSeconds(0.01f);
+        }
+        x.SetActive(false);
     }
 
     IEnumerator SoundEffectMover()
