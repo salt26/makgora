@@ -798,7 +798,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
-            myArrow = Instantiate(arrow, new Vector3(-1f, 0.6f, Boundary.RoundZ(3f)), Quaternion.identity);
+            myArrow = Instantiate(arrow, new Vector3(-0.8f, 0.6f, Boundary.RoundZ(3f)), Quaternion.identity);
             CreateBubble("<color=#EE1111>드디어 적을 공격할 시간이네.</color>\n" +
                 "적이 지금 자네보다 뒤 페이지에\n" +
                 "있으니 마우스 오른쪽 버튼으로\n" +
@@ -1156,7 +1156,7 @@ public class TutorialManager : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
         AutoRight(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         AutoRight(false);
         yield return new WaitForSeconds(1f);
         NextProcess();
@@ -1183,7 +1183,7 @@ public class TutorialManager : MonoBehaviour {
             if (stopAutoShooting) break;
             player.SetAutoShootInTutorial(new Vector3(-1.2f, -0.5f, 3f));
             AutoRight(true);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1.5f);
             AutoRight(false);
             yield return new WaitForSeconds(1f);
         }

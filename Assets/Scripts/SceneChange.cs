@@ -33,36 +33,20 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadTutorialScene());
     }
 
-    public void LoadConcentrationEasy()
+    public void LoadSnipingHard()
     {
         loadingPanel.SetActive(true);
-        Manager.instance.Mode = Manager.GameMode.Shooting;
-        Manager.instance.Level = Manager.GameLevel.Easy;
-        StartCoroutine(LoadConcentrationEasyScene());
-    }
-
-    public void LoadConcentrationHard()
-    {
-        loadingPanel.SetActive(true);
-        Manager.instance.Mode = Manager.GameMode.Shooting;
+        Manager.instance.Mode = Manager.GameMode.Sniping;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadConcentrationHardScene());
+        StartCoroutine(LoadMainGameScene());
     }
 
-    public void LoadSufferanceEasy()
+    public void LoadBossHard()
     {
         loadingPanel.SetActive(true);
-        Manager.instance.Mode = Manager.GameMode.Avoiding;
-        Manager.instance.Level = Manager.GameLevel.Easy;
-        StartCoroutine(LoadSufferanceEasyScene());
-    }
-
-    public void LoadSufferanceHard()
-    {
-        loadingPanel.SetActive(true);
-        Manager.instance.Mode = Manager.GameMode.Avoiding;
+        Manager.instance.Mode = Manager.GameMode.Boss;
         Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadSufferanceHardScene());
+        StartCoroutine(LoadBossHardScene());
     }
 
     public void LoadGuardianEasy()
@@ -113,14 +97,6 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadMainGameScene());
     }
 
-    public void LoadNetMakgora()
-    {
-        loadingPanel.SetActive(true);
-        Manager.instance.Mode = Manager.GameMode.Network;
-        Manager.instance.Level = Manager.GameLevel.Hard;
-        StartCoroutine(LoadNetMakgoraScene());
-    }
-
     IEnumerator LoadTutorialScene()
     {
         Manager.instance.Unpause();
@@ -134,27 +110,16 @@ public class SceneChange : MonoBehaviour {
         yield return null;
     }
 
-    IEnumerator LoadConcentrationEasyScene()
+    IEnumerator LoadBossHardScene()
     {
         Manager.instance.Unpause();
-        yield return null;
-    }
-
-    IEnumerator LoadConcentrationHardScene()
-    {
-        Manager.instance.Unpause();
-        yield return null;
-    }
-
-    IEnumerator LoadSufferanceEasyScene()
-    {
-        Manager.instance.Unpause();
-        yield return null;
-    }
-
-    IEnumerator LoadSufferanceHardScene()
-    {
-        Manager.instance.Unpause();
+        yield return new WaitForSeconds(1f);
+        asyncLoad = SceneManager.LoadSceneAsync("Boss");
+        while (!asyncLoad.isDone)
+        {
+            //yield return new WaitForSeconds(1f);
+            yield return null;
+        }
         yield return null;
     }
 
@@ -168,12 +133,6 @@ public class SceneChange : MonoBehaviour {
             //yield return new WaitForSeconds(1f);
             yield return null;
         }
-        yield return null;
-    }
-
-    IEnumerator LoadNetMakgoraScene()
-    {
-        Manager.instance.Unpause();
         yield return null;
     }
 }

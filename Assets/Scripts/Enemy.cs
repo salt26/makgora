@@ -1046,7 +1046,7 @@ public class Enemy : MonoBehaviour {
                 startPosition = GetComponent<Transform>().position;
                 if (Health == 2)
                 {
-                    destPosition = new Vector3(-1f, 0.05f, Boundary.RoundZ(3f));
+                    destPosition = new Vector3(-0.8f, 0.05f, Boundary.RoundZ(3f));
                     SpeakTutorial(3);
                     player.GetComponent<TutorialManager>().NextProcess();
                 }

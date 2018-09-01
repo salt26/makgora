@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
     /// <summary>
     /// 게임 모드입니다. None은 메인 메뉴에서 사용됩니다.
     /// </summary>
-    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Avoiding, Shooting, Network, Sniping }
+    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Sniping, Boss }
 
     /// <summary>
     /// 게임 난이도입니다. 난이도가 구분되지 않는 모드는 Hard입니다. None은 메인 메뉴에서 사용됩니다.

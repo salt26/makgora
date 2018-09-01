@@ -1278,7 +1278,7 @@ MonoBehaviour:
     type: 2}
   canvas: {fileID: 321055595}
   text: "\uD50C\uB808\uC774\uC5B4\uB97C \uCAD3\uC544\uC624\uB294 \uCD94\uC801\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2606"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2606\u2606"
   x: 512
   y: 424
   width: 300
@@ -1991,7 +1991,7 @@ MonoBehaviour:
     type: 2}
   canvas: {fileID: 321055595}
   text: "\uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294 \uBC29\uB791\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2605"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2606"
   x: 832
   y: 424
   width: 300
@@ -3153,7 +3153,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC778\uB0B4\uB825 \uBBF8\uC158 (\uC5B4\uB824\uC6C0)"
+  m_Text: "\uBCF4\uC2A4 \uBBF8\uC158"
 --- !u!222 &792559486
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3490,7 +3490,7 @@ GameObject:
   - component: {fileID: 917850396}
   - component: {fileID: 917850399}
   m_Layer: 5
-  m_Name: SufferanceHardButton
+  m_Name: BossHardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3555,7 +3555,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 321055596}
-        m_MethodName: LoadSufferanceHard
+        m_MethodName: LoadBossHard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3650,7 +3650,8 @@ MonoBehaviour:
   tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
     type: 2}
   canvas: {fileID: 321055595}
-  text: "\uC778\uB0B4\uB825 \uBBF8\uC158\uC785\uB2C8\uB2E4. \uC5B4\uB824\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+  text: "\uC6A9\uAE30\uB97C \uAC00\uC9C4 \uC790, \uBCF4\uC2A4\uC5D0\uAC8C \uB3C4\uC804\uD558\uB77C!
+    \u2605\u2605\u2605\u2605\u2605"
   x: 752
   y: 424
   width: 460
@@ -5170,7 +5171,7 @@ GameObject:
   - component: {fileID: 1330330569}
   - component: {fileID: 1330330572}
   m_Layer: 5
-  m_Name: ConcentrationEasyButton
+  m_Name: SnipingHardButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5229,13 +5230,13 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1330330570}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 321055596}
-        m_MethodName: LoadConcentrationEasy
+        m_MethodName: LoadSnipingHard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5330,7 +5331,8 @@ MonoBehaviour:
   tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
     type: 2}
   canvas: {fileID: 321055595}
-  text: "\uC9D1\uC911\uB825 \uBBF8\uC158\uC785\uB2C8\uB2E4. \uC26C\uC6C0 \uB09C\uC774\uB3C4\uC785\uB2C8\uB2E4."
+  text: "\u2605\u2605\u2605\u2606\u2606                \uBCF4\uC774\uC9C0 \uC54A\uB294
+    \uACE0\uC815\uB41C \uC801\uC744 \uBA40\uB9AC\uC11C \uB9DE\uD600\uC57C \uD569\uB2C8\uB2E4."
   x: 272
   y: 264
   width: 460
@@ -5651,7 +5653,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC9D1\uC911\uB825 \uBBF8\uC158 (\uC26C\uC6C0)"
+  m_Text: "\uC800\uACA9 \uBBF8\uC158"
 --- !u!222 &1395283236
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5920,7 +5922,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
     type: 2}
   canvas: {fileID: 321055595}
-  text: "\u2605\u2605\u2605\u2606\u2606                \uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294
+  text: "\u2605\u2605\u2606\u2606\u2606                \uC790\uC720\uB86D\uAC8C \uC6C0\uC9C1\uC774\uB294
     \uBC29\uB791\uC790\uB97C \uC0C1\uB300\uD569\uB2C8\uB2E4."
   x: 832
   y: 264
@@ -7329,7 +7331,7 @@ MonoBehaviour:
     type: 2}
   canvas: {fileID: 321055595}
   text: "\uD53C\uACA9 \uC804\uAE4C\uC9C0 \uC6C0\uC9C1\uC774\uC9C0 \uC54A\uB294 \uC218\uD638\uC790\uB97C
-    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2605\u2606"
+    \uC0C1\uB300\uD569\uB2C8\uB2E4. \u2605\u2605\u2605\u2606\u2606"
   x: 192
   y: 424
   width: 300
