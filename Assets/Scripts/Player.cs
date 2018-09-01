@@ -691,7 +691,7 @@ public class Player : MonoBehaviour {
             Destroy(mySpeech);
         }
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
-        mySpeech.GetComponentInChildren<Text>().text = "이제 그만...";
+        mySpeech.GetComponentInChildren<Text>().text = "이제 그만... 찌르게...";
         if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
         {
             if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
