@@ -1202,6 +1202,10 @@ public class Enemy : MonoBehaviour {
             {
                 StartCoroutine("ReadySpeech");
             }
+            else if (gameMode.Equals("Sniping"))
+            {
+                StartCoroutine("ReadySpeech");
+            }
         }
     }
 

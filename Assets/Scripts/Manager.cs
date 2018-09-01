@@ -279,7 +279,8 @@ public class Manager : MonoBehaviour {
         instance.blindPanel.SetActive(false);
 
         string gameMode = instance.GetCurrentGame()[0];
-        if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+        if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker") ||
+            gameMode.Equals("Sniping") || gameMode.Equals("Boss"))
         {
             EnemyObject.GetComponent<Enemy>().SpeakReady();
             yield return new WaitForSeconds(2.2f);
