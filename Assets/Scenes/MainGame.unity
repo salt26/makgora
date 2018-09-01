@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1782,6 +1782,8 @@ MonoBehaviour:
   pausePanel: {fileID: 1324627234}
   pauseButton: {fileID: 1396723158}
   modeText: {fileID: 1669354944}
+  modeImage: {fileID: 1528790769}
+  missionImage: {fileID: 21300000, guid: 0382856dda0087e438d4422bf9991a9d, type: 3}
   sortingObject: {fileID: 1254685928}
   blindPanel: {fileID: 1151078844}
 --- !u!1 &662315551
@@ -4542,7 +4544,7 @@ GameObject:
   - component: {fileID: 1528790772}
   - component: {fileID: 1528790771}
   m_Layer: 5
-  m_Name: Cross
+  m_Name: GameModeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4564,7 +4566,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -350}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 65, y: 65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1528790771
 MonoBehaviour:
