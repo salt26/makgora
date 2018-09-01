@@ -7,8 +7,8 @@ public class TutorialMentor : MonoBehaviour {
 
     public GameObject pageText;
 
-    private Vector3 startPosition, destPosition;
-    private float moveTime = 0f, temporalMoveCoolTime = 0f;
+    private Vector3 destPosition;
+    private float temporalMoveCoolTime = 0f;
     private bool startMoving = false, endMoving = false;
     private bool isArrived = false; // 1페이즈에서 플레이어가 멘토에게 닿으면 true가 됩니다.
     private bool isPageVisible = false; // 2페이즈가 시작될 때 true가 됩니다.
@@ -88,24 +88,6 @@ public class TutorialMentor : MonoBehaviour {
                 Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
             );
         }
-
-        /*
-        if (moveTime > 0f)
-        {
-            moveTime -= Time.fixedDeltaTime;
-            Vector3 pos = Vector3.Lerp(destPosition, startPosition, moveTime / 2f);
-            pos.z = Boundary.RoundZ(pos.z);
-            GetComponent<Transform>().SetPositionAndRotation(pos, Quaternion.identity);
-        }
-        if (moveTime < 0f)
-        {
-            moveTime = 0f;
-        }
-        if (moveTime <= 0f && startMoving)
-        {
-            endMoving = true;
-        }
-        */
     }
 
     /// <summary>
@@ -206,7 +188,6 @@ public class TutorialMentor : MonoBehaviour {
 
     public void SetMoving(Vector3 dest)
     {
-        startPosition = GetComponent<Transform>().position;
         destPosition = dest;
         startMoving = true;
         endMoving = false;
