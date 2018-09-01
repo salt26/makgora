@@ -218,7 +218,7 @@ public class TutorialManager : MonoBehaviour {
                 "컷을 넘나들며 주인공을\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
                 "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
                 */
-            myMentor = Instantiate(mentor, new Vector3(-1.5f, 0.76f, 0f), Quaternion.identity);
+            myMentor = Instantiate(mentor, new Vector3(-1.3f, 0.76f, 0f), Quaternion.identity);
 
             book.redPage.GetComponent<Image>().enabled = false;
             book.redText.GetComponent<Text>().enabled = false;
@@ -238,7 +238,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
-            myArrow = Instantiate(arrow, new Vector3(-1.5f, 1.36f, 0f), Quaternion.identity);
+            myArrow = Instantiate(arrow, new Vector3(-1.3f, 1.36f, 0f), Quaternion.identity);
             myArrow2 = Instantiate(arrow);
             CreateBubble("자네는 컷 사이를 마음대로\n" +
                 "넘어다닐 수 있다네.\n" +
@@ -402,8 +402,8 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(3, 6))
         {
             CreateBubble("적 무기가 자네와 다른 페이지에\n" +
-                   "있으면 <color=#387399>빨간색이 아닌 색</color>을\n" +
-                   "띠지. 미리 보고 피하게.\n" +
+                   "있으면 <color=#387399>빨간색이 아닌 색</color>을 띠지.\n" +
+                   "미리 보고 피하게.\n" +
                    "무기에는 자네와의 페이지\n" +
                    "차이가 표시되어 있을 걸세.\n" +
                    "<color=#666699>(Enter키 입력)</color>");
@@ -587,7 +587,7 @@ public class TutorialManager : MonoBehaviour {
             {
                 g.SetActive(true);
             }
-            myArrow = Instantiate(arrow, new Vector3(-1.5f, 1f, 2f), Quaternion.identity);
+            myArrow = Instantiate(arrow, player.GetComponent<Transform>().position + new Vector3(-0.25f, 0.3f, 0f), Quaternion.identity);
             CreateBubble("어떤가? 아직 어렵나?\n" +
                 "무기를 던지려면 먼저 소환해야 하네.\n" +
                 "무기가 다 소환될 때까지는\n" +

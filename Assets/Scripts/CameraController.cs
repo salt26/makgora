@@ -27,8 +27,10 @@ public class CameraController : MonoBehaviour {
             }
             else
             {
+                /*
                 float z = Mathf.Lerp(initZ + player.GetComponent<Rigidbody>().position.z, GetComponent<Rigidbody>().position.z,
                     (player.TemporalMoveCoolTime - (0.5f / Manager.instance.TemporalSpeed)) / (0.5f / Manager.instance.TemporalSpeed));
+                    */
                 GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f,
                     Manager.instance.TemporalSpeed * Mathf.Sign((initZ + player.GetComponent<Rigidbody>().position.z) - GetComponent<Rigidbody>().position.z));
             }
