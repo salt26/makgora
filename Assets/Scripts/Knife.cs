@@ -28,6 +28,14 @@ public class Knife : MonoBehaviour {
     public GameObject soundEffect;
     public Sprite[] soundEffectImage;
 
+    public Vector3 Direction
+    {
+        get
+        {
+            return direction;
+        }
+    }
+
     // 칼이 생성될 때 자동으로, 한 번만 호출됩니다.
     private void Awake()
     {
@@ -152,6 +160,7 @@ public class Knife : MonoBehaviour {
             Mathf.Abs(t.position.x) > Boundary.xMax + Boundary.sight || 
             Mathf.Abs(t.position.y) > Boundary.yMax + Boundary.sight)
         {
+            if (owner == 0) Manager.instance.playerKnifes.Remove(this);
             Destroy(text);
             Destroy(gameObject);
         }
@@ -175,6 +184,7 @@ public class Knife : MonoBehaviour {
         {
             MakeSoundEffect();
             StartCoroutine("SoundEffectMover");
+            Manager.instance.playerKnifes.Add(this);
         }
     }
 
@@ -194,6 +204,7 @@ public class Knife : MonoBehaviour {
                 isCracked = true;
             }
             other.GetComponent<Enemy>().damaged();
+            Manager.instance.playerKnifes.Remove(this);
             Destroy(text);
             Destroy(sound);
             Destroy(gameObject);
