@@ -28,6 +28,7 @@ public class TutorialManager : MonoBehaviour {
     private bool isPhaseStarted;    // 이것이 false가 되면 다음 프레임에 페이즈가 넘어갑니다.
     private bool isProcessReady;    // 이것이 false가 되면 다음 프레임에 true가 되면서 새 설명이 나타납니다.
     private bool isEnterAvailable;  // 이것이 true인 동안 Enter키를 눌러 다음 설명으로 넘어갈 수 있습니다.
+    private bool isBackAvailable;   // 이것이 true인 동안 Backspace키를 눌러 이전 설명으로 넘어갈 수 있습니다.
     private bool stopAutoShooting;  // 이것이 true가 되면 자동 발사를 멈춥니다.
     private GameObject myBubble;    // 현재 떠 있는 뾰족 말풍선(설명)을 가지고 있습니다.
     private GameObject myMentor;
@@ -77,6 +78,8 @@ public class TutorialManager : MonoBehaviour {
         process = 0;
         isPhaseStarted = false;
         isProcessReady = false;
+        isEnterAvailable = false;
+        isBackAvailable = false;
         stopAutoShooting = false;
         enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
@@ -89,6 +92,12 @@ public class TutorialManager : MonoBehaviour {
         {
             isEnterAvailable = false;
             NextProcess();
+            return;
+        }
+        if (isBackAvailable && Input.GetKeyDown(KeyCode.Backspace))
+        {
+            isBackAvailable = false;
+            PrevProcess();
             return;
         }
 
@@ -213,12 +222,15 @@ public class TutorialManager : MonoBehaviour {
         {
             // phase 1, process 0
             isPhaseStarted = true;  // 새 페이즈가 시작될 때에 true로 설정합니다.
-            /*
-            tutorialText.text = "당신은 만화 속의 주인공입니다!\n" +
-                "컷을 넘나들며 주인공을\nW(상), S(하), A(좌), D(우)로 움직일 수 있습니다.\n" + 
-                "\"파란색 공이 있는 곳으로 주인공을 움직이세요.\"";
-                */
-            myMentor = Instantiate(mentor, new Vector3(-1.3f, 0.76f, 0f), Quaternion.identity);
+
+            foreach (GameObject g in WASD)
+            {
+                g.SetActive(false);
+            }
+            if (myMentor == null)
+                myMentor = Instantiate(mentor, new Vector3(-1.3f, 0.76f, 0f), Quaternion.identity);
+            if (myArrow != null) Destroy(myArrow);
+            if (myArrow2 != null) Destroy(myArrow2);
 
             book.redPage.GetComponent<Image>().enabled = false;
             book.redText.GetComponent<Text>().enabled = false;
@@ -229,7 +241,7 @@ public class TutorialManager : MonoBehaviour {
                 "것을 환영하네, 젊은이여!\n" +
                 "내가 그대를 강인한\n" +
                 "전사의 길로 인도할 걸세.\n" +
-                "<color=#666699>(Enter키를 입력하면 넘어갑니다.)</color>");
+                "<color=#666699>(Enter: 다음으로 넘어가기)</color>");
             isEnterAvailable = true;    // Enter를 눌러 넘어갑니다.
         }
         else if (StateNotReady(1, 1))
@@ -244,8 +256,10 @@ public class TutorialManager : MonoBehaviour {
                 "넘어다닐 수 있다네.\n" +
                 "<color=#EE1111>내가 있는 곳으로 와 보게나.</color>\n" +
                 "W, A, S, D키를 누르면\n" +
-                "움직일 수 있을 걸세.");
+                "움직일 수 있을 걸세.\n" +
+                "<color=#666699>(Backspace: 이전 설명 보기)</color>");
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+            isBackAvailable = true;
         }
         else if (StateNotReady(1, 2))
         {
@@ -284,7 +298,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("눈치챘을수도 있겠지만,\n" +
                 "우리는 만화책 속 주인공이라네.\n" +
                 "다른 페이지를 오가는 것도 가능하지!\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 1))
@@ -293,8 +307,9 @@ public class TutorialManager : MonoBehaviour {
                 "제자리로 돌아가 있어야겠지만...\n" +
                 "걱정 말게. 이 책은 1년 넘게\n" +
                 "아무도 읽지 않았으니.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(2, 2) && myMentor != null && !myMentor.GetComponent<TutorialMentor>().StartMoving)
         {
@@ -304,13 +319,18 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(2, 3))
         {
-            myArrow = Instantiate(arrow, new Vector3(0f, 1f, 0f), Quaternion.identity);
+            if (myArrow != null) Destroy(myArrow);
+            foreach (GameObject g in leftShiftQSpaceE)
+            {
+                g.SetActive(false);
+            }
+            myArrow = Instantiate(arrow, new Vector3(0f, 1f, player.GetComponent<Transform>().position.z), Quaternion.identity);
             CreateBubble("갑자기 사라져서 당황했나?\n" +
                 "내가 어디에 있는지는 뒤에 있는\n" +
                 "책 그림을 보면 알 수 있다네.\n" +
                 "자네가 있는 페이지는 <color=#24DD00>초록색</color>으로,\n" +
                 "내가 있는 페이지는 <color=#007ADD>하늘색</color>으로 보이지.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 4))
@@ -324,8 +344,10 @@ public class TutorialManager : MonoBehaviour {
                 "왼쪽 Shift키 또는 Q키를 누르면\n" +
                 "앞쪽 페이지로, Space키 또는 E키를\n" +
                 "누르면 뒤쪽 페이지로 이동할 수 있다네.\n" +
-                "가까이 오면 내 모습이 보일거야.");
+                "가까이 오면 내 모습이 보일거야.\n" +
+                "<color=#666699>(Backspace: 이전 설명 보기)</color>");
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
+            isBackAvailable = true;
         }
         else if (StateNotReady(2, 5))
         {
@@ -337,7 +359,7 @@ public class TutorialManager : MonoBehaviour {
             book.blueText.GetComponent<Text>().enabled = false;
             CreateBubble("역시, 기대했던 대로야.\n" +
                 "그럼 이제...\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 6))
@@ -361,7 +383,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("앗!\n" +
                 "어디 다치진 않았나?\n" +
                 "아무래도 어딘가 적이 있는 것 같군.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(3, 2))
@@ -370,8 +392,9 @@ public class TutorialManager : MonoBehaviour {
                 "페이지들을 뚫고 날아온 것이라네.\n" +
                 "누가 어디서 던졌는지\n" +
                 "아직은 감이 오지 않는군.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 3))
         {
@@ -379,8 +402,9 @@ public class TutorialManager : MonoBehaviour {
                 "적이 던진 무기는 자네와\n" +
                 "같은 페이지에 있을 때\n" +
                 "<color=#E71B50>빨간색</color>으로 보인다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 4))
         {
@@ -396,7 +420,7 @@ public class TutorialManager : MonoBehaviour {
                 "잘못하다가는 맞을 수 있어서\n" +
                 "위험하지. 그러나 무기가 항상\n" +
                 "빨간색을 띠지는 않는다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(3, 6))
@@ -406,8 +430,9 @@ public class TutorialManager : MonoBehaviour {
                    "미리 보고 피하게.\n" +
                    "무기에는 자네와의 페이지\n" +
                    "차이가 표시되어 있을 걸세.\n" +
-                   "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 7))
         {
@@ -431,27 +456,31 @@ public class TutorialManager : MonoBehaviour {
                 "얼른 혼을 내줘야겠어.\n" +
                 "하지만 그 전에 몇 가지\n" +
                 "알아야 할 것들이 있다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(3, 10))
         {
+            if (myArrow != null) Destroy(myArrow);
             CreateBubble("방금 자네에게 생긴 보호막을 보았나?\n" +
                 "적에게 공격받으면 3초 동안\n" +
                 "<color=#DDD180>보호막</color>이 생기고, 이 동안에는\n" +
                 "어떤 공격에도 피해를 받지 않는다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 11))
         {
+            if (myArrow != null) Destroy(myArrow);
             myArrow = Instantiate(arrow, new Vector3(-0.3f, -1.2f, -2.5f), Quaternion.identity);
             CreateBubble("이번엔 책 아래를 보게.\n" +
                 "초록색, 빨간색 하트가 있을 거야.\n" +
                 "<color=#00FF00>초록색</color>은 자네의 체력이고\n" +
                 "<color=#FF0000>빨간색</color>은 적의 체력이라네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 12))
         {
@@ -459,8 +488,9 @@ public class TutorialManager : MonoBehaviour {
                 "자네는 아까 맞았으니 2가 되었군.\n" +
                 "조심하게. 체력이 0이 되면\n" +
                 "전투에서 패배한다고.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(3, 13))
         {
@@ -521,7 +551,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("이 놈이 무기를 소환하지\n" +
                 "못하게 막았네.\n" +
                 "자네의 망치로 저 놈을 공격하게나!\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 5))
@@ -542,7 +572,7 @@ public class TutorialManager : MonoBehaviour {
                 "내가 안 알려줬던가?\n" +
                 "중요한 걸 깜박하는 걸 보니\n" +
                 "나도 이제 늙었나 보군...\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 7))
@@ -551,8 +581,9 @@ public class TutorialManager : MonoBehaviour {
                 "적에게 무기를 던질 때에는\n" +
                 "마우스의 양쪽 버튼을\n" +
                 "모두 누르면 된다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(4, 8))
         {
@@ -605,7 +636,7 @@ public class TutorialManager : MonoBehaviour {
                 "무기를 던지려면 먼저 소환해야 하네.\n" +
                 "무기가 다 소환될 때까지는\n" +
                 "조준만 할 수 있지.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 12))
@@ -614,8 +645,9 @@ public class TutorialManager : MonoBehaviour {
                 "마우스 버튼을 모두 떼면\n" +
                 "소환이 끝나자마자 무기가\n" +
                 "조준점을 향해 날아갈 걸세.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(4, 13))
         {
@@ -641,7 +673,7 @@ public class TutorialManager : MonoBehaviour {
                 "던지지 않고 계속 조준을 할\n" +
                 "수 있다네. 조준을 오래 해도\n" +
                 "무기의 속력은 같지만 말야.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 15))
@@ -662,7 +694,7 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("이렇게 말일세.\n" +
                 "마우스 버튼 그림과\n" +
                 "조준점에 놓인 시계를 잘 보게.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 17))
@@ -671,8 +703,9 @@ public class TutorialManager : MonoBehaviour {
                 "시계 중앙의 원이 사라지고\n" +
                 "시계 테두리가 검은색이 되지.\n" +
                 "그러면 언제든 던질 수 있다고.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(4, 18))
         {
@@ -694,7 +727,7 @@ public class TutorialManager : MonoBehaviour {
                 "무기를 던졌던 것을 기억하나?\n" +
                 "자네도 다른 페이지로\n" +
                 "무기를 던질 수 있다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 20))
@@ -719,7 +752,7 @@ public class TutorialManager : MonoBehaviour {
                 "마우스 오른쪽 버튼을 누르고\n" +
                 "있으면 뒤 페이지를 조준하지.\n" +
                 "오래 누를수록 먼 곳을 조준한다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 22))
@@ -728,8 +761,9 @@ public class TutorialManager : MonoBehaviour {
                 "조준하는 페이지를 가리킨다네.\n" +
                 "시계의 <color=#FF0022>빨간색 침</color>은 상대가\n" +
                 "위치한 페이지를 가리키고.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(4, 23))
         {
@@ -751,7 +785,7 @@ public class TutorialManager : MonoBehaviour {
                 "적을 맞추기 위해\n" +
                 "어떻게 조준해야 하는지\n" +
                 "알 거라 믿는다만...\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 25))
@@ -774,7 +808,7 @@ public class TutorialManager : MonoBehaviour {
                 "자네가 던진 망치가\n" +
                 "적이 있는 페이지를 지나면\n" +
                 "그 지점에 균열이 발생한다네.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 27))
@@ -782,8 +816,9 @@ public class TutorialManager : MonoBehaviour {
             CreateBubble("망치가 원하는 곳으로 잘\n" +
                 "날아갔는지 확인하고 싶을 때\n" +
                 "균열의 위치를 보면 된다고.\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>");
             isEnterAvailable = true;
+            isBackAvailable = true;
         }
         else if (StateNotReady(4, 28))
         {
@@ -864,7 +899,7 @@ public class TutorialManager : MonoBehaviour {
                 "막고라를 하면서 성장하고,\n" +
                 "강한 오크가 되거라.\n" +
                 "언젠가 다시 볼 일이 있겠지...\n" +
-                "<color=#666699>(Enter키 입력)</color>");
+                "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(5, 5))
@@ -930,6 +965,16 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("NextProcess");
         process++;
         isProcessReady = false;
+        isBackAvailable = false;
+    }
+    
+    public void PrevProcess()
+    {
+        Debug.Log("PrevProcess");
+        process--;
+        isProcessReady = false;
+        isEnterAvailable = false;
+        if (process == 0) isPhaseStarted = false;
     }
 
     IEnumerator ShootAndMiss(Vector3 error)
