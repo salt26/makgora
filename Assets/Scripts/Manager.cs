@@ -35,6 +35,8 @@ public class Manager : MonoBehaviour {
     // TODO 아래 게임오브젝트들 설정하기
     private GameObject canvas;
     private GameObject startPanel;
+    private GameObject snipingStartPanel;
+    private GameObject bossStartPanel;
     private GameObject pausePanel;
     private GameObject buttonPause;
     private GameObject winPanel;
@@ -87,11 +89,24 @@ public class Manager : MonoBehaviour {
     {
         get
         {
-            if (startPanel != null)
-                return !startPanel.activeInHierarchy;
-            else if (instance.GetCurrentGame()[0].Equals("Tutorial"))
+            string gameMode = instance.GetCurrentGame()[0];
+            if(gameMode.Equals("Tutorial"))
+            {
                 return true;
-            else return false;
+            }
+            else if(gameMode.Equals("Sniping"))
+            {
+                if (snipingStartPanel != null)
+                    return !snipingStartPanel.activeInHierarchy;
+            }
+            else if(gameMode.Equals("Boss"))
+            {
+                if (bossStartPanel != null)
+                    return !bossStartPanel.activeInHierarchy;
+            }
+            else if (startPanel != null)
+                return !startPanel.activeInHierarchy;
+            return false;
         }
     }
 
@@ -104,6 +119,16 @@ public class Manager : MonoBehaviour {
     public GameObject StartPanel
     {
         set { startPanel = value; }
+    }
+
+    public GameObject SnipingStartPanel
+    {
+        set { snipingStartPanel = value; }
+    }
+
+    public GameObject BossStartPanel
+    {
+        set { bossStartPanel = value; }
     }
 
     public GameObject WinPanel
@@ -260,7 +285,18 @@ public class Manager : MonoBehaviour {
 
     public void StartButton()
     {
-        if (startPanel != null)
+        string gameMode = instance.GetCurrentGame()[0];
+        if(gameMode.Equals("Sniping"))
+        {
+            if (snipingStartPanel != null)
+                instance.snipingStartPanel.SetActive(false);
+        }
+        else if (gameMode.Equals("Boss"))
+        {
+            if (bossStartPanel != null)
+                instance.bossStartPanel.SetActive(false);
+        }
+        else if (startPanel != null)
             instance.startPanel.SetActive(false);
         StartCoroutine("UnpauseInGame");
     }
