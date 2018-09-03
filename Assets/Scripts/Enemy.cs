@@ -1431,6 +1431,7 @@ public class Enemy : MonoBehaviour {
                         y = Random.Range(Boundary.yMin, Boundary.yMax);
                     }
                     destPosition = new Vector3(x, y, Boundary.RoundZ(-4f));
+                    StartCoroutine(SnipingSpeech1());
                 }
                 else if (Health == 1)
                 {
@@ -1439,6 +1440,7 @@ public class Enemy : MonoBehaviour {
                     destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
                     Random.Range(Boundary.yMin, Boundary.yMax),
                     Boundary.RoundZ(Random.Range(2.5f, Boundary.zMax)));
+                    StartCoroutine(SnipingSpeech2());
                 }
                 invincibleTime = maxInvincibleTime;
                 myShield = Instantiate(divineShield, GetComponent<Transform>());
@@ -1585,6 +1587,82 @@ public class Enemy : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(2.6f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
+    IEnumerator SnipingSpeech1()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "넌 날 정확히 조준할 수 없다!";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(3f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
+    IEnumerator SnipingSpeech2()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "(도망)";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(3f);
         Destroy(mySpeech);
         mySpeech = null;
     }
