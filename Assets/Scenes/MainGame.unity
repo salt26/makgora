@@ -4654,6 +4654,7 @@ MonoBehaviour:
   purpleText: {fileID: 308421940}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
     type: 2}
+  pauseButton: {fileID: 1396723160}
   pausePanelButtons:
   - {fileID: 1822867996}
   - {fileID: 33447579}
