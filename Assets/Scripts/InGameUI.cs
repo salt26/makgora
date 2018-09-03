@@ -8,6 +8,10 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private GameObject startPanel;
     [SerializeField]
+    private GameObject snipingStartPanel;
+    [SerializeField]
+    private GameObject bossStartPanel;
+    [SerializeField]
     private GameObject winPanel;
     [SerializeField]
     private GameObject losePanel;
@@ -32,6 +36,16 @@ public class InGameUI : MonoBehaviour {
         if (startPanel != null)
         {
             Manager.instance.StartPanel = startPanel;
+            Manager.instance.Pause();
+        }
+        if(snipingStartPanel != null)
+        {
+            Manager.instance.SnipingStartPanel = snipingStartPanel;
+            Manager.instance.Pause();
+        }
+        if (bossStartPanel != null)
+        {
+            Manager.instance.BossStartPanel = bossStartPanel;
             Manager.instance.Pause();
         }
         Manager.instance.WinPanel = winPanel;
@@ -86,11 +100,15 @@ public class InGameUI : MonoBehaviour {
         {
             modeText.text = "저격 미션";
             modeImage.GetComponent<Image>().sprite = missionImage;
+            startPanel.SetActive(false);
+            snipingStartPanel.SetActive(true);
         }
         else if (gameMode.Equals("Boss") && gameLevel.Equals("Hard"))
         {
             modeText.text = "보스 미션";
             modeImage.GetComponent<Image>().sprite = missionImage;
+            startPanel.SetActive(false);
+            bossStartPanel.SetActive(true);
         }
         // TODO 모드 추가 시 추가바람
     }
