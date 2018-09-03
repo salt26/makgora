@@ -62,6 +62,10 @@ public class InGameUI : MonoBehaviour {
         {
             modeText.text = "추적자(쉬움)";
         }
+        else if (gameMode.Equals("Deceiver") && gameLevel.Equals("Easy"))
+        {
+            modeText.text = "기만자(쉬움)";
+        }
         else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Hard"))
         {
             modeText.text = "방랑자(어려움)";
@@ -73,6 +77,10 @@ public class InGameUI : MonoBehaviour {
         else if (gameMode.Equals("Stalker") && gameLevel.Equals("Hard"))
         {
             modeText.text = "추적자(어려움)";
+        }
+        else if (gameMode.Equals("Deceiver") && gameLevel.Equals("Hard"))
+        {
+            modeText.text = "기만자(어려움)";
         }
         else if (gameMode.Equals("Sniping") && gameLevel.Equals("Hard"))
         {

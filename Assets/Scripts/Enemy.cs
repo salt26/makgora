@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour {
     public AudioClip guardSound;
     public AudioClip killedSound;
     public AudioClip readySound;
+    public AudioClip awakeSound;
     public List<AudioClip> tutorialSounds;
     public GameObject blow;
     public GameObject weaponToSummon;
@@ -111,6 +112,14 @@ public class Enemy : MonoBehaviour {
             move += MoveStalkerHard;
             damaged += DamagedVS;
         }
+        else if (gameMode.Equals("Deceiver"))
+        {
+            whileInvincible += WIMove;
+            vanish += VanishNormal;
+            move += MoveDeceiverHard;
+            damaged += DamagedGuardian;
+            MoveGuardian();
+        }
         else if (gameMode.Equals("Guardian"))
         {
             whileInvincible += WIMove;
@@ -133,8 +142,20 @@ public class Enemy : MonoBehaviour {
             shoot += ShootInsane;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
+        else if (gameLevel.Equals("Hard") && gameMode.Equals("Deceiver"))
+        {
+            shoot += ShootHard;
+            chargeSpeed = Manager.instance.HardChargeSpeed;
+        }
         else if (gameLevel.Equals("Hard"))
         {
+            shoot += ShootHard;
+            chargeSpeed = Manager.instance.HardChargeSpeed;
+        }
+        else if (gameLevel.Equals("Easy") && gameMode.Equals("Deceiver"))
+        {
+            move -= MoveDeceiverHard;
+            move += MoveDeceiverEasy;
             shoot += ShootHard;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
@@ -808,6 +829,281 @@ public class Enemy : MonoBehaviour {
     }
 
     /// <summary>
+    /// 이동 함수입니다.
+    /// 기만자(쉬움) 인공지능에 사용됩니다.
+    /// </summary>
+    private void MoveDeceiverEasy()
+    {
+        if (invincibleTime > 0f) return;
+
+        if (!isArrived &&
+            Vector2.Distance(new Vector2(r.position.x, r.position.y), new Vector2(destPosition.x, destPosition.y)) < Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지에 도착했습니다.
+            isArrived = true;
+        }
+        else if (!isArrived && temporalMoveCoolTime > 0.5f)
+        {
+            r.velocity = Vector3.zero;
+        }
+        else if (!isArrived)
+        {
+            // 목적지를 향해 XY평면을 따라 이동합니다.
+            Vector3 movement = destPosition - r.position;
+            movement.z = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
+
+        if (temporalMoveCoolTime > 0f)
+        {
+            temporalMoveCoolTime -= Time.fixedDeltaTime;
+        }
+
+
+        if (temporalMoveCoolTime <= 0f)
+        {
+            bool danger = false;
+            foreach (Knife k in Manager.instance.playerKnifes)
+            {
+                if (k == null) continue;
+                Vector3 d = k.GetComponent<Collider>().ClosestPointOnBounds(r.position) - r.position;
+                if (Mathf.Abs(d.x) < 0.55f / 2f && Mathf.Abs(d.y) < 0.75f / 2f && Mathf.Abs(d.z) < 0.275f / 2f)
+                {
+                    danger = true;
+                    break;
+                }
+            }
+            if (danger)
+            {
+                // 자신 근처에서 플레이어의 무기를 감지한 경우
+                float deltaZ;
+                if (Boundary.ZToPage(r.position.z) >= Boundary.ZToPage(Boundary.zMax))
+                {
+                    deltaZ = -Boundary.OnePageToDeltaZ();
+                }
+                else if (Boundary.ZToPage(r.position.z) <= Boundary.ZToPage(Boundary.zMin))
+                {
+                    deltaZ = Boundary.OnePageToDeltaZ();
+                }
+                else if (Random.Range(0, 2) == 0)
+                {
+                    deltaZ = -Boundary.OnePageToDeltaZ();
+                }
+                else
+                {
+                    deltaZ = Boundary.OnePageToDeltaZ();
+                }
+                
+                // 막히지 않은 임의의 방향으로 페이지 축을 따라 이동합니다.
+                r.velocity = Vector3.zero;
+                temporalMoveCoolTime = 1f / temporalSpeed;
+
+                r.position = new Vector3
+                (
+                    Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                    Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                    Mathf.Clamp(r.position.z + deltaZ, Boundary.zMin, Boundary.zMax)
+                );
+            }
+        }
+
+        if (isArrived)
+        {
+            // 새로 가려는 목적지를 정합니다.
+            destPosition = new Vector3
+            (
+                Random.Range(Boundary.xMin, Boundary.xMax),
+                Random.Range(Boundary.yMin, Boundary.yMax),
+                r.position.z
+            );
+            isArrived = false;
+        }
+    }
+
+    /// <summary>
+    /// 이동 함수입니다.
+    /// 기만자(어려움) 인공지능에 사용됩니다.
+    /// </summary>
+    private void MoveDeceiverHard()
+    {
+        if (invincibleTime > 0f) return;
+
+        if (!isArrived &&
+            Vector2.Distance(new Vector2(r.position.x, r.position.y), new Vector2(destPosition.x, destPosition.y)) < Boundary.OnePageToDeltaZ() / 2f)
+        {
+            // 목적지에 도착했습니다.
+            isArrived = true;
+        }
+        else if (!isArrived && temporalMoveCoolTime > 0.5f)
+        {
+            r.velocity = Vector3.zero;
+        }
+        else if (!isArrived)
+        {
+            // 목적지를 향해 XY평면을 따라 이동합니다.
+            Vector3 movement = destPosition - r.position;
+            movement.z = 0f;
+            r.velocity = movement.normalized * speed;
+
+            r.position = new Vector3
+            (
+                Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                Mathf.Clamp(r.position.z, Boundary.zMin, Boundary.zMax)
+            );
+        }
+
+        if (temporalMoveCoolTime > 0f)
+        {
+            temporalMoveCoolTime -= Time.fixedDeltaTime;
+        }
+
+
+        if (temporalMoveCoolTime <= 0f)
+        {
+            bool danger = false;
+            foreach (Knife k in Manager.instance.playerKnifes)
+            {
+                if (k == null) continue;
+                Vector3 d = k.GetComponent<Collider>().ClosestPointOnBounds(r.position) - r.position;
+                if (Mathf.Abs(d.x) < 0.55f / 2f && Mathf.Abs(d.y) < 0.75f / 2f && Mathf.Abs(d.z) < 0.275f / 2f)
+                {
+                    danger = true;
+                    break;
+                }
+            }
+            if (danger)
+            {
+                // 자신 근처에서 플레이어의 무기를 감지한 경우
+                bool isFrontSafe = true;
+                bool isBackSafe = true;
+                float knifeMoveDistance = Manager.instance.KnifeSpeed / Manager.instance.TemporalSpeed;
+
+                // 0.5쿨타임 동안 XY평면에서 움직일 수 있는 거리도 반영
+                Vector3 dangerBoxSize = new Vector3(0.3f + Manager.instance.MovingSpeed / Manager.instance.TemporalSpeed,
+                    0.5f + Manager.instance.MovingSpeed / Manager.instance.TemporalSpeed, 0.025f);
+                foreach (Knife k in Manager.instance.playerKnifes)
+                {
+                    if (k == null) continue;
+                    List<Ray> tracks = new List<Ray>(); // 투사체를 감싸는 충돌체 박스의, 8개 꼭지점과 중심에서 진행 방향으로 쏜 궤적들
+                    Vector3 minBound = k.GetComponent<Collider>().bounds.min;
+                    Vector3 maxBound = k.GetComponent<Collider>().bounds.max;
+                    tracks.Add(new Ray(minBound, k.Direction));
+                    tracks.Add(new Ray(new Vector3(minBound.x, minBound.y, maxBound.z), k.Direction));
+                    tracks.Add(new Ray(new Vector3(minBound.x, maxBound.y, minBound.z), k.Direction));
+                    tracks.Add(new Ray(new Vector3(maxBound.x, minBound.y, minBound.z), k.Direction));
+                    tracks.Add(new Ray(new Vector3(minBound.x, maxBound.y, maxBound.z), k.Direction));
+                    tracks.Add(new Ray(new Vector3(maxBound.x, minBound.y, maxBound.z), k.Direction));
+                    tracks.Add(new Ray(new Vector3(maxBound.x, maxBound.y, minBound.z), k.Direction));
+                    tracks.Add(new Ray(maxBound, k.Direction));
+                    tracks.Add(new Ray(k.GetComponent<Collider>().bounds.center, k.Direction));
+
+                    if (isFrontSafe && Boundary.ZToPage(r.position.z) > Boundary.ZToPage(Boundary.zMin)) {
+                        // 자신 바로 앞 페이지로 이동했을 때, 페이지 이동 쿨타임 동안 안전한지 판단
+                        Bounds front = new Bounds(r.position + new Vector3(0f, 0f, -Boundary.OnePageToDeltaZ()), dangerBoxSize);
+                        foreach (Ray r in tracks)
+                        {
+                            float distance;
+                            if (front.IntersectRay(r, out distance))
+                            {
+                                if (distance <= knifeMoveDistance)
+                                {
+                                    isFrontSafe = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isFrontSafe = false;
+                    }
+
+                    if (isBackSafe && Boundary.ZToPage(r.position.z) < Boundary.ZToPage(Boundary.zMax))
+                    {
+                        // 자신 바로 뒤 페이지로 이동했을 때, 페이지 이동 쿨타임 동안 안전한지 판단
+                        Bounds back = new Bounds(r.position + new Vector3(0f, 0f, Boundary.OnePageToDeltaZ()), dangerBoxSize);
+                        foreach (Ray r in tracks)
+                        {
+                            float distance;
+                            if (back.IntersectRay(r, out distance))
+                            {
+                                if (distance <= knifeMoveDistance)
+                                {
+                                    isBackSafe = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isBackSafe = false;
+                    }
+                }
+
+                float deltaZ;
+                if (isFrontSafe && isBackSafe)
+                {
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        deltaZ = -Boundary.OnePageToDeltaZ();
+                    }
+                    else
+                    {
+                        deltaZ = Boundary.OnePageToDeltaZ();
+                    }
+                }
+                else if (isFrontSafe)
+                {
+                    deltaZ = -Boundary.OnePageToDeltaZ();
+                }
+                else if (isBackSafe)
+                {
+                    deltaZ = Boundary.OnePageToDeltaZ();
+                }
+                else
+                {
+                    deltaZ = 0f;
+                }
+
+                if (deltaZ != 0f)
+                {
+                    // 플레이어의 공격을 회피할 수 있는 곳으로 페이지 축을 따라 이동합니다.
+                    r.velocity = Vector3.zero;
+                    temporalMoveCoolTime = 1f / temporalSpeed;
+
+                    r.position = new Vector3
+                    (
+                        Mathf.Clamp(r.position.x, Boundary.xMin, Boundary.xMax),
+                        Mathf.Clamp(r.position.y, Boundary.yMin, Boundary.yMax),
+                        Mathf.Clamp(r.position.z + deltaZ, Boundary.zMin, Boundary.zMax)
+                    );
+                }
+            }
+        }
+
+        if (isArrived)
+        {
+            // 새로 가려는 목적지를 정합니다.
+            destPosition = new Vector3
+            (
+                Random.Range(Boundary.xMin, Boundary.xMax),
+                Random.Range(Boundary.yMin, Boundary.yMax),
+                r.position.z
+            );
+            isArrived = false;
+        }
+    }
+
+    /// <summary>
     /// 수호자 인공지능의 이동 함수이지만, move의 이벤트로 사용되지 않는 함수입니다.
     /// </summary>
     private void MoveGuardian()
@@ -1206,6 +1502,10 @@ public class Enemy : MonoBehaviour {
             {
                 StartCoroutine("ReadySpeech");
             }
+            else if (gameMode.Equals("Deceiver"))
+            {
+                StartCoroutine("AwakeSpeech");
+            }
         }
     }
 
@@ -1248,7 +1548,47 @@ public class Enemy : MonoBehaviour {
         Destroy(mySpeech);
         mySpeech = null;
     }
-    
+
+    IEnumerator AwakeSpeech()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        GetComponent<AudioSource>().clip = awakeSound;
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "(각성)";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(2.6f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
     IEnumerator EndSpeech()
     {
         if (mySpeech != null)

@@ -15,12 +15,15 @@ public class Manager : MonoBehaviour {
     /// <summary>
     /// 게임 모드입니다. None은 메인 메뉴에서 사용됩니다.
     /// </summary>
-    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Sniping, Boss }
+    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Deceiver, Sniping, Boss }
 
     /// <summary>
     /// 게임 난이도입니다. 난이도가 구분되지 않는 모드는 Hard입니다. None은 메인 메뉴에서 사용됩니다.
     /// </summary>
     public enum GameLevel { None, Hard, Easy }
+
+    [HideInInspector]
+    public List<Knife> playerKnifes = new List<Knife>();
 
     // TODO 씬 전환할 때 이거 설정하기
     private GameMode mode;
@@ -286,6 +289,13 @@ public class Manager : MonoBehaviour {
             yield return new WaitForSeconds(2.2f);
             if (PlayerObject != null)
                 PlayerObject.GetComponent<Player>().SpeakReady();
+        }
+        else if (gameMode.Equals("Deceiver"))
+        {
+            PlayerObject.GetComponent<Player>().SpeakReady();
+            yield return new WaitForSeconds(3.5f);
+            if (EnemyObject != null)
+                EnemyObject.GetComponent<Enemy>().SpeakReady();
         }
     }
 

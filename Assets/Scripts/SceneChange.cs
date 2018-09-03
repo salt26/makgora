@@ -97,6 +97,22 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadMainGameScene());
     }
 
+    public void LoadDeceiverEasy()
+    {
+        loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Deceiver;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadMainGameScene());
+    }
+
+    public void LoadDeceiverHard()
+    {
+        loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Deceiver;
+        Manager.instance.Level = Manager.GameLevel.Hard;
+        StartCoroutine(LoadMainGameScene());
+    }
+
     IEnumerator LoadTutorialScene()
     {
         Manager.instance.Unpause();
