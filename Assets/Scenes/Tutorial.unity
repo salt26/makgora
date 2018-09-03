@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -349,7 +349,7 @@ Transform:
   - {fileID: 1316858368}
   - {fileID: 1697472684}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &82032288
 MonoBehaviour:
@@ -374,6 +374,7 @@ MonoBehaviour:
   guardSound: {fileID: 8300000, guid: 1cc50918f31748b499cab983a243038c, type: 3}
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 0}
+  awakeSound: {fileID: 0}
   tutorialSounds:
   - {fileID: 8300000, guid: 5327ae102389584438574ec6f1e36a5d, type: 3}
   - {fileID: 8300000, guid: 069d270fee9cc2a4ebe62ee780b51799, type: 3}
@@ -1602,7 +1603,7 @@ RectTransform:
   m_Children:
   - {fileID: 195261596}
   m_Father: {fileID: 892957430}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2351,6 +2352,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPanel: {fileID: 0}
+  snipingStartPanel: {fileID: 0}
+  bossStartPanel: {fileID: 0}
   winPanel: {fileID: 271235160}
   losePanel: {fileID: 0}
   pausePanel: {fileID: 1041240255}
@@ -2767,10 +2770,10 @@ RectTransform:
   m_LocalScale: {x: 0.0010364446, y: 0.0013814381, z: 10000}
   m_Children:
   - {fileID: 1279553096}
-  - {fileID: 1549000443}
-  - {fileID: 323775487}
-  - {fileID: 399366460}
   - {fileID: 1860880986}
+  - {fileID: 323775487}
+  - {fileID: 1549000443}
+  - {fileID: 399366460}
   m_Father: {fileID: 1370145636}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4332,6 +4335,7 @@ MonoBehaviour:
   readySound: {fileID: 0}
   tDSound: {fileID: 0}
   warcraftSound: {fileID: 0}
+  orcSound: {fileID: 0}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   zLocation: {fileID: 748283563}
   weaponToSummon: {fileID: 1397129621}
@@ -4339,6 +4343,7 @@ MonoBehaviour:
   purpleText: {fileID: 195261597}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
     type: 2}
+  pauseButton: {fileID: 346712951}
   pausePanelButtons:
   - {fileID: 441936576}
   - {fileID: 1273197700}
@@ -4412,7 +4417,7 @@ Transform:
   - {fileID: 741902806}
   - {fileID: 1397129624}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1360910734
 AudioListener:
@@ -5029,7 +5034,7 @@ RectTransform:
   m_Children:
   - {fileID: 607149169}
   m_Father: {fileID: 892957430}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5756,7 +5761,7 @@ RectTransform:
   m_Children:
   - {fileID: 1031087337}
   m_Father: {fileID: 892957430}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

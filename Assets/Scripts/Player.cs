@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour {
 
@@ -149,11 +150,13 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.Escape) && !Manager.instance.IsPaused)
         {
             Manager.instance.ButtonSound();
+            EventSystem.current.SetSelectedGameObject(null);
             Manager.instance.PauseButton();
         }
         else if (Input.GetKeyUp(KeyCode.Escape) && Manager.instance.IsPaused && Manager.instance.IsGameStart)
         {
             Manager.instance.ButtonSound();
+            EventSystem.current.SetSelectedGameObject(null);
             foreach (Tooltip t in pausePanelButtons)
             {
                 t.DestroyTooltip();

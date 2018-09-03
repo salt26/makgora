@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311947, g: 0.38074005, b: 0.35872722, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -479,7 +479,7 @@ Transform:
   - {fileID: 334096956}
   - {fileID: 1050851798}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &82032288
 MonoBehaviour:
@@ -3119,8 +3119,8 @@ RectTransform:
   m_LocalScale: {x: 0.0010364446, y: 0.0013717323, z: 10000}
   m_Children:
   - {fileID: 1026368153}
-  - {fileID: 1602214671}
   - {fileID: 1009181832}
+  - {fileID: 1602214671}
   - {fileID: 2083756120}
   m_Father: {fileID: 883908727}
   m_RootOrder: 3
@@ -3655,7 +3655,7 @@ RectTransform:
   m_Children:
   - {fileID: 1793133100}
   m_Father: {fileID: 908393319}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4886,6 +4886,7 @@ MonoBehaviour:
   purpleText: {fileID: 308421940}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
     type: 2}
+  pauseButton: {fileID: 1396723160}
   pausePanelButtons:
   - {fileID: 1822867996}
   - {fileID: 33447579}
@@ -4952,7 +4953,7 @@ Transform:
   - {fileID: 275960677}
   - {fileID: 1897797798}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &1360910734
 AudioListener:
@@ -5661,7 +5662,7 @@ RectTransform:
   m_Children:
   - {fileID: 1072569733}
   m_Father: {fileID: 908393319}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
