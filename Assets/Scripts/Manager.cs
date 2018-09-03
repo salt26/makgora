@@ -36,7 +36,6 @@ public class Manager : MonoBehaviour {
     private GameObject canvas;
     private GameObject startPanel;
     private GameObject snipingStartPanel;
-    private GameObject bossStartPanel;
     private GameObject pausePanel;
     private GameObject buttonPause;
     private GameObject winPanel;
@@ -44,6 +43,10 @@ public class Manager : MonoBehaviour {
     private GameObject blindPanel;
     private GameObject player;
     private GameObject enemy;
+    private Sprite deceiverStartPanel;
+    private Sprite deceiverPausePanel;
+    private Sprite deceiverWinPanel;
+    private Sprite deceiverLosePanel;
 
     [SerializeField]
     private AudioClip loseSound;
@@ -99,11 +102,6 @@ public class Manager : MonoBehaviour {
                 if (snipingStartPanel != null)
                     return !snipingStartPanel.activeInHierarchy;
             }
-            else if(gameMode.Equals("Boss"))
-            {
-                if (bossStartPanel != null)
-                    return !bossStartPanel.activeInHierarchy;
-            }
             else if (startPanel != null)
                 return !startPanel.activeInHierarchy;
             return false;
@@ -124,11 +122,6 @@ public class Manager : MonoBehaviour {
     public GameObject SnipingStartPanel
     {
         set { snipingStartPanel = value; }
-    }
-
-    public GameObject BossStartPanel
-    {
-        set { bossStartPanel = value; }
     }
 
     public GameObject WinPanel
@@ -290,11 +283,6 @@ public class Manager : MonoBehaviour {
         {
             if (snipingStartPanel != null)
                 instance.snipingStartPanel.SetActive(false);
-        }
-        else if (gameMode.Equals("Boss"))
-        {
-            if (bossStartPanel != null)
-                instance.bossStartPanel.SetActive(false);
         }
         else if (startPanel != null)
             instance.startPanel.SetActive(false);

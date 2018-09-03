@@ -10,8 +10,6 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private GameObject snipingStartPanel;
     [SerializeField]
-    private GameObject bossStartPanel;
-    [SerializeField]
     private GameObject winPanel;
     [SerializeField]
     private GameObject losePanel;
@@ -29,34 +27,17 @@ public class InGameUI : MonoBehaviour {
     private GameObject sortingObject;   // 새로 생성될 ui 오브젝트들이 패널 뒤에 배치되도록 하는 오브젝트입니다.
     [SerializeField]
     private GameObject blindPanel;
+    [SerializeField]
+    private Sprite deceiverStartPanel;
+    [SerializeField]
+    private Sprite deceiverWinPanel;
+    [SerializeField]
+    private Sprite deceiverLosePanel;
+    [SerializeField]
+    private Sprite deceiverPausePanel;
 
     private void Start()
     {
-        Manager.instance.Canvas = sortingObject;
-        if (startPanel != null)
-        {
-            Manager.instance.StartPanel = startPanel;
-            Manager.instance.Pause();
-        }
-        if(snipingStartPanel != null)
-        {
-            Manager.instance.SnipingStartPanel = snipingStartPanel;
-            Manager.instance.Pause();
-        }
-        if (bossStartPanel != null)
-        {
-            Manager.instance.BossStartPanel = bossStartPanel;
-            Manager.instance.Pause();
-        }
-        Manager.instance.WinPanel = winPanel;
-        if (losePanel != null)
-        {
-            Manager.instance.LosePanel = losePanel;
-        }
-        Manager.instance.PausePanel = pausePanel;
-        Manager.instance.ButtonPause = pauseButton;
-        Manager.instance.BlindPanel = blindPanel;
-
         string gameMode = Manager.instance.GetCurrentGame()[0];
         string gameLevel = Manager.instance.GetCurrentGame()[1];
         if (gameMode.Equals("Tutorial"))
@@ -79,6 +60,10 @@ public class InGameUI : MonoBehaviour {
         else if (gameMode.Equals("Deceiver") && gameLevel.Equals("Easy"))
         {
             modeText.text = "기만자(쉬움)";
+            startPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverStartPanel;
+            winPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverWinPanel;
+            losePanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverLosePanel;
+            pausePanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverPausePanel;
         }
         else if (gameMode.Equals("Vagabond") && gameLevel.Equals("Hard"))
         {
@@ -95,6 +80,10 @@ public class InGameUI : MonoBehaviour {
         else if (gameMode.Equals("Deceiver") && gameLevel.Equals("Hard"))
         {
             modeText.text = "기만자(어려움)";
+            startPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverStartPanel;
+            winPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverWinPanel;
+            losePanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverLosePanel;
+            pausePanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverPausePanel;
         }
         else if (gameMode.Equals("Sniping") && gameLevel.Equals("Hard"))
         {
@@ -107,10 +96,28 @@ public class InGameUI : MonoBehaviour {
         {
             modeText.text = "보스 미션";
             modeImage.GetComponent<Image>().sprite = missionImage;
-            startPanel.SetActive(false);
-            bossStartPanel.SetActive(true);
         }
         // TODO 모드 추가 시 추가바람
+
+        Manager.instance.Canvas = sortingObject;
+        if (startPanel != null)
+        {
+            Manager.instance.StartPanel = startPanel;
+            Manager.instance.Pause();
+        }
+        if (snipingStartPanel != null)
+        {
+            Manager.instance.SnipingStartPanel = snipingStartPanel;
+            Manager.instance.Pause();
+        }
+        Manager.instance.WinPanel = winPanel;
+        if (losePanel != null)
+        {
+            Manager.instance.LosePanel = losePanel;
+        }
+        Manager.instance.PausePanel = pausePanel;
+        Manager.instance.ButtonPause = pauseButton;
+        Manager.instance.BlindPanel = blindPanel;
     }
 
     public void QuitButton()
