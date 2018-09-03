@@ -5973,7 +5973,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
     type: 2}
   canvas: {fileID: 321055595}
-  text: "\u2605\u2605\u2605\u2605\u2606                       \uBCF4\uC774\uC9C0 \uC54A\uB294,
+  text: "\u2605\u2605\u2605\u2605\u2605                       \uBCF4\uC774\uC9C0 \uC54A\uB294,
     \uACE0\uC815\uB41C \uC801\uC744 \uBA40\uB9AC\uC11C \uB9DE\uD600\uC57C \uD569\uB2C8\uB2E4.
     \uB2E4\uB978 \uD398\uC774\uC9C0\uB85C \uC774\uB3D9\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."
   x: 272
