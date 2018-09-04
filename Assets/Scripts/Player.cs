@@ -19,6 +19,7 @@ public class Player : MonoBehaviour {
     public AudioClip tDSound;
     public AudioClip warcraftSound;
     public AudioClip orcSound;
+    public List<AudioClip> hintSounds;
     public GameObject blow;
     public GameObject zLocation;
     public GameObject weaponToSummon;
@@ -47,6 +48,8 @@ public class Player : MonoBehaviour {
     private bool isAutoShooting = false;// 튜토리얼에서 자동 발사 중에 true가 됩니다.
     private bool isAutoLeft = false;    // 튜토리얼에서 자동 발사 중에, 이것이 true이면 왼쪽 클릭을 하고 있는 것처럼 동작합니다.
     private bool isAutoRight = false;   // 튜토리얼에서 자동 발사 중에, 이것이 true이면 오른쪽 클릭을 하고 있는 것처럼 동작합니다.
+    private bool isHintSpeaking = true; // 미션에서 힌트를 말하고 있는 중에 true가 됩니다.
+    private List<int> hintCount = new List<int>();  // 미션에서 각 페이즈 당 힌트를 본 횟수
     private float chargedZ;             // 투사체를 발사할 목적지 방향의 Z좌표(시간축 좌표)입니다.
     private float prepareWeaponTime;    // 투사체를 던지기 위해 마우스를 누르고 있던 시간 (충전 중이 아닐 때 -1, 충전이 시작되면 0부터 증가)
     private float invincibleTime;       // 피격 후 무적 판정이 되는, 남은 시간 
@@ -108,6 +111,10 @@ public class Player : MonoBehaviour {
         myShield = null;
         blowend = null;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        for (int i = 0; i < 3; i++)
+        {
+            hintCount.Add(0);
+        }
     }
 
     private void Start()
@@ -393,6 +400,16 @@ public class Player : MonoBehaviour {
             }
         }
         #endregion
+
+        if (Manager.instance.GetCurrentGame()[0].Equals("Sniping") && Input.GetKeyDown(KeyCode.F) && !isHintSpeaking)
+        {
+            int phase = 4 - GameObject.Find("Enemy").GetComponent<Enemy>().Health;
+            if (phase >= 1 && phase <= 3)
+            {
+                hintCount[phase - 1]++;
+                StartCoroutine(SnipingHintSpeech(phase, hintCount[phase - 1] % 2 == 1));
+            }
+        }
     }
 
     void FixedUpdate()
@@ -830,6 +847,7 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(3f);  // TODO
         Destroy(mySpeech);
         mySpeech = null;
+        isHintSpeaking = false;
     }
 
     IEnumerator BossSpeech()
@@ -910,6 +928,63 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(3.5f);  // TODO
         Destroy(mySpeech);
         mySpeech = null;
+    }
+
+    IEnumerator SnipingHintSpeech(int phase, bool odd)
+    {
+        if (isHintSpeaking) yield break;    // 코루틴을 종료합니다.
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        isHintSpeaking = true;
+        if (odd) GetComponent<AudioSource>().clip = hintSounds[0];
+        else GetComponent<AudioSource>().clip = hintSounds[1];
+        GetComponent<AudioSource>().Play();
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+        if (phase == 1 && odd)
+            mySpeech.GetComponentInChildren<Text>().text = "적은 멀리 있지만 움직이지 않는군.";
+        else if (phase == 1)
+            mySpeech.GetComponentInChildren<Text>().text = "무기가 날아오는 곳을 노려보자.";
+        else if(phase == 2 && odd)
+            mySpeech.GetComponentInChildren<Text>().text = "적이 화면 밖에 있어 직접 조준할 수 없네.";
+        else if (phase == 2)
+            mySpeech.GetComponentInChildren<Text>().text = "적과 나의 중간 지점을 노려보자.";
+        else if (phase == 3 && odd)
+            mySpeech.GetComponentInChildren<Text>().text = "적이 어느 페이지에 있는지 알 수 없군.";
+        else if (phase == 3)
+            mySpeech.GetComponentInChildren<Text>().text = "망치를 멀리 던져 페이지에 균열을 일으켜보자.";
+
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(3.5f);  // TODO
+        Destroy(mySpeech);
+        mySpeech = null;
+        isHintSpeaking = false;
     }
 
     IEnumerator DamagedSFX()

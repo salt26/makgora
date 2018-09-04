@@ -87,7 +87,7 @@ public class InGameUI : MonoBehaviour {
         }
         else if (gameMode.Equals("Sniping") && gameLevel.Equals("Hard"))
         {
-            modeText.text = "저격 미션";
+            modeText.text = "저격 미션 <color=#666699>(F키: 힌트)</color>";
             modeImage.GetComponent<Image>().sprite = missionImage;
             startPanel.SetActive(false);
             snipingStartPanel.SetActive(true);
