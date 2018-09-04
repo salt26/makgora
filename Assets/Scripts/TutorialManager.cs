@@ -6,17 +6,23 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour {
-
-    public Text tutorialText;
+    
+    public Text tDExplainText;
+    public Text tDNextText;
+    public Text shootingExplainText;
     public GameObject mentor;
     public BookUI book;
     public GameObject tutorialBubble;
+    public AudioSource tDExplainBubble;
+    public AudioSource shootingExplainBubble;
     public GameObject arrow;
     public GameObject silence;
     public GameObject magic;
     public List<GameObject> WASD;
     public List<GameObject> leftShiftQSpaceE;
     public List<GameObject> mouseButtons;
+    public List<GameObject> tDExplanations;
+    public List<GameObject> shootingExplanations;
     public Color pressedColor;
     public Color magicBeforeColor;
     public Color magicAfterColor;
@@ -357,12 +363,118 @@ public class TutorialManager : MonoBehaviour {
             }
             book.bluePage.GetComponent<Image>().enabled = false;
             book.blueText.GetComponent<Text>().enabled = false;
+            tDExplanations[0].SetActive(false);
             CreateBubble("역시, 기대했던 대로야.\n" +
-                "그럼 이제...\n" +
+                "자네는 앞으로 3페이지,\n" +
+                "뒤로 3페이지 이내에 있는\n" +
+                "가까운 대상만 볼 수 있다네.\n" +
+                "그래서 아까 나를 볼 수 없었지.\n" +
                 "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 6))
+        {
+            isProcessReady = true;
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+        }
+        else if (StateNotReady(2, 7))
+        {
+            isProcessReady = true;
+            tDExplanations[0].SetActive(true);
+            tDExplanations[1].SetActive(true);
+            tDExplanations[2].SetActive(false);
+            tDExplainText.text = "이 만화책이 어떻게\n" +
+                "생겼는지 다른\n" +
+                "시점에서 설명하지.";
+            tDNextText.text = "<color=#666699>(Enter: 다음)</color>";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(2, 8))
+        {
+            isProcessReady = true;
+            tDExplanations[1].SetActive(false);
+            tDExplanations[2].SetActive(true);
+            tDExplanations[3].SetActive(false);
+            tDExplainText.text = "사실 이곳은 3차원\n" +
+                "세계다. 각 페이지는\n" +
+                "같은 크기이고, 같은\n" +
+                "간격만큼 떨어져 있다네.";
+            tDNextText.text = "<color=#666699>(Enter: 다음)\n" +
+                "(Backspace: 이전)</color>";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(2, 9))
+        {
+            isProcessReady = true;
+            tDExplanations[2].SetActive(false);
+            tDExplanations[3].SetActive(true);
+            tDExplanations[4].SetActive(false);
+            tDExplainText.text = "자네에게 보이는\n" +
+                "화면에는 원근법이\n" +
+                "적용되어 있어.";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(2, 10))
+        {
+            isProcessReady = true;
+            tDExplanations[3].SetActive(false);
+            tDExplanations[4].SetActive(true);
+            tDExplanations[5].SetActive(false);
+            tDExplainText.text = "자네가 있는 페이지는\n" +
+                "전부 보이지만...";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(2, 11))
+        {
+            isProcessReady = true;
+            tDExplanations[4].SetActive(false);
+            tDExplanations[5].SetActive(true);
+            tDExplanations[6].SetActive(false);
+            tDExplainText.text = "앞 페이지에 있는 대상은\n" +
+                "더 크게 보이거나, 화면\n" +
+                "밖에 있을 수도 있네.";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(2, 12))
+        {
+            isProcessReady = true;
+            tDExplanations[0].SetActive(true);
+            tDExplanations[5].SetActive(false);
+            tDExplanations[6].SetActive(true);
+            tDExplainText.text = "뒤 페이지에 있는 대상은\n" +
+                "당연히 작게 보이겠지.";
+            tDExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(2, 13))
+        {
+            isProcessReady = true;
+            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+        }
+        else if (StateNotReady(2, 14))
+        {
+            tDExplanations[6].SetActive(false);
+            tDExplanations[0].SetActive(false);
+            CreateBubble("설명이 다 되었나?\n" +
+                "그럼 이제...\n" +
+                "<color=#666699>(Enter: 다음)</color>");
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(2, 15))
         {
             NextPhase();
         }
