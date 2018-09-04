@@ -453,7 +453,7 @@ public class TutorialManager : MonoBehaviour {
         else if (StateNotReady(3, 9))
         {
             CreateBubble("이런! 아프겠군.\n" +
-                "얼른 혼을 내줘야겠어.\n" +
+                "어서 적을 처리하러 가야겠어.\n" +
                 "하지만 그 전에 몇 가지\n" +
                 "알아야 할 것들이 있다네.\n" +
                 "<color=#666699>(Enter: 다음)</color>");
