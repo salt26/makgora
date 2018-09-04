@@ -902,28 +902,106 @@ public class TutorialManager : MonoBehaviour {
         }
         else if (StateNotReady(4, 25))
         {
+            isProcessReady = true;
+            if (myBubble != null)
+            {
+                Destroy(myBubble);
+            }
+            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+        }
+        else if (StateNotReady(4, 26))
+        {
+            isProcessReady = true;
+            shootingExplanations[0].SetActive(true);
+            shootingExplanations[1].SetActive(true);
+            shootingExplanations[2].SetActive(false);
+            shootingExplainText.text = "페이지들을 화면 오른쪽에서 본 모습이다.\n" +
+                "<color=#666699>(Enter: 다음)</color>";
+            shootingExplainBubble.Play();
+            isEnterAvailable = true;
+        }
+        else if (StateNotReady(4, 27))
+        {
+            isProcessReady = true;
+            shootingExplanations[1].SetActive(false);
+            shootingExplanations[2].SetActive(true);
+            shootingExplanations[3].SetActive(false);
+            shootingExplainText.text = "자네가 24페이지 초록색 점의\n" +
+                "위치에 있다고 하자.\n" +
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
+            shootingExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(4, 28))
+        {
+            isProcessReady = true;
+            shootingExplanations[2].SetActive(false);
+            shootingExplanations[3].SetActive(true);
+            shootingExplanations[4].SetActive(false);
+            shootingExplainText.text = "만약 자네가 26페이지의 보라색 점을\n" +
+                "조준해서 무기를 던지면...\n" +
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
+            shootingExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(4, 29))
+        {
+            isProcessReady = true;
+            shootingExplanations[3].SetActive(false);
+            shootingExplanations[4].SetActive(true);
+            shootingExplanations[5].SetActive(false);
+            shootingExplainText.text = "무기는 26페이지에서 멈추지 않고\n" +
+                "직선으로 쭉 날아간다네.\n" +
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
+            shootingExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(4, 30))
+        {
+            isProcessReady = true;
+            shootingExplanations[4].SetActive(false);
+            shootingExplanations[5].SetActive(true);
+            shootingExplainText.text = "운이 좋으면 다른 페이지에 있던\n" +
+                "적이 맞을 수도 있겠지.\n" +
+                "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
+            shootingExplainBubble.Play();
+            isEnterAvailable = true;
+            isBackAvailable = true;
+        }
+        else if (StateNotReady(4, 31))
+        {
+            isProcessReady = true;
+            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+        }
+        else if (StateNotReady(4, 32))
+        {
             foreach (GameObject g in mouseButtons)
             {
                 g.SetActive(true);
             }
-            CreateBubble("특별히 꿀팁 하나 알려주지.\n" +
-                "자네가 던진 망치가\n" +
+            shootingExplanations[5].SetActive(false);
+            shootingExplanations[0].SetActive(false);
+            CreateBubble("마지막으로 꿀팁 하나\n" +
+                "알려주지. 자네가 던진 망치가\n" +
                 "적이 있는 페이지를 지나면\n" +
                 "그 지점에 균열이 발생한다네.");
             stopAutoShooting = false;
             StartCoroutine(AutoShoot4());
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
         }
-        else if (StateNotReady(4, 26))
+        else if (StateNotReady(4, 33))
         {
-            CreateBubble("특별히 꿀팁 하나 알려주지.\n" +
-                "자네가 던진 망치가\n" +
+            CreateBubble("마지막으로 꿀팁 하나\n" +
+                "알려주지. 자네가 던진 망치가\n" +
                 "적이 있는 페이지를 지나면\n" +
                 "그 지점에 균열이 발생한다네.\n" +
                 "<color=#666699>(Enter: 다음)</color>");
             isEnterAvailable = true;
         }
-        else if (StateNotReady(4, 27))
+        else if (StateNotReady(4, 34))
         {
             CreateBubble("망치가 원하는 곳으로 잘\n" +
                 "날아갔는지 확인하고 싶을 때\n" +
@@ -932,7 +1010,7 @@ public class TutorialManager : MonoBehaviour {
             isEnterAvailable = true;
             isBackAvailable = true;
         }
-        else if (StateNotReady(4, 28))
+        else if (StateNotReady(4, 35))
         {
             stopAutoShooting = true;
             foreach (GameObject g in mouseButtons)
@@ -944,7 +1022,7 @@ public class TutorialManager : MonoBehaviour {
             StartCoroutine(Wait(3.1f));
             // 시간이 지나면 자동으로 넘어갑니다.
         }
-        else if (StateNotReady(4, 29))
+        else if (StateNotReady(4, 36))
         {
             NextPhase();
         }
