@@ -505,7 +505,9 @@ MonoBehaviour:
   killedSound: {fileID: 8300000, guid: 46f519f6aa10dd7408277ece2fbbb529, type: 3}
   readySound: {fileID: 8300000, guid: 35e4ada88b7362944b278f745d51c80a, type: 3}
   awakeSound: {fileID: 8300000, guid: b706be81f345914419788cd7e535945c, type: 3}
-  tutorialSounds: []
+  tutorialSounds:
+  - {fileID: 8300000, guid: 5327ae102389584438574ec6f1e36a5d, type: 3}
+  - {fileID: 8300000, guid: 069d270fee9cc2a4ebe62ee780b51799, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   weaponToSummon: {fileID: 1050851794}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
@@ -4882,6 +4884,9 @@ MonoBehaviour:
   tDSound: {fileID: 8300000, guid: e2bc1838751e01a4f8ef792a5bb2bb01, type: 3}
   warcraftSound: {fileID: 8300000, guid: 22a47977def41d040b57f6b70a2cd7d0, type: 3}
   orcSound: {fileID: 8300000, guid: 9a27684b946d9b845aa5d2da29edc8e7, type: 3}
+  hintSounds:
+  - {fileID: 8300000, guid: c79d95d3b489dad47b8bddba5bdbbdfb, type: 3}
+  - {fileID: 8300000, guid: fe66f1669ff7843439413d7164c35372, type: 3}
   blow: {fileID: 1122266997523242, guid: c9f01ab7e8fb71f448535a7ff7d4c382, type: 2}
   zLocation: {fileID: 993067182}
   weaponToSummon: {fileID: 1897797794}
