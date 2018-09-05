@@ -13,8 +13,9 @@ public class TutorialManager : MonoBehaviour {
     public GameObject mentor;
     public BookUI book;
     public GameObject tutorialBubble;
-    public AudioSource tDExplainBubble;
-    public AudioSource shootingExplainBubble;
+    public GameObject tDExplainBubble;
+    public GameObject tDExplainBubble2;
+    public GameObject shootingExplainBubble;
     public GameObject arrow;
     public GameObject silence;
     public GameObject magic;
@@ -351,7 +352,7 @@ public class TutorialManager : MonoBehaviour {
                 "앞쪽 페이지로, Space키 또는 E키를\n" +
                 "누르면 뒤쪽 페이지로 이동할 수 있다네.\n" +
                 "가까이 오면 내 모습이 보일거야.\n" +
-                "<color=#666699>(Backspace: 이전 설명 보기)</color>");
+                "<color=#666699>(Backspace: 이전)</color>");
             // 여기서는 Enter를 눌러 넘어갈 수 없습니다.
             isBackAvailable = true;
         }
@@ -379,19 +380,24 @@ public class TutorialManager : MonoBehaviour {
             {
                 Destroy(myBubble);
             }
-            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+            tDExplanations[0].SetActive(true);
+            tDExplanations[1].SetActive(true);
+            tDExplainBubble.SetActive(false);
+            tDExplainBubble2.SetActive(false);
+            StartCoroutine(PageFadeIn(tDExplanations[0]));   // TODO 화면 전환 애니메이션 구현
         }
         else if (StateNotReady(2, 7))
         {
             isProcessReady = true;
-            tDExplanations[0].SetActive(true);
             tDExplanations[1].SetActive(true);
             tDExplanations[2].SetActive(false);
+            tDExplainBubble.SetActive(true);
+            tDExplainBubble2.SetActive(true);
             tDExplainText.text = "이 만화책이 어떻게\n" +
                 "생겼는지 다른\n" +
                 "시점에서 설명하지.";
             tDNextText.text = "<color=#666699>(Enter: 다음)</color>";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
         }
         else if (StateNotReady(2, 8))
@@ -406,7 +412,7 @@ public class TutorialManager : MonoBehaviour {
                 "간격만큼 떨어져 있다네.";
             tDNextText.text = "<color=#666699>(Enter: 다음)\n" +
                 "(Backspace: 이전)</color>";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -419,7 +425,7 @@ public class TutorialManager : MonoBehaviour {
             tDExplainText.text = "자네에게 보이는\n" +
                 "화면에는 원근법이\n" +
                 "적용되어 있어.";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -431,7 +437,7 @@ public class TutorialManager : MonoBehaviour {
             tDExplanations[5].SetActive(false);
             tDExplainText.text = "자네가 있는 페이지는\n" +
                 "전부 보이지만...";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -444,26 +450,27 @@ public class TutorialManager : MonoBehaviour {
             tDExplainText.text = "앞 페이지에 있는 대상은\n" +
                 "더 크게 보이거나, 화면\n" +
                 "밖에 있을 수도 있네.";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
         else if (StateNotReady(2, 12))
         {
             isProcessReady = true;
-            tDExplanations[0].SetActive(true);
             tDExplanations[5].SetActive(false);
             tDExplanations[6].SetActive(true);
             tDExplainText.text = "뒤 페이지에 있는 대상은\n" +
                 "당연히 작게 보이겠지.";
-            tDExplainBubble.Play();
+            tDExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
         else if (StateNotReady(2, 13))
         {
             isProcessReady = true;
-            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+            tDExplainBubble.SetActive(false);
+            tDExplainBubble2.SetActive(false);
+            StartCoroutine(PageFadeOut(tDExplanations[0]));   // TODO 화면 전환 애니메이션 구현
         }
         else if (StateNotReady(2, 14))
         {
@@ -907,17 +914,20 @@ public class TutorialManager : MonoBehaviour {
             {
                 Destroy(myBubble);
             }
-            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+            shootingExplanations[0].SetActive(true);
+            shootingExplanations[1].SetActive(true);
+            shootingExplainBubble.SetActive(false);
+            StartCoroutine(PageFadeIn(shootingExplanations[0]));   // TODO 화면 전환 애니메이션 구현
         }
         else if (StateNotReady(4, 26))
         {
             isProcessReady = true;
-            shootingExplanations[0].SetActive(true);
             shootingExplanations[1].SetActive(true);
             shootingExplanations[2].SetActive(false);
+            shootingExplainBubble.SetActive(true);
             shootingExplainText.text = "페이지들을 화면 오른쪽에서 본 모습이다.\n" +
                 "<color=#666699>(Enter: 다음)</color>";
-            shootingExplainBubble.Play();
+            shootingExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
         }
         else if (StateNotReady(4, 27))
@@ -929,7 +939,7 @@ public class TutorialManager : MonoBehaviour {
             shootingExplainText.text = "자네가 24페이지 초록색 점의\n" +
                 "위치에 있다고 하자.\n" +
                 "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
-            shootingExplainBubble.Play();
+            shootingExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -942,7 +952,7 @@ public class TutorialManager : MonoBehaviour {
             shootingExplainText.text = "만약 자네가 26페이지의 보라색 점을\n" +
                 "조준해서 무기를 던지면...\n" +
                 "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
-            shootingExplainBubble.Play();
+            shootingExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -955,7 +965,7 @@ public class TutorialManager : MonoBehaviour {
             shootingExplainText.text = "무기는 26페이지에서 멈추지 않고\n" +
                 "직선으로 쭉 날아간다네.\n" +
                 "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
-            shootingExplainBubble.Play();
+            shootingExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
@@ -967,14 +977,15 @@ public class TutorialManager : MonoBehaviour {
             shootingExplainText.text = "운이 좋으면 다른 페이지에 있던\n" +
                 "적이 맞을 수도 있겠지.\n" +
                 "<color=#666699>(Enter: 다음 / Backspace: 이전)</color>";
-            shootingExplainBubble.Play();
+            shootingExplainBubble.GetComponent<AudioSource>().Play();
             isEnterAvailable = true;
             isBackAvailable = true;
         }
         else if (StateNotReady(4, 31))
         {
             isProcessReady = true;
-            StartCoroutine(Wait(1f));   // TODO 화면 전환 애니메이션 구현
+            shootingExplainBubble.SetActive(false);
+            StartCoroutine(PageFadeOut(shootingExplanations[0]));   // TODO 화면 전환 애니메이션 구현
         }
         else if (StateNotReady(4, 32))
         {
@@ -1248,6 +1259,48 @@ public class TutorialManager : MonoBehaviour {
     IEnumerator Wait(float time)
     {
         yield return new WaitForSeconds(time);
+        NextProcess();
+    }
+
+    IEnumerator PageFadeIn(GameObject panel)
+    {
+        int frame = 60;
+        for (int j = 0; j < frame; j++)
+        {
+            float alpha = Mathf.Lerp(0f, 1f, j / (float)frame);
+            Color c = Color.Lerp(ColorUtil.instance.pastColor, Color.white, j / (float)frame);
+            Vector3 scale = Vector3.Lerp(new Vector3(1.2f, 1.2f, 1f), new Vector3(1f, 1f, 1f), j / (float)frame);
+            Vector3 scale2 = Vector3.Lerp(new Vector3(1.1f, 1.1f, 1f), new Vector3(1f, 1f, 1f), j / (float)frame);
+            panel.GetComponent<Image>().color = ColorUtil.instance.AlphaColor(c, alpha);
+            panel.GetComponent<Transform>().localScale = scale;
+            foreach (Image i in panel.GetComponentsInChildren<Image>())
+            {
+                i.color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                i.GetComponent<Transform>().localScale = scale2;
+            }
+            yield return null;
+        }
+        NextProcess();
+    }
+
+    IEnumerator PageFadeOut(GameObject panel)
+    {
+        int frame = 60;
+        for (int j = 0; j < frame; j++)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, j / (float)frame);
+            Color c = Color.Lerp(Color.white, ColorUtil.instance.pastColor, j / (float)frame);
+            Vector3 scale = Vector3.Lerp(new Vector3(1f, 1f, 1f), new Vector3(1.2f, 1.2f, 1f), j / (float)frame);
+            Vector3 scale2 = Vector3.Lerp(new Vector3(1f, 1f, 1f), new Vector3(1.1f, 1.1f, 1f), j / (float)frame);
+            panel.GetComponent<Image>().color = ColorUtil.instance.AlphaColor(c, alpha);
+            panel.GetComponent<Transform>().localScale = scale;
+            foreach (Image i in panel.GetComponentsInChildren<Image>())
+            {
+                i.color = ColorUtil.instance.AlphaColor(Color.white, alpha);
+                i.GetComponent<Transform>().localScale = scale2;
+            }
+            yield return null;
+        }
         NextProcess();
     }
 
