@@ -401,7 +401,8 @@ public class Player : MonoBehaviour {
         }
         #endregion
 
-        if (Manager.instance.GetCurrentGame()[0].Equals("Sniping") && Input.GetKeyDown(KeyCode.F) && !isHintSpeaking)
+        string gameName = Manager.instance.GetCurrentGame()[0];
+        if (gameName.Equals("Sniping") && Input.GetKeyDown(KeyCode.F) && !isHintSpeaking)
         {
             int phase = 4 - GameObject.Find("Enemy").GetComponent<Enemy>().Health;
             if (phase >= 1 && phase <= 3)
@@ -409,6 +410,13 @@ public class Player : MonoBehaviour {
                 hintCount[phase - 1]++;
                 StartCoroutine(SnipingHintSpeech(phase, hintCount[phase - 1] % 2 == 1));
             }
+        }
+        if ((gameName.Equals("Vagabond") || gameName.Equals("Guardian") ||
+            gameName.Equals("Stalker") || gameName.Equals("Deceiver")) &&
+            Input.GetKeyDown(KeyCode.F) && !isHintSpeaking)
+        {
+            // 이스터에그!
+            StartCoroutine(WarcraftSpeech());
         }
     }
 
@@ -807,6 +815,7 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(1.5f);
         Destroy(mySpeech);
         mySpeech = null;
+        isHintSpeaking = false;
     }
 
     IEnumerator TDSpeech()
@@ -850,15 +859,18 @@ public class Player : MonoBehaviour {
         isHintSpeaking = false;
     }
 
-    IEnumerator BossSpeech()
+    IEnumerator WarcraftSpeech()
     {
+        if (isHintSpeaking) yield break;    // 코루틴을 종료합니다.
         if (mySpeech != null)
         {
             Destroy(mySpeech);
         }
+        isHintSpeaking = true;
         GetComponent<AudioSource>().clip = warcraftSound;
         GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
         mySpeech.GetComponentInChildren<Text>().text = "이건 만화책에서의 워크래프트가 아닐세!";
         if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
         {
@@ -886,8 +898,12 @@ public class Player : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(4f);  // TODO
-        Destroy(mySpeech);
-        mySpeech = null;
+        if (Health > 0)
+        {
+            Destroy(mySpeech);
+            mySpeech = null;
+        }
+        isHintSpeaking = false;
     }
 
     IEnumerator OrcSpeech()
@@ -928,6 +944,7 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(3.5f);  // TODO
         Destroy(mySpeech);
         mySpeech = null;
+        isHintSpeaking = false;
     }
 
     IEnumerator SnipingHintSpeech(int phase, bool odd)
@@ -982,8 +999,11 @@ public class Player : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(3.5f);  // TODO
-        Destroy(mySpeech);
-        mySpeech = null;
+        if (Health > 0)
+        {
+            Destroy(mySpeech);
+            mySpeech = null;
+        }
         isHintSpeaking = false;
     }
 
