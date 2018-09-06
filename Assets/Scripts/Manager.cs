@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
     /// <summary>
     /// 게임 모드입니다. None은 메인 메뉴에서 사용됩니다.
     /// </summary>
-    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Deceiver, Sniping, Boss }
+    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Deceiver, Sniping, Boss, Dummy }
 
     /// <summary>
     /// 게임 난이도입니다. 난이도가 구분되지 않는 모드는 Hard입니다. None은 메인 메뉴에서 사용됩니다.
@@ -318,6 +318,13 @@ public class Manager : MonoBehaviour {
         {
             PlayerObject.GetComponent<Player>().SpeakReady();
             yield return new WaitForSeconds(3.5f);
+            if (EnemyObject != null)
+                EnemyObject.GetComponent<Enemy>().SpeakReady();
+        }
+        else if (gameMode.Equals("Dummy"))
+        {
+            PlayerObject.GetComponent<Player>().SpeakReady();
+            yield return new WaitForSeconds(1.8f);
             if (EnemyObject != null)
                 EnemyObject.GetComponent<Enemy>().SpeakReady();
         }

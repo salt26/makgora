@@ -113,6 +113,14 @@ public class SceneChange : MonoBehaviour {
         StartCoroutine(LoadMainGameScene());
     }
 
+    public void LoadDummyEasy()
+    {
+        loadingPanel.SetActive(true);
+        Manager.instance.Mode = Manager.GameMode.Dummy;
+        Manager.instance.Level = Manager.GameLevel.Easy;
+        StartCoroutine(LoadMainGameScene());
+    }
+
     IEnumerator LoadTutorialScene()
     {
         Manager.instance.Unpause();

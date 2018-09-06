@@ -24,6 +24,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private Sprite missionImage;
     [SerializeField]
+    private Sprite introductionImage;
+    [SerializeField]
     private GameObject sortingObject;   // 새로 생성될 ui 오브젝트들이 패널 뒤에 배치되도록 하는 오브젝트입니다.
     [SerializeField]
     private GameObject blindPanel;
@@ -96,6 +98,11 @@ public class InGameUI : MonoBehaviour {
         {
             modeText.text = "보스 미션";
             modeImage.GetComponent<Image>().sprite = missionImage;
+        }
+        else if (gameMode.Equals("Dummy") && gameLevel.Equals("Easy"))
+        {
+            modeText.text = "허수아비";
+            modeImage.GetComponent<Image>().sprite = introductionImage;
         }
         // TODO 모드 추가 시 추가바람
 
