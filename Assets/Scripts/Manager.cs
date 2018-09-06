@@ -350,17 +350,20 @@ public class Manager : MonoBehaviour {
         instance.SetGameOver();
         instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.5f);
-        if (!instance.GetCurrentGame()[0].Equals("Deceiver")||!instance.GetCurrentGame()[1].Equals("Hard"))
+        if (!(instance.GetCurrentGame()[0].Equals("Deceiver") && instance.GetCurrentGame()[1].Equals("Hard")))
         {
             GetComponent<AudioSource>().clip = winSound;
             GetComponent<AudioSource>().Play();
+            canPlayButtonOverSound = false;
         }
         instance.winPanel.SetActive(true);
         instance.blindPanel.SetActive(true);
-
-        canPlayButtonOverSound = false;
         yield return new WaitForSeconds(5f);
-        canPlayButtonOverSound = true;
+
+        if (!(instance.GetCurrentGame()[0].Equals("Deceiver") && instance.GetCurrentGame()[1].Equals("Hard")))
+        {
+            canPlayButtonOverSound = true;
+        }
     }
 
     IEnumerator Graduate()
@@ -442,7 +445,9 @@ public class Manager : MonoBehaviour {
     {
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(2.0f);
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(5.0f);
+        canPlayButtonOverSound = true;
     }
 
     /// <summary>
