@@ -1667,6 +1667,8 @@ public class Enemy : MonoBehaviour {
         {
             Destroy(mySpeech);
         }
+        GetComponent<AudioSource>().clip = tutorialSounds[0];
+        GetComponent<AudioSource>().Play();
         mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
         mySpeech.GetComponentInChildren<Text>().text = "...";
         if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
