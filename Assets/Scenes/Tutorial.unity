@@ -384,6 +384,7 @@ MonoBehaviour:
   weaponToSummon: {fileID: 1697472681}
   speechBubble: {fileID: 1974448390119352, guid: c5795711ea102534d843ca77eaf6ea82,
     type: 2}
+  silence: {fileID: 0}
   book: {fileID: 0}
 --- !u!82 &82032289
 AudioSource:
@@ -1457,6 +1458,7 @@ MonoBehaviour:
   g: 0.5
   b: 0.9
   fontSize: 0
+  clickSound: 0
 --- !u!114 &346712951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2122,6 +2124,7 @@ MonoBehaviour:
   g: 0.5
   b: 0.9
   fontSize: 0
+  clickSound: 0
 --- !u!114 &441936577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2344,7 +2347,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pause(ESC)
+  m_Text: Pause(Esc)
 --- !u!222 &559871301
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2643,12 +2646,14 @@ MonoBehaviour:
   startPanel: {fileID: 0}
   snipingStartPanel: {fileID: 0}
   winPanel: {fileID: 271235160}
+  deceiverHardWinPanel: {fileID: 0}
   losePanel: {fileID: 0}
   pausePanel: {fileID: 1041240255}
   pauseButton: {fileID: 346712949}
   modeText: {fileID: 1037010127}
   modeImage: {fileID: 0}
   missionImage: {fileID: 0}
+  introductionImage: {fileID: 0}
   sortingObject: {fileID: 955058451}
   blindPanel: {fileID: 1613105483}
   deceiverStartPanel: {fileID: 0}
@@ -4825,6 +4830,7 @@ MonoBehaviour:
   g: 0.9
   b: 0.5
   fontSize: 0
+  clickSound: 0
 --- !u!114 &1273197701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5230,6 +5236,7 @@ MonoBehaviour:
   g: 0.9
   b: 0.5
   fontSize: 0
+  clickSound: 0
 --- !u!114 &1354209898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6931,6 +6938,7 @@ MonoBehaviour:
   g: 0.5
   b: 0.5
   fontSize: 0
+  clickSound: 0
 --- !u!114 &1770299362
 MonoBehaviour:
   m_ObjectHideFlags: 0

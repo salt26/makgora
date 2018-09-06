@@ -6335,7 +6335,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uACC4\uC18D...(Enter)"
+  m_Text: "\uB2E4\uC74C..."
 --- !u!222 &1426017732
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7200,7 +7200,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uACC4\uC18D...(Enter)"
+  m_Text: "\uB2E4\uC74C..."
 --- !u!222 &1633708921
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8678,7 +8678,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Pause(ESC)
+  m_Text: Pause(Esc)
 --- !u!222 &2102516312
 CanvasRenderer:
   m_ObjectHideFlags: 0
