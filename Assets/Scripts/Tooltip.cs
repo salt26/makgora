@@ -15,6 +15,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public int width, height;
     public float r, g, b;
     public int fontSize;
+    public bool clickSound;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -31,7 +32,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
     public void OnPointerClick(PointerEventData eventData)
     {
         DestroyTooltip();
-        if (GetComponent<Button>() != null && GetComponent<Button>().interactable)
+        if (GetComponent<Button>() != null && GetComponent<Button>().interactable && !clickSound)
             Manager.instance.ButtonSound();
     }
 

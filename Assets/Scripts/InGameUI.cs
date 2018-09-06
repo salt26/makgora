@@ -12,6 +12,8 @@ public class InGameUI : MonoBehaviour {
     [SerializeField]
     private GameObject winPanel;
     [SerializeField]
+    private GameObject deceiverHardWinPanel;
+    [SerializeField]
     private GameObject losePanel;
     [SerializeField]
     private GameObject pausePanel;
@@ -82,6 +84,7 @@ public class InGameUI : MonoBehaviour {
         else if (gameMode.Equals("Deceiver") && gameLevel.Equals("Hard"))
         {
             modeText.text = "기만자(어려움)";
+            winPanel = deceiverHardWinPanel;
             startPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverStartPanel;
             winPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverWinPanel;
             losePanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = deceiverLosePanel;
@@ -155,5 +158,10 @@ public class InGameUI : MonoBehaviour {
     public void UpdatePhase(int phase)
     {
         modeText.text = "튜토리얼 - " + phase + "/5";
+    }
+
+    public void PlayWinSound()
+    {
+        Manager.instance.PlayWinSound();
     }
 }
