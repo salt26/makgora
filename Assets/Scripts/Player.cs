@@ -758,7 +758,8 @@ public class Player : MonoBehaviour {
             hasReadySpoken = true;
 
             string gameMode = Manager.instance.GetCurrentGame()[0];
-            if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") || gameMode.Equals("Stalker"))
+            if (gameMode.Equals("Vagabond") || gameMode.Equals("Guardian") ||
+                gameMode.Equals("Stalker") || gameMode.Equals("Dummy"))
             {
                 StartCoroutine("ReadySpeech");
             }
@@ -768,7 +769,7 @@ public class Player : MonoBehaviour {
             }
             else if (gameMode.Equals("Boss"))
             {
-                StartCoroutine("BossSpeech");
+                StartCoroutine("WarcraftSpeech");
             }
             else if (gameMode.Equals("Deceiver"))
             {
@@ -812,7 +813,7 @@ public class Player : MonoBehaviour {
         Transform child = mySpeech.transform.Find("SpeechText");
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.8f);
         Destroy(mySpeech);
         mySpeech = null;
         isHintSpeaking = false;

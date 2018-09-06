@@ -15,7 +15,7 @@ public class Manager : MonoBehaviour {
     /// <summary>
     /// 게임 모드입니다. None은 메인 메뉴에서 사용됩니다.
     /// </summary>
-    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Deceiver, Sniping, Boss }
+    public enum GameMode { None, Tutorial, Guardian, Vagabond, Stalker, Deceiver, Sniping, Boss, Dummy }
 
     /// <summary>
     /// 게임 난이도입니다. 난이도가 구분되지 않는 모드는 Hard입니다. None은 메인 메뉴에서 사용됩니다.
@@ -321,6 +321,13 @@ public class Manager : MonoBehaviour {
             if (EnemyObject != null)
                 EnemyObject.GetComponent<Enemy>().SpeakReady();
         }
+        else if (gameMode.Equals("Dummy"))
+        {
+            PlayerObject.GetComponent<Player>().SpeakReady();
+            yield return new WaitForSeconds(1.8f);
+            if (EnemyObject != null)
+                EnemyObject.GetComponent<Enemy>().SpeakReady();
+        }
     }
 
     IEnumerator Lose()
@@ -343,17 +350,20 @@ public class Manager : MonoBehaviour {
         instance.SetGameOver();
         instance.buttonPause.SetActive(false);
         yield return new WaitForSeconds(3.5f);
-        if (!instance.GetCurrentGame()[0].Equals("Deceiver")||!instance.GetCurrentGame()[1].Equals("Hard"))
+        if (!(instance.GetCurrentGame()[0].Equals("Deceiver") && instance.GetCurrentGame()[1].Equals("Hard")))
         {
             GetComponent<AudioSource>().clip = winSound;
             GetComponent<AudioSource>().Play();
+            canPlayButtonOverSound = false;
         }
         instance.winPanel.SetActive(true);
         instance.blindPanel.SetActive(true);
-
-        canPlayButtonOverSound = false;
         yield return new WaitForSeconds(5f);
-        canPlayButtonOverSound = true;
+
+        if (!(instance.GetCurrentGame()[0].Equals("Deceiver") && instance.GetCurrentGame()[1].Equals("Hard")))
+        {
+            canPlayButtonOverSound = true;
+        }
     }
 
     IEnumerator Graduate()
@@ -435,7 +445,9 @@ public class Manager : MonoBehaviour {
     {
         GetComponent<AudioSource>().clip = winSound;
         GetComponent<AudioSource>().Play();
-        yield return new WaitForSeconds(2.0f);
+        canPlayButtonOverSound = false;
+        yield return new WaitForSeconds(5.0f);
+        canPlayButtonOverSound = true;
     }
 
     /// <summary>

@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour {
     public delegate void Damaged();
     public Damaged damaged;
     public GameObject speechBubble;
+    public GameObject silence;
     public BookUI book;
 
     private float speed;
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour {
     private int health = 3;
     private GameObject myShield;
     private GameObject myText;
+    private GameObject mySilence;
     private GameObject blowend;
     private Vector3 exactTarget;
     private Vector3 startPosition;
@@ -136,6 +138,16 @@ public class Enemy : MonoBehaviour {
             damaged += DamagedSniping;
             MoveSniping();
         }
+        else if (gameMode.Equals("Dummy"))
+        {
+            whileInvincible += WIMove;
+            vanish += VanishNormal;
+            move += MoveNever;
+            shoot += ShootNever;
+            damaged += DamagedDummy;
+            mySilence = Instantiate(silence, t);
+            MoveGuardian();
+        }
 
         if (gameLevel.Equals("Hard") && gameMode.Equals("Guardian"))
         {
@@ -159,7 +171,7 @@ public class Enemy : MonoBehaviour {
             shoot += ShootHard;
             chargeSpeed = Manager.instance.HardChargeSpeed;
         }
-        else if (gameLevel.Equals("Easy") && !gameMode.Equals("Tutorial"))
+        else if (gameLevel.Equals("Easy") && !gameMode.Equals("Tutorial") && !gameMode.Equals("Dummy"))
         {
             shoot += ShootEasy;
             chargeSpeed = Manager.instance.EasyChargeSpeed;
@@ -1475,6 +1487,60 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 공격받았을 때 실행될 함수입니다.
+    /// 허수아비 인공지능에 사용됩니다.
+    /// </summary>
+    public void DamagedDummy()
+    {
+        if (Manager.instance.GetGameOver()) return;
+
+        if (Health > 0 && invincibleTime <= 0f)
+        {
+            Debug.LogWarning("Enemy hit!");
+            health--;
+            if (hearts.Count > Health)
+            {
+                StartCoroutine("RemoveHeart");
+            }
+            if (Health > 0)
+            {
+                startPosition = GetComponent<Transform>().position;
+                destPosition = new Vector3(Random.Range(Boundary.xMin, Boundary.xMax),
+                    Random.Range(Boundary.yMin, Boundary.yMax),
+                    Boundary.RoundZ(Random.Range(Boundary.zMin, Boundary.zMax)));
+                invincibleTime = maxInvincibleTime;
+                myShield = Instantiate(divineShield, GetComponent<Transform>());
+                StartCoroutine("DamagedSFX");
+            }
+        }
+        else if (Health > 0 && invincibleTime > 0f)
+        {
+            Debug.Log("Enemy guarded!");
+            if (!isSFXPlaying)
+            {
+                GetComponent<AudioSource>().clip = guardSound;
+                GetComponent<AudioSource>().Play();
+            }
+        }
+
+        if (Health <= 0 && GetComponentInChildren<CharacterModel>().gameObject.activeInHierarchy)
+        {
+            invincibleTime = 0f;
+            GetComponentInChildren<CharacterModel>().gameObject.SetActive(false);
+            weaponToSummon.SetActive(false);
+            r.velocity = Vector3.zero;
+            if (mySilence != null) Destroy(mySilence);
+
+            blowend = Instantiate(blow, GetComponent<Transform>().position, Quaternion.identity);
+
+            StartCoroutine("Blow");
+            StartCoroutine("DummySpeech");
+            Manager.instance.WinGame();
+
+        }
+    }
+
     IEnumerator Blow()
     {
         yield return new WaitForSeconds(1.0f);
@@ -1507,6 +1573,10 @@ public class Enemy : MonoBehaviour {
             else if (gameMode.Equals("Deceiver"))
             {
                 StartCoroutine("AwakeSpeech");
+            }
+            else if (gameMode.Equals("Dummy"))
+            {
+                StartCoroutine("DummySpeech");
             }
         }
     }
@@ -1587,6 +1657,44 @@ public class Enemy : MonoBehaviour {
         child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
         mySpeech.GetComponent<RectTransform>().position = speechVector;
         yield return new WaitForSeconds(2.6f);
+        Destroy(mySpeech);
+        mySpeech = null;
+    }
+
+    IEnumerator DummySpeech()
+    {
+        if (mySpeech != null)
+        {
+            Destroy(mySpeech);
+        }
+        mySpeech = Instantiate(speechBubble, speechVector, Quaternion.identity, Manager.instance.Canvas.GetComponent<Transform>());
+        mySpeech.GetComponentInChildren<Text>().text = "...";
+        if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).x < 774f)
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 180f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 180f, 0f));
+            }
+        }
+        else
+        {
+            if (mainCamera.WorldToScreenPoint(GetComponent<Transform>().position).y < 614f)
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+            }
+            else
+            {
+                mySpeech.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(180f, 0f, 0f));
+            }
+        }
+        Transform child = mySpeech.transform.Find("SpeechText");
+        child.GetComponent<RectTransform>().rotation = Quaternion.Euler(new Vector3(0f, 0f, 0f));
+        mySpeech.GetComponent<RectTransform>().position = speechVector;
+        yield return new WaitForSeconds(2.2f);
         Destroy(mySpeech);
         mySpeech = null;
     }

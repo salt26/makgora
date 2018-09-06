@@ -5171,9 +5171,9 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: "Spoiler : \uD29C\uD1A0\uB9AC\uC5BC\uC5D0\uC11C \uC8FC\uC778\uACF5\uC740
-            \uC810\uC810 \uAC15\uD574\uC9C0\uB2E4\uAC00 \uC801\uC744 \uC4F0\uB7EC\uB728\uB9AC\uAC8C
-            \uB429\uB2C8\uB2E4."
+          m_StringArgument: "Tip : \uD29C\uD1A0\uB9AC\uC5BC\uC758 \uBA58\uD1A0\uB294
+            \uC0AC\uC2E4 \uB9C8\uBC95\uC0AC\uC785\uB2C8\uB2E4. \uADF8\uB798\uC11C
+            \uB9C9\uACE0\uB77C\uC5D0\uC11C \uCAD3\uACA8\uB0AC\uC8E0."
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -6674,7 +6674,42 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1304697623}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 321055596}
+        m_MethodName: LoadDummyEasy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 841717719}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 985486755}
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: "Tip : \uD5C8\uC218\uC544\uBE44\uB97C \uC0C1\uB300\uB85C
+            \uC774\uB3D9 \uBC0F \uC870\uC900\uC744 \uC790\uC720\uB86D\uAC8C \uC5F0\uC2B5\uD560
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1304697623
@@ -7033,7 +7068,7 @@ MonoBehaviour:
   tooltipPanel: {fileID: 1136494322649220, guid: c653fae7011687e41a10ab3ced992955,
     type: 2}
   canvas: {fileID: 321055595}
-  text: "\uB2E4\uC591\uD55C \uC0C1\uB300\uC5D0\uAC8C 1:1 \uC804\uD22C\uB97C \uC2E0\uCCAD\uD569\uB2C8\uB2E4."
+  text: "\uB2E4\uC591\uD55C \uC0C1\uB300\uC5D0\uAC8C 1:1 \uACB0\uD22C\uB97C \uC2E0\uCCAD\uD569\uB2C8\uB2E4."
   x: 392
   y: 459
   width: 280
